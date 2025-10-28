@@ -1,58 +1,67 @@
 body {
     margin: 0;
-    display: grid;
-    grid-auto-rows: 99vh;
-    grid-template-columns: 250px auto;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    min-width: 100%;
+    > * {
+        border: 2px red solid;
+    }
 }
-
-body > * {
-    border: 1px black solid;
-}
-
-#body {
+#content {
     display: grid;
     grid-template-rows: 60px auto 80px;
+    flex-grow: 1;
+    > *{
+        border: 1px black solid;
+    }
 }
 
-#body > * {
-    border: 1px black solid
-}
-
-#body header {
-    text-align: center;
-    padding-top: 20px;
-}
-
-#body footer ul {
-    display: flex;
-    justify-content: right;
-    padding-top: 30px;
-    list-style-type: none;
-}
-
-#body footer li {
-    padding-left: 20px;
-    padding-right:20px;
-}
-
-#body footer li + li {
-    border-left: 1px black solid;
+#content {
+    header {
+        text-align: center;
+        padding-top: 20px;
+    }
+    footer ul {
+        display: flex;
+        justify-content: right;
+        padding-top: 30px;
+        list-style-type: none;
+    }
+    footer li {
+        padding-left: 20px;
+        padding-right:20px;
+    }
+    footer li + li {
+        border-left: 1px black solid;
+    }
 }
 
 #sidebar {
+    min-width: fit-content;
+    padding-right: 50px;
     position: relative;
+    button {
+        position: absolute;
+        right: 0;
+    }
+    .bottom {
+        position: absolute;
+        bottom: 0;
+    }
+    .top li {
+        margin-top: 30%;
+    }
 }
 
-#sidebar button {
+#toggleSidebar {
     position: absolute;
-    right: 0;
 }
 
-#sidebar .bottom {
-    position: absolute;
-    bottom: 0;
-}
+body:has(#toggleSidebar:checked) {
+    grid-template-columns: auto;
 
-#sidebar .top li {
-    margin-top: 30%;
+    #sidebar {
+        display: none !important;
+    }
 }
