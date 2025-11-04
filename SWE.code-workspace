@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null,
+    "[javascript]": {
+      "editor.defaultFormatter": null
+    },
+    "[html]": {
+      "editor.defaultFormatter": null
+    },
+    "[css]": {
+      "editor.defaultFormatter": null
+    }
+  }
+}
