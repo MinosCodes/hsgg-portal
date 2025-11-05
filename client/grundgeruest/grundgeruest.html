@@ -6,37 +6,38 @@
     <link href="grundgeruest.css" rel="stylesheet">
 </head>
 <body>
-<div id="sidebar">
-    <ul class="top">
-        <li><a href="">Jahr 1</a></li>
-        <li><a href="">Jahr 2</a></li>
-        <li><a href="">Jahr 3</a></li>
-        <li><a href="">Jahr 4</a></li>
-        <li><a href="">Jahr 5</a></li>
-        <li><a href="">Jahr 6</a></li>
-    </ul>
-    <ul class="bottom">
-        <li>Kontakt:</li>
-        <li><a href="tel:">Telefon</a></li>
-        <li><a href="mailto:">Email</a></li>
-    </ul>
-</div>
-<div id="content">
-    <header>
-        Horst-Schlaemmer-Gedaechtnis-Gymnasium
-    </header>
-    <main>
-        Main Inhalt
-    </main>
-    <footer>
-        <ul class="footerlist">
-            <li>Kontakt:</li>
-            <li><a href="tel:">Telefon</a></li>
-            <li><a href="mailto:">Email</a></li>
-        </ul>
-    </footer>
-</div>
-<label for="toggleSidebar"></label>
-<input id="toggleSidebar" type="checkbox">
+    <div id="page">
+        <div id="sidebar">
+            <nav id="sidebar-menu">
+                <ul class="sidebar top">
+                    <li><a href="#">Jahr 1</a></li>
+                    <li><a href="#">Jahr 2</a></li>
+                    <li><a href="#">Jahr 3</a></li>
+                    <li><a href="#">Jahr 4</a></li>
+                    <li><a href="#">Jahr 5</a></li>
+                    <li><a href="#">Jahr 6</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div id="content">
+            <header id="header-content">Horst-Schlaemmer-Gedaechtnis-Gymnasium</header>
+
+            <main id="main-content"></main>
+
+            <footer id="footer-content"  class="border-separation">
+                <ul>
+                    <li>Email</li>
+                    <li>Telefon</li>
+                    <li>Adresse</li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+
+    <div id="button-overlay">
+        <input type="checkbox" id="sidebar-toggle">
+        <label for="sidebar-toggle"></label>
+    </div>
 </body>
 </html>

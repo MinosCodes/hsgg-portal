@@ -7,79 +7,82 @@
     <link href="content.css" rel="stylesheet">
 </head>
 <body>
+<div id="page">
+    <div id="sidebar">
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
 
-<div id="sidebar">
-    <ul class="top">
-        <li><a href="">Jahr 5</a></li>
-    </ul>
-    <ul class="bottom">
-        <li>Kontakt:</li>
-        <li><a href="tel:">Telefon</a></li>
-        <li><a href="mailto:">Email</a></li>
-    </ul>
+                <li><a href="#">Jahr 5</a></li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <div id="content">
+        <header id="header-content">Horst-Schlaemmer-Gedaechtnis-Gymnasium</header>
+
+        <main id="main-content">
+            <ol id="content-list"></ol>
+            <div id="content-container" class="invisible">
+                <div>
+                    <h3 id="datei-name"></h3>
+                    <a id="download-link" href="" download="">Download</a>
+                </div>
+                <iframe id="file-viewer" src=""></iframe>
+            </div>
+        </main>
+
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li>Adresse</li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
 </div>
-<div id="content">
-    <header>
-        Horst-Schlaemmer-Gedaechtnis-Gymnasium
-    </header>
-    <main>
-      <ol id="content-list">
-      </ol>
-      <div id="content-container" class="invisible">
-        <div>
-          <h3 id="datei-name"></h3>
-          <a id="download-link" href="" download="">Download</a>
-        </div>
-        <iframe id="file-viewer" src=""></iframe>
-      </div>
-    </main>
-    <footer>
-        <ul class="footerlist">
-            <li>Kontakt:</li>
-            <li><a href="tel:">Telefon</a></li>
-            <li><a href="mailto:">Email</a></li>
-        </ul>
-    </footer>
+
+<div id="button-overlay">
+    <input type="checkbox" id="sidebar-toggle">
+    <label for="sidebar-toggle"></label>
 </div>
-<label for="toggleSidebar"></label>
-<input id="toggleSidebar" type="checkbox">
 <script>
-const contentList = document.querySelector('#content-list');
-const contentContainer = document.querySelector('#content-container');
- 
-const listOfContent = [];
-// Only generate some example data for now - should at some point be requested from an API
-for (let i = 1; i <= 10; i++) {
-  listOfContent.push({
-    name: 'Beispiel ' + i,
-    file: 'bspl' + 1 + '.pdf'
-  });
-}
+    const contentList = document.querySelector('#content-list');
+    const contentContainer = document.querySelector('#content-container');
 
-const url = new URL(location.href);
-const currentFile = url.searchParams.get('file');
+    const listOfContent = [];
+    // Only generate some example data for now - should at some point be requested from an API
+    for (let i = 1; i <= 10; i++) {
+        listOfContent.push({
+            name: 'Beispiel ' + i,
+            file: 'bspl' + 1 + '.pdf'
+        });
+    }
 
-// Add everything from listOfContent to the Web Page
-for (const fileData of listOfContent) {
-  const elem = document.createElement('li');
-  const link = document.createElement('a');
-  link.innerText = fileData.name;
-  url.searchParams.set('file', fileData.file);
-  link.href = url.href;
+    const url = new URL(location.href);
+    const currentFile = url.searchParams.get('file');
 
-  elem.append(link);
-  contentList.append(elem);
-}
+    // Add everything from listOfContent to the Web Page
+    for (const fileData of listOfContent) {
+        const elem = document.createElement('li');
+        const link = document.createElement('a');
+        link.innerText = fileData.name;
+        url.searchParams.set('file', fileData.file);
+        link.href = url.href;
 
-// Show currently selected file
-if (currentFile) {
-  const currentFileData = listOfContent.filter(v => v.file === currentFile)[0];
-  document.querySelector('#datei-name').innerText = currentFileData.name;
-  document.querySelector('#download-link').href = 'content/' + currentFileData.file;
-  document.querySelector('#file-viewer').src = 'content/' + currentFileData.file;
+        elem.append(link);
+        contentList.append(elem);
+    }
 
-  document.querySelector('#content-container').classList.remove('invisible');
-}
+    // Show currently selected file
+    if (currentFile) {
+        const currentFileData = listOfContent.filter(v => v.file === currentFile)[0];
+        document.querySelector('#datei-name').innerText = currentFileData.name;
+        document.querySelector('#download-link').href = 'content/' + currentFileData.file;
+        document.querySelector('#file-viewer').src = 'content/' + currentFileData.file;
+
+        document.querySelector('#content-container').classList.remove('invisible');
+    }
 </script>
 </body>
 </html>

@@ -50,75 +50,85 @@ Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verw
 
 }
 
-h1 {
-    font-family: var(--font-verdana),serif;
-    font-weight: bold; /* macht die Schrift fett */
-}
-
-body {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    min-height: 100vh;
-    min-width: 100%;
-    > * {
-        border: 2px red solid;
-    }
-}
-#content {
+.border-separation {
     display: grid;
-    grid-template-rows: 60px auto 80px;
-    flex-grow: 1;
-    > *{
-        border: 1px black solid;
-    }
-}
-
-#content {
-    header {
-        text-align: center;
-        padding-top: 20px;
-    }
-    footer ul {
+    place-items: center right;
+    ul {
         display: flex;
+        flex-direction: row;
         justify-content: right;
-        padding-top: 30px;
-        list-style-type: none;
     }
-    footer li {
-        padding-left: 20px;
-        padding-right:20px;
+    & li {
+        list-style: none;
+        padding-left: 10%;
+        padding-right: 10%;
     }
-    footer li + li {
+    & li ~ li {
         border-left: 1px black solid;
     }
 }
 
-#sidebar {
-    min-width: fit-content;
-    padding-right: 50px;
+body {
     position: relative;
-    button {
-        position: absolute;
-        right: 0;
-    }
-    .bottom {
-        position: absolute;
-        bottom: 0;
-    }
-    .top li {
-        margin-top: 30%;
+    margin: 0;
+}
+
+#page {
+    display: flex;
+    flex-direction: row;
+
+    min-height: 100vh;
+    min-width: 100vw;
+
+    & > * {
+        flex-grow: 1;
     }
 }
 
-#toggleSidebar {
-    position: absolute;
+#sidebar {
+    max-width: 170px;
+    min-width: 170px;
+
+    border-right: 2px black solid;
 }
 
-body:has(#toggleSidebar:checked) {
-    grid-template-columns: auto;
+#content {
+    display: grid;
+    grid-template-rows: 60px auto 60px;
 
+    & #header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    & #footer {
+
+    }
+
+    & header {
+        border-bottom: 2px black solid;
+    }
+    & main {
+        border-bottom: 2px black solid;
+    }
+}
+
+
+body:has(#button-overlay > #sidebar-toggle:checked) {
     #sidebar {
-        display: none !important;
+        display: none;
     }
+}
+
+#sidebar-toggle:checked {
+    position: absolute;
+    top: 10px;
+    left: 10px
+}
+
+#sidebar-toggle:not(:checked) {
+    position: absolute;
+    top: 10px;
+    left: 140px
 }
