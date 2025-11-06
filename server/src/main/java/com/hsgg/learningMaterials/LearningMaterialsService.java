@@ -26,7 +26,7 @@ public class LearningMaterialsService {
         List<String> fileNames = new ArrayList<>();
 
         try {
-            for (Resource resource : resolver.getResources(this.LEARNING_MATERIALS_PATTERN)) {
+            for (Resource resource : resolver.getResources(LEARNING_MATERIALS_PATTERN)) {
                 fileNames.add(resource.getFilename());
             }
         } catch (IOException e) {
