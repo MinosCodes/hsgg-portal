@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/learningMaterials")
+@RequestMapping("/api/learning-materials")
 public class LearningMaterialsController {
     @GetMapping
     public LearningMaterialsListDTO getLearningMaterialsList(LearningMaterialsService learningMaterialsService) {

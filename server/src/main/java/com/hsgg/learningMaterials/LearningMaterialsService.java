@@ -1,5 +1,7 @@
 package com.hsgg.learningMaterials;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class LearningMaterialsService {
+    private static final Logger log = LoggerFactory.getLogger(LearningMaterialsService.class);
     private static final String LEARNING_MATERIALS_PATTERN = "classpath*:learningMaterials/*.pdf";
 
 
@@ -27,7 +30,7 @@ public class LearningMaterialsService {
                 fileNames.add(resource.getFilename());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load learning materials.", e);
             return Optional.empty();
         }
 
