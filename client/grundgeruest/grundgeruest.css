@@ -100,9 +100,17 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--maincolor);
+        font-family: var(--font-verdana);
+        font-weight: bold;
+        font-size: var(--Text-groß);
+
     }
 
     & #footer {
+        font-family: var(--font-verdana);
+        color: var(--color_17);
+        font-size: var(--Text-klein);
 
     }
 
@@ -131,4 +139,11 @@ body:has(#button-overlay > #sidebar-toggle:checked) {
     position: absolute;
     top: 10px;
     left: 140px
+}
+
+#sidebar-menu a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Text-klein);
+    line-height: 2;
 }
