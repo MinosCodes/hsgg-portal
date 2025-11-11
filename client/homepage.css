@@ -19,14 +19,32 @@
   }
 }
 
+#main-content {
+    h1 {
+        font-size: var(--Überschrift-03);
+        font-family: var(--font-verdana);
+        font-weight: bold;
+        color: var(--maincolor);
+    }
+}
+
 #aktuelles {
   padding: 1em;
+
+    h2 {
+        font-size: var(--Überschrift-03);
+        font-family: var(--font-verdana);
+        color: var(--maincolor);
+    }
 
   > .mitteilung {
     h3 {
       margin: 0px;
       padding: 0px;
       text-decoration: underline;
+        font-family: var(--font-verdana);
+        font-size: var(--Überschrift-02);
+        color: var(--shat_03);
     }
     > .datum {
       margin: 0px;

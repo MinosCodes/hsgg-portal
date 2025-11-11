@@ -44,9 +44,18 @@ Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verw
     /*--font-fantasy: 'Fantasy', sans-serif; iNTERNER Tester*/
 
     /*Textgröße*/
-    --Text-klein: 14pt;
-    --Text-normal: 24pt;
-    --Text-groß: 34pt;
+    --Überschrift-01: 14pt;
+    --Überschrift-02: 19pt;
+    --Überschrift-03: 24pt;
+    --Überschrift-04: 29pt;
+    --Überschrift-05: 34pt;
+
+    --Text-klein: 7pt;
+    --Text-groß: 8pt;
+
+    --Bildunterschrift-klein: 5pt;
+    --Bildunterschrift-mittel: 6pt;
+    --Bildunterschrift-groß: 7pt;
 
 }
 
@@ -100,9 +109,17 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--maincolor);
+        font-family: var(--font-verdana);
+        font-weight: bold;
+        font-size: var(--Überschrift-05);
+
     }
 
     & #footer {
+        font-family: var(--font-verdana);
+        color: var(--color_17);
+        font-size: var(--Überschrift-02);
 
     }
 
@@ -132,3 +149,42 @@ body:has(#button-overlay > #sidebar-toggle:checked) {
     top: 10px;
     left: 140px
 }
+
+#sidebar-menu a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-02);
+    line-height: 2;
+}
+
+#footer-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1em; /* Abstand zwischen den Links */
+
+}
+
+#footer-content a {
+    color:   var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    text-decoration: none;
+}
+
+#footer-content a:hover {
+    color: var(--color_01);
+    text-decoration: underline; /* optional */
+}
+/**
+Einheitliches Textstyling für alle Textblöcke
+ */
+p {
+    font-family: var(--font-verdana);
+    font-size: var(--Text-groß);
+    line-height: 1.6;
+    color: var(--schwarz);
+    margin-bottom: 1em;
+}
+
