@@ -147,3 +147,24 @@ body:has(#button-overlay > #sidebar-toggle:checked) {
     font-size: var(--Text-klein);
     line-height: 2;
 }
+
+#footer-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1em; /* Abstand zwischen den Links */
+
+}
+
+#footer-content a {
+    color:   var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Text-klein);
+    text-decoration: none;
+}
+
+#footer-content a:hover {
+    color: var(--color_01);
+    text-decoration: underline; /* optional */
+}
