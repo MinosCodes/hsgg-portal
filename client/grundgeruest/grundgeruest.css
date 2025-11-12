@@ -99,6 +99,8 @@ body {
     min-width: 170px;
 
     border-right: 2px black solid;
+
+    font-weight: bold;
 }
 
 #content {
@@ -131,6 +133,9 @@ body {
     }
 }
 
+#button-overlay {
+    position: absolute;
+}
 
 body:has(#button-overlay > #sidebar-toggle:checked) {
     #sidebar {
