@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HsggApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HsggApplication.class, args);
+        SpringApplication.run(HsggApplication.class, args);
 	}
-
 }
