@@ -12,5 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "app")
 @ConfigurationPropertiesScan
 public class AppProperties {
+
     private String learningMaterialsDir;
 }
