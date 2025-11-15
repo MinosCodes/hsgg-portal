@@ -22,6 +22,21 @@ CREATE TABLE topics (
             ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE files (
+   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+   original_name VARCHAR(255) NOT NULL,
+   stored_name VARCHAR(255) NOT NULL,
+   mime_type VARCHAR(255) NOT NULL,
+   size BIGINT NOT NULL,
+   topic_id BIGINT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+   CONSTRAINT fk_files_topic
+       FOREIGN KEY (topic_id)
+           REFERENCES topics(id)
+           ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE content_blocks (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     topic_id BIGINT NOT NULL,
@@ -67,21 +82,6 @@ CREATE TABLE related_topics (
         FOREIGN KEY (related_topic_id)
             REFERENCES topics(id)
             ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE files (
-   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-   original_name VARCHAR(255) NOT NULL,
-   stored_name VARCHAR(255) NOT NULL,
-   mime_type VARCHAR(255) NOT NULL,
-   size BIGINT NOT NULL,
-   topic_id BIGINT NULL,
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-   CONSTRAINT fk_files_topic
-       FOREIGN KEY (topic_id)
-           REFERENCES topics(id)
-           ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE users (
