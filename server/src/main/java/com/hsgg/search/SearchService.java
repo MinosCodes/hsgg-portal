@@ -31,7 +31,9 @@ public class SearchService {
         List<SearchResultDto> results = new ArrayList<>();
 
         for (Subject s : subjectRepository.findAll()) {
-            if (s.getName().toLowerCase().contains(q)) {
+            if (s.getName().toLowerCase().contains(q)
+                    || s.getSlug().toLowerCase().contains(q)
+                    || s.getDescription().toLowerCase().contains(q)) {
                 results.add(new SearchResultDto(
                         "subject",
                         s.getName(),
@@ -45,8 +47,9 @@ public class SearchService {
 
         for (Topic t : topicRepository.findAll()) {
             boolean match =
-                    t.getTitle().toLowerCase().contains(q) ||
-                            (t.getDescription() != null && t.getDescription().toLowerCase().contains(q));
+                    t.getTitle().toLowerCase().contains(q)
+                            || (t.getDescription() != null && t.getDescription().toLowerCase().contains(q))
+                            || (t.getSlug().toLowerCase().contains(q));
 
             if (match) {
                 results.add(new SearchResultDto(
@@ -62,7 +65,7 @@ public class SearchService {
 
         for (ContentBlock b : contentBlockRepository.findAll()) {
 
-            if (b.getText() != null && b.getText().toLowerCase().contains(q)) {
+            if (b.getTitle().toLowerCase().contains(q) || (b.getText() != null && b.getText().toLowerCase().contains(q))) {
                 results.add(new SearchResultDto(
                         "contentBlock",
                         b.getTitle(),
