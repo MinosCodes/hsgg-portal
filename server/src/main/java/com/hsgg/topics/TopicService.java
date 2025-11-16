@@ -57,34 +57,4 @@ public class TopicService {
 
         return new TopicContentResponseDto(topic.getSlug(), blockDtos);
     }
-
-    public List<SearchResultDto> search(String query) {
-        String q = query.toLowerCase();
-
-        // This is a simple example search (you can upgrade to SQL fulltext later)
-        return topicRepository.findAll().stream()
-                .flatMap(topic -> {
-                    // match in topic title
-                    boolean topicMatch = topic.getTitle().toLowerCase().contains(q);
-
-                    // match in description
-                    boolean descMatch = topic.getDescription() != null &&
-                            topic.getDescription().toLowerCase().contains(q);
-
-                    // convert to DTO if match
-                    if (topicMatch || descMatch) {
-                        return List.of(new SearchResultDto(
-                                "topic",
-                                topic.getTitle(),
-                                topic.getDescription(),
-                                topic.getSubject().getSlug(),
-                                topic.getSlug(),
-                                null
-                        )).stream();
-                    }
-
-                    return List.<SearchResultDto>of().stream();
-                })
-                .toList();
-    }
 }
