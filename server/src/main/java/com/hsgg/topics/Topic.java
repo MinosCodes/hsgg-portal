@@ -1,6 +1,7 @@
-package com.hsgg.subjects;
+package com.hsgg.topics;
 
-import com.hsgg.topics.Topic;
+import com.hsgg.files.FileEntity;
+import com.hsgg.subjects.Subject;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,18 +11,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "subjects")
+@Table(name = "topics")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Subject {
+public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
+
     @Column(nullable = false)
-    private String name;
+    private String title;
 
     @Column(nullable = false, unique = true)
     private String slug;
@@ -34,8 +39,11 @@ public class Subject {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<Topic> topics;
+    @OneToMany(mappedBy = "topic")
+    private List<ContentBlock> blocks;
+
+    @OneToMany(mappedBy = "topic")
+    private List<FileEntity> files;
 
     @PrePersist
     protected void onCreate() {
