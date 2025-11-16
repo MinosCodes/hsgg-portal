@@ -1,13 +1,7 @@
 package com.hsgg.search;
 
 import com.hsgg.contentBlock.ContentBlockService;
-import com.hsgg.subjects.Subject;
-import com.hsgg.subjects.SubjectRepository;
-import com.hsgg.contentBlock.ContentBlock;
-import com.hsgg.contentBlock.ContentBlockRepository;
 import com.hsgg.subjects.SubjectService;
-import com.hsgg.topics.Topic;
-import com.hsgg.topics.TopicRepository;
 import com.hsgg.topics.TopicService;
 import org.springframework.stereotype.Service;
 
