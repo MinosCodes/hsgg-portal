@@ -1,4 +1,4 @@
-package com.hsgg.topics;
+package com.hsgg.topics.contentBlock;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

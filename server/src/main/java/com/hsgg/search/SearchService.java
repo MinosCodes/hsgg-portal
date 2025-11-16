@@ -2,8 +2,8 @@ package com.hsgg.search;
 
 import com.hsgg.subjects.Subject;
 import com.hsgg.subjects.SubjectRepository;
-import com.hsgg.topics.ContentBlock;
-import com.hsgg.topics.ContentBlockRepository;
+import com.hsgg.topics.contentBlock.ContentBlock;
+import com.hsgg.topics.contentBlock.ContentBlockRepository;
 import com.hsgg.topics.Topic;
 import com.hsgg.topics.TopicRepository;
 import org.springframework.stereotype.Service;

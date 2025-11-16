@@ -2,6 +2,9 @@ package com.hsgg.topics;
 
 import com.hsgg.exceptions.NotFoundException;
 import com.hsgg.subjects.SubjectDto;
+import com.hsgg.topics.contentBlock.ContentBlock;
+import com.hsgg.topics.contentBlock.ContentBlockDto;
+import com.hsgg.topics.contentBlock.ContentBlockRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
