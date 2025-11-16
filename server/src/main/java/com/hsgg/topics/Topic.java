@@ -29,9 +29,6 @@ public class Topic {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, unique = true)
-    private String slug;
-
     private String description;
 
     @Column(name = "created_at", updatable = false)

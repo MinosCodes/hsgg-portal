@@ -37,19 +37,19 @@ public class PublicController {
         return subjectService.getAllSubjects();
     }
 
-    @GetMapping("/subjects/{subjectSlug}/topics")
-    public List<TopicSummaryDto> getTopicsBySubject(@PathVariable String subjectSlug) {
-        return subjectService.getTopicsBySubjectSlug(subjectSlug);
+    @GetMapping("/subjects/{subjectId}/topics")
+    public List<TopicSummaryDto> getTopicsBySubject(@PathVariable Long subjectId) {
+        return subjectService.getTopicsBySubjectId(subjectId);
     }
 
-    @GetMapping("/topics/{topicSlug}")
-    public TopicDetailDto getTopic(@PathVariable String topicSlug) {
-        return topicService.getTopicDetail(topicSlug);
+    @GetMapping("/topics/{topicId}")
+    public TopicDetailDto getTopic(@PathVariable Long topicId) {
+        return topicService.getTopicDetail(topicId);
     }
 
-    @GetMapping("/topics/{topicSlug}/content")
-    public TopicContentResponseDto getTopicContent(@PathVariable String topicSlug) {
-        return topicService.getTopicContent(topicSlug);
+    @GetMapping("/topics/{topicId}/content")
+    public TopicContentResponseDto getTopicContent(@PathVariable Long topicId) {
+        return topicService.getTopicContent(topicId);
     }
 
     @GetMapping("/search")

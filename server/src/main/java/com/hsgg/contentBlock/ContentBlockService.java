@@ -20,8 +20,8 @@ public class ContentBlockService {
                         "contentBlock",
                         b.getTitle(),
                         b.getText(),
-                        b.getTopic().getSubject().getSlug(),
-                        b.getTopic().getSlug(),
+                        b.getTopic().getSubject().getId(),
+                        b.getTopic().getId(),
                         b.getId()
                 ))
                 .toList();

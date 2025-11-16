@@ -22,30 +22,28 @@ public class TopicService {
         this.contentBlockRepository = contentBlockRepository;
     }
 
-    public TopicDetailDto getTopicDetail(String topicSlug) {
-        Topic topic = topicRepository.findBySlug(topicSlug)
-                .orElseThrow(() -> new NotFoundException("Topic not found: " + topicSlug));
+    public TopicDetailDto getTopicDetail(Long topicId) {
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new NotFoundException("Topic not found: " + topicId));
 
         return new TopicDetailDto(
                 topic.getId(),
-                topic.getSlug(),
                 topic.getTitle(),
                 topic.getDescription(),
                 new SubjectDto(
                         topic.getSubject().getId(),
-                        topic.getSubject().getSlug(),
                         topic.getSubject().getName(),
                         topic.getSubject().getDescription()
                 )
         );
     }
 
-    public TopicContentResponseDto getTopicContent(String topicSlug) {
-        Topic topic = topicRepository.findBySlug(topicSlug)
-                .orElseThrow(() -> new NotFoundException("Topic not found: " + topicSlug));
+    public TopicContentResponseDto getTopicContent(Long topicId) {
+        topicRepository.findById(topicId)
+                .orElseThrow(() -> new NotFoundException("Topic not found: " + topicId));
 
         List<ContentBlock> blocks =
-                contentBlockRepository.findByTopic_IdOrderByPositionAsc(topic.getId());
+                contentBlockRepository.findByTopic_IdOrderByPositionAsc(topicId);
 
         List<ContentBlockDto> blockDtos = blocks.stream()
                 .map(b -> new ContentBlockDto(
@@ -54,12 +52,12 @@ public class TopicService {
                         b.getTitle(),
                         b.getPosition(),
                         b.getText(),
-                        b.getReferenceTopic() != null ? b.getReferenceTopic().getSlug() : null,
+                        b.getReferenceTopic() != null ? b.getReferenceTopic().getId() : null,
                         b.getFile() != null ? "/api/files/" + b.getFile().getId() + "/download" : null
                 ))
                 .toList();
 
-        return new TopicContentResponseDto(topic.getSlug(), blockDtos);
+        return new TopicContentResponseDto(topicId, blockDtos);
     }
 
     public List<SearchResultDto> search(String query) {
@@ -69,8 +67,8 @@ public class TopicService {
                         "topic",
                         t.getTitle(),
                         t.getDescription(),
-                        t.getSubject().getSlug(),
-                        t.getSlug(),
+                        t.getSubject().getId(),
+                        t.getId(),
                         null
                 ))
                 .toList();

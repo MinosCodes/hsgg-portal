@@ -25,23 +25,21 @@ public class SubjectService {
         return subjectRepository.findAll().stream()
                 .map(s -> new SubjectDto(
                         s.getId(),
-                        s.getSlug(),
                         s.getName(),
                         s.getDescription()
                 ))
                 .toList();
     }
 
-    public List<TopicSummaryDto> getTopicsBySubjectSlug(String subjectSlug) {
-        Subject subject = subjectRepository.findBySlug(subjectSlug)
-                .orElseThrow(() -> new NotFoundException("Subject not found: " + subjectSlug));
+    public List<TopicSummaryDto> getTopicsBySubjectId(Long subjectId) {
+        subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new NotFoundException("Subject not found: " + subjectId));
 
-        List<Topic> topics = topicRepository.findBySubject_SlugOrderByIdAsc(subjectSlug);
+        List<Topic> topics = topicRepository.findBySubjectId(subjectId);
 
         return topics.stream()
                 .map(t -> new TopicSummaryDto(
                         t.getId(),
-                        t.getSlug(),
                         t.getTitle(),
                         t.getDescription()
                 ))
@@ -55,7 +53,7 @@ public class SubjectService {
                         "subject",
                         s.getName(),
                         s.getDescription(),
-                        s.getSlug(),
+                        s.getId(),
                         null,
                         null
                 ))

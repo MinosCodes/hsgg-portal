@@ -23,9 +23,6 @@ public class Subject {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String slug;
-
     private String description;
 
     @Column(name = "created_at", updatable = false)
