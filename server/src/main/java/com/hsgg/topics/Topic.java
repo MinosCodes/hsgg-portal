@@ -2,7 +2,7 @@ package com.hsgg.topics;
 
 import com.hsgg.files.FileEntity;
 import com.hsgg.subjects.Subject;
-import com.hsgg.topics.contentBlock.ContentBlock;
+import com.hsgg.contentBlock.ContentBlock;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

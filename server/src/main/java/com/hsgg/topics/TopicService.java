@@ -1,10 +1,11 @@
 package com.hsgg.topics;
 
 import com.hsgg.exceptions.NotFoundException;
+import com.hsgg.search.SearchResultDto;
 import com.hsgg.subjects.SubjectDto;
-import com.hsgg.topics.contentBlock.ContentBlock;
-import com.hsgg.topics.contentBlock.ContentBlockDto;
-import com.hsgg.topics.contentBlock.ContentBlockRepository;
+import com.hsgg.contentBlock.ContentBlock;
+import com.hsgg.contentBlock.ContentBlockDto;
+import com.hsgg.contentBlock.ContentBlockRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,5 +60,19 @@ public class TopicService {
                 .toList();
 
         return new TopicContentResponseDto(topic.getSlug(), blockDtos);
+    }
+
+    public List<SearchResultDto> search(String query) {
+        return topicRepository.search(query)
+                .stream()
+                .map(t -> new SearchResultDto(
+                        "topic",
+                        t.getTitle(),
+                        t.getDescription(),
+                        t.getSubject().getSlug(),
+                        t.getSlug(),
+                        null
+                ))
+                .toList();
     }
 }

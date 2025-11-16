@@ -1,4 +1,4 @@
-package com.hsgg.topics.contentBlock;
+package com.hsgg.contentBlock;
 
 public record ContentBlockDto(
         Long id,

@@ -1,6 +1,6 @@
 package com.hsgg.topics;
 
-import com.hsgg.topics.contentBlock.ContentBlockDto;
+import com.hsgg.contentBlock.ContentBlockDto;
 
 import java.util.List;
 

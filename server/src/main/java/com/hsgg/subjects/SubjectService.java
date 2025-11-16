@@ -1,6 +1,7 @@
 package com.hsgg.subjects;
 
 import com.hsgg.exceptions.NotFoundException;
+import com.hsgg.search.SearchResultDto;
 import com.hsgg.topics.Topic;
 import com.hsgg.topics.TopicRepository;
 import com.hsgg.topics.TopicSummaryDto;
@@ -43,6 +44,20 @@ public class SubjectService {
                         t.getSlug(),
                         t.getTitle(),
                         t.getDescription()
+                ))
+                .toList();
+    }
+
+    public List<SearchResultDto> search(String query) {
+        return subjectRepository.search(query)
+                .stream()
+                .map(s -> new SearchResultDto(
+                        "subject",
+                        s.getName(),
+                        s.getDescription(),
+                        s.getSlug(),
+                        null,
+                        null
                 ))
                 .toList();
     }

@@ -1,4 +1,4 @@
-package com.hsgg.topics.contentBlock;
+package com.hsgg.contentBlock;
 
 import com.hsgg.files.FileEntity;
 import com.hsgg.topics.Topic;
