@@ -2,6 +2,7 @@ package com.hsgg.controllers;
 
 import com.hsgg.files.FileService;
 import com.hsgg.search.SearchResultDto;
+import com.hsgg.search.SearchService;
 import com.hsgg.subjects.SubjectDto;
 import com.hsgg.subjects.SubjectService;
 import com.hsgg.topics.TopicContentResponseDto;
@@ -22,11 +23,13 @@ public class PublicController {
     private final SubjectService subjectService;
     private final TopicService topicService;
     private final FileService fileService;
+    private final SearchService searchService;
 
-    public PublicController(SubjectService subjectService, TopicService topicService, FileService fileService) {
+    public PublicController(SubjectService subjectService, TopicService topicService, FileService fileService, SearchService searchService) {
         this.subjectService = subjectService;
         this.topicService = topicService;
         this.fileService = fileService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/subjects")
@@ -36,7 +39,7 @@ public class PublicController {
 
     @GetMapping("/subjects/{subjectSlug}/topics")
     public List<TopicSummaryDto> getTopicsBySubject(@PathVariable String subjectSlug) {
-        return topicService.getTopicsBySubjectSlug(subjectSlug);
+        return subjectService.getTopicsBySubjectSlug(subjectSlug);
     }
 
     @GetMapping("/topics/{topicSlug}")
@@ -51,18 +54,18 @@ public class PublicController {
 
     @GetMapping("/search")
     public List<SearchResultDto> search(@RequestParam("q") String query) {
-        return topicService.search(query);
+        return searchService.search(query);
     }
 
     @GetMapping("/files/{id}/download")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
-        FileService.FileDownload fileDownload = fileService.getFileForDownload(id);
+        FileService.FileDownload fileDownload = fileService.loadForDownload(id);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + fileDownload.getFilename() + "\"")
-                .contentType(MediaType.parseMediaType(fileDownload.getContentType()))
-                .body(fileDownload.getResource());
+                        "attachment; filename=\"" + fileDownload.filename() + "\"")
+                .contentType(MediaType.parseMediaType(fileDownload.contentType()))
+                .body(fileDownload.resource());
     }
 
 }
