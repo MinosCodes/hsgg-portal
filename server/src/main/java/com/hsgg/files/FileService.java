@@ -24,7 +24,7 @@ public class FileService {
         FileEntity file = fileRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("File not found: " + id));
 
-        Path filePath = Path.of(baseDir, file.getStoredName());
+        Path filePath = Path.of("../", baseDir, file.getStoredName());
         FileSystemResource resource = new FileSystemResource(filePath.toFile());
 
         if (!resource.exists()) {
@@ -38,6 +38,5 @@ public class FileService {
         );
     }
 
-    public record FileDownload(String filename, String contentType, Resource resource) {
-    }
+    public record FileDownload(String filename, String contentType, Resource resource) {}
 }

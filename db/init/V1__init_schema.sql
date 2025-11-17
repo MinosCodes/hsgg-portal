@@ -23,7 +23,7 @@ CREATE TABLE topics (
 CREATE TABLE files (
    id BIGINT AUTO_INCREMENT PRIMARY KEY,
    original_name VARCHAR(255) NOT NULL,
-   stored_name VARCHAR(255) NOT NULL,
+   stored_name VARCHAR(255) NOT NULL UNIQUE,
    mime_type VARCHAR(255) NOT NULL,
    size BIGINT NOT NULL,
    topic_id BIGINT NULL,
