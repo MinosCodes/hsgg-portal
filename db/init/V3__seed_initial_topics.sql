@@ -1,76 +1,61 @@
-INSERT INTO topics (subject_id, title, slug, description)
+INSERT INTO topics (id, subject_id, title, description)
 VALUES
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (1, 1,
      'Addition und Subtraktion grosser Zahlen',
-     'addition-subtraktion',
      'Rechnen mit grossen Zahlen (Addition und Subtraktion)'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (2, 1,
      'Multiplikation und Division',
-     'multiplikation-division',
      'Rechnen mit grossen Zahlen (Multiplikation und Division)'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (3, 1,
      'Bruchrechnung: Einfuehrung',
-     'bruchrechnung-einfuehrung',
      'Grundlagen der Bruchrechnung'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (4, 1,
      'Erweitern und Kuetzen von Bruechen',
-     'brueche-erweitern-kuerzen',
      'Brueche erweitern und kuerzen'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (5, 1,
      'Geometrie: Rechtecke und Quadrate',
-     'geometrie-rechtecke-quadrate',
      'Berechnung von Flaecheninhalten'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (6, 1,
      'Geometrie: Umfang von Figuren',
-     'geometrie-umfang-figuren',
      'Berechnung des Umfangs von Rechtecken und Quadraten'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (7, 1,
      'Geometrie: Flaecheninhalt von Dreiecken',
-     'geometrie-flaecheninhalt-dreiecke',
      'Flaechenberechnung bei Dreiecken'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (8, 1,
      'Geometrie: Kreise',
-     'geometrie-kreise',
      'Umfang und Flaeche von Kreisen'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (9, 1,
      'Geometrie: Volumen von Quadern',
-     'geometrie-volumen-quader',
      'Volumenberechnung bei Quadern'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (10, 1,
      'Dezimalsystem: Einfuehrung',
-     'dezimalsystem-einfuehrung',
      'Grundbegriffe des Dezimalsystems'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (11, 1,
      'Dezimalzahlen: Runden',
-     'dezimalzahlen-runden',
      'Dezimalzahlen auf bestimmte Stellen runden'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (12, 1,
      'Prozentrechnung: Einfuehrung',
-     'prozentrechnung-einfuehrung',
      'Grundlegende Prozentrechnung'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (13, 1,
      'Zinsrechnung',
-     'zinsrechnung',
      'Einfache Zinsrechnung'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (14, 1,
      'Wahrscheinlichkeitsrechnung: Einfuehrung',
-     'wahrscheinlichkeit-einfuehrung',
      'Grundbegriffe der Wahrscheinlichkeitsrechnung'),
 
-    ((SELECT id FROM subjects WHERE slug = 'mathematik'),
+    (15, 1,
      'Graphen und Diagramme',
-     'graphen-diagramme',
      'Einfache Darstellung von Daten');

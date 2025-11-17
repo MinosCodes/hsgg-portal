@@ -1,7 +1,6 @@
 CREATE TABLE subjects (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL UNIQUE,
     description TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -11,7 +10,6 @@ CREATE TABLE topics (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     subject_id BIGINT NOT NULL,
     title VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL UNIQUE,
     description TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -25,7 +23,7 @@ CREATE TABLE topics (
 CREATE TABLE files (
    id BIGINT AUTO_INCREMENT PRIMARY KEY,
    original_name VARCHAR(255) NOT NULL,
-   stored_name VARCHAR(255) NOT NULL,
+   stored_name VARCHAR(255) NOT NULL UNIQUE,
    mime_type VARCHAR(255) NOT NULL,
    size BIGINT NOT NULL,
    topic_id BIGINT NULL,
@@ -65,23 +63,6 @@ CREATE TABLE content_blocks (
         FOREIGN KEY (file_id)
             REFERENCES files(id)
             ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE related_topics (
-    topic_id BIGINT NOT NULL,
-    related_topic_id BIGINT NOT NULL,
-
-    PRIMARY KEY (topic_id, related_topic_id),
-
-    CONSTRAINT fk_related_topic_source
-        FOREIGN KEY (topic_id)
-            REFERENCES topics(id)
-            ON DELETE CASCADE,
-
-    CONSTRAINT fk_related_topic_target
-        FOREIGN KEY (related_topic_id)
-            REFERENCES topics(id)
-            ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE users (
