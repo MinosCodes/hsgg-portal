@@ -2,7 +2,6 @@ package com.hsgg.subjects;
 
 import com.hsgg.exceptions.NotFoundException;
 import com.hsgg.search.SearchResultDto;
-import com.hsgg.topics.Topic;
 import com.hsgg.topics.TopicRepository;
 import com.hsgg.topics.TopicSummaryDto;
 import org.springframework.stereotype.Service;
@@ -35,9 +34,8 @@ public class SubjectService {
         subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new NotFoundException("Subject not found: " + subjectId));
 
-        List<Topic> topics = topicRepository.findBySubjectId(subjectId);
-
-        return topics.stream()
+        return topicRepository.findBySubjectId(subjectId)
+                .stream()
                 .map(t -> new TopicSummaryDto(
                         t.getId(),
                         t.getTitle(),

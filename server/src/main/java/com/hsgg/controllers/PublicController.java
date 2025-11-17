@@ -1,11 +1,11 @@
 package com.hsgg.controllers;
 
+import com.hsgg.contentBlock.ContentBlockDto;
 import com.hsgg.files.FileService;
 import com.hsgg.search.SearchResultDto;
 import com.hsgg.search.SearchService;
 import com.hsgg.subjects.SubjectDto;
 import com.hsgg.subjects.SubjectService;
-import com.hsgg.topics.TopicContentResponseDto;
 import com.hsgg.topics.TopicDetailDto;
 import com.hsgg.topics.TopicService;
 import com.hsgg.topics.TopicSummaryDto;
@@ -48,7 +48,7 @@ public class PublicController {
     }
 
     @GetMapping("/topics/{topicId}/content")
-    public TopicContentResponseDto getTopicContent(@PathVariable Long topicId) {
+    public List<ContentBlockDto> getTopicContent(@PathVariable Long topicId) {
         return topicService.getTopicContent(topicId);
     }
 

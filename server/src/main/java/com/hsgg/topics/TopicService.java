@@ -2,8 +2,6 @@ package com.hsgg.topics;
 
 import com.hsgg.exceptions.NotFoundException;
 import com.hsgg.search.SearchResultDto;
-import com.hsgg.subjects.SubjectDto;
-import com.hsgg.contentBlock.ContentBlock;
 import com.hsgg.contentBlock.ContentBlockDto;
 import com.hsgg.contentBlock.ContentBlockRepository;
 import org.springframework.stereotype.Service;
@@ -29,23 +27,17 @@ public class TopicService {
         return new TopicDetailDto(
                 topic.getId(),
                 topic.getTitle(),
-                topic.getDescription(),
-                new SubjectDto(
-                        topic.getSubject().getId(),
-                        topic.getSubject().getName(),
-                        topic.getSubject().getDescription()
-                )
-        );
+                topic.getDescription()
+            );
     }
 
-    public TopicContentResponseDto getTopicContent(Long topicId) {
+    public List<ContentBlockDto> getTopicContent(Long topicId) {
         topicRepository.findById(topicId)
                 .orElseThrow(() -> new NotFoundException("Topic not found: " + topicId));
 
-        List<ContentBlock> blocks =
-                contentBlockRepository.findByTopic_IdOrderByPositionAsc(topicId);
-
-        List<ContentBlockDto> blockDtos = blocks.stream()
+        return contentBlockRepository
+                .findByTopic_Id(topicId)
+                .stream()
                 .map(b -> new ContentBlockDto(
                         b.getId(),
                         b.getType().name(),
@@ -56,8 +48,6 @@ public class TopicService {
                         b.getFile() != null ? "/api/files/" + b.getFile().getId() + "/download" : null
                 ))
                 .toList();
-
-        return new TopicContentResponseDto(topicId, blockDtos);
     }
 
     public List<SearchResultDto> search(String query) {

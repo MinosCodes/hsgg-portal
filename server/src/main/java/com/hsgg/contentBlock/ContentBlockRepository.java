@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ContentBlockRepository extends JpaRepository<ContentBlock, Long> {
 
-    List<ContentBlock> findByTopic_IdOrderByPositionAsc(Long topicId);
+    List<ContentBlock> findByTopic_Id(Long topicId);
 
     @Query("""
         SELECT b FROM ContentBlock b

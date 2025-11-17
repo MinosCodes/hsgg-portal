@@ -13,9 +13,19 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MariaDBDialect
       hibernate.format_sql: true
-      show-sql: false
+      show-sql: true
       open-in-view: false
 
   sql:
     init:
       mode: always
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+              sql:
+                BasicBinder: TRACE
