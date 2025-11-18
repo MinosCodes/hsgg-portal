@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,27 +32,18 @@ public class Topic {
 	private String title;
 
 	private String description;
-
-	@Column(name = "created_at", updatable = false)
-	private LocalDateTime createdAt;
-
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
-
+	
 	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
 	private List<ContentBlock> blocks;
 
 	@OneToMany(mappedBy = "topic")
 	private List<FileEntity> files;
 
-	@PrePersist
-	protected void onCreate() {
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = this.createdAt;
-	}
+	@CreatedDate
+	@Column(nullable = false, name = "created_at", updatable = false)
+	private LocalDateTime createdAt;
 
-	@PreUpdate
-	protected void onUpdate() {
-		this.updatedAt = LocalDateTime.now();
-	}
+	@LastModifiedDate
+	@Column(nullable = false, name = "updated_at", insertable = false)
+	private LocalDateTime modifiedAt;
 }

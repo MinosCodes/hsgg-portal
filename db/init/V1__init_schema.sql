@@ -33,6 +33,7 @@ CREATE TABLE files
     size          BIGINT       NOT NULL,
     topic_id      BIGINT       NULL,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_files_topic
         FOREIGN KEY (topic_id)
@@ -81,6 +82,7 @@ CREATE TABLE users
     username      VARCHAR(100)                         NOT NULL UNIQUE,
     password_hash VARCHAR(255)                         NOT NULL,
     role          ENUM ('ADMIN', 'TEACHER', 'STUDENT') NOT NULL DEFAULT 'STUDENT',
-    created_at    TIMESTAMP                                     DEFAULT CURRENT_TIMESTAMP
+    created_at    TIMESTAMP                                     DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP                                     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
