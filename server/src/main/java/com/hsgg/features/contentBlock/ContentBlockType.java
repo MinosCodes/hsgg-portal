@@ -1,7 +1,7 @@
-package com.hsgg.contentBlock;
+package com.hsgg.features.contentBlock;
 
 public enum ContentBlockType {
-    text,
-    reference,
-    file
+	text,
+	reference,
+	file
 }

@@ -1,7 +1,7 @@
-package com.hsgg.contentBlock;
+package com.hsgg.features.contentBlock;
 
-import com.hsgg.files.FileEntity;
-import com.hsgg.topics.Topic;
+import com.hsgg.features.files.FileEntity;
+import com.hsgg.features.topics.Topic;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,49 +16,49 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ContentBlock {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "topic_id", nullable = false)
-    private Topic topic;
+	@ManyToOne
+	@JoinColumn(name = "topic_id", nullable = false)
+	private Topic topic;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ContentBlockType type;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ContentBlockType type;
 
-    @Column(nullable = false)
-    private Integer position;
+	@Column(nullable = false)
+	private Integer position;
 
-    @Column(nullable = false)
-    private String title;
+	@Column(nullable = false)
+	private String title;
 
-    @Column(columnDefinition = "TEXT")
-    private String text;
+	@Column(columnDefinition = "TEXT")
+	private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "reference_topic_id")
-    private Topic referenceTopic;
+	@ManyToOne
+	@JoinColumn(name = "reference_topic_id")
+	private Topic referenceTopic;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id")
-    private FileEntity file;
+	@ManyToOne
+	@JoinColumn(name = "file_id")
+	private FileEntity file;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
-    }
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = this.createdAt;
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDateTime.now();
+	}
 }

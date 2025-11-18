@@ -1,7 +1,8 @@
-package com.hsgg.topics;
+package com.hsgg.features.topics;
 
 public record TopicSummaryDto(
-        Long id,
-        String title,
-        String description
-) {}
+		Long id,
+		String title,
+		String description
+) {
+}
