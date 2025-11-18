@@ -111,17 +111,6 @@ img, video {
     height: auto;
 }
 
-#button-overlay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-}
-
-#sidebar-toggle {
-    display: none; /* Hidden checkbox for toggle */
-}
-
 #sidebar-menu a {
     color: var(--color_06);
     font-family: var(--font-aptos);
@@ -179,10 +168,34 @@ img, video {
     border-left: none;
 }
 
+#button-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+/* Sidebar toggle logic - keep your HTML checkbox */
+body:has(#button-overlay > #sidebar-toggle:checked) #sidebar {
+    display: block;
+}
+
+#sidebar-toggle:checked {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#sidebar-toggle:not(:checked) {
+    position: absolute;
+    top: 10px;
+    left: 140px;
+}
+
 /* --------------------- MOBILE RESPONSIVE --------------------- */
 @media (max-width: 768px) {
     #page {
-        flex-direction: column; /* Stack sidebar on top */
+        flex-direction: column;
     }
 
     #sidebar {
@@ -190,29 +203,29 @@ img, video {
         min-width: 0;
         border-right: none;
         border-bottom: 2px solid var(--schwarz);
-        display: none; /* Hidden by default on mobile */
+        display: none;
+        position: relative;
     }
 
-    #sidebar-toggle:checked + #sidebar {
-        display: block; /* Show sidebar when toggle is checked */
+    body:has(#sidebar-toggle:checked) #sidebar {
+        display: block;
     }
 
     #content {
-        grid-template-rows: 50px auto 50px; /* Smaller header/footer */
+        grid-template-rows: 50px auto 50px;
     }
-
     #header-content {
-        font-size: 1.5rem; /* Smaller font for mobile */
+        font-size: 1.5rem;
+        text-align: center;
     }
-
     #sidebar-menu ul {
-        flex-direction: column; /* Vertical menu */
+        flex-direction: column;
         gap: 0.5em;
         padding: 0.5em;
     }
-
     #footer-content ul {
         flex-direction: column;
         gap: 0.5em;
+        text-align: center;
     }
 }
