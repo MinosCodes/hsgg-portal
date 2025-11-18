@@ -2,34 +2,9 @@
     /* Hauptfarben */
     --maincolor: #236C93;
     --color_01: #44738C;
-    --color_02: #657A86;
-    --color_03: #286D92;
-    --color_04: #49748B;
-    --color_05: #6A7B84;
     --color_06: #2E6E91;
-    --color_07: #4F758A;
-    --color_08: #707C83;
-    --color_09: #337090;
-    --color_10: #457789;
-    --color_11: #757E82;
-    --color_12: #39718F;
-    --color_13: #5A7888;
-    --color_14: #7B7F81;
-    --color_15: #3E728D;
-    --color_16: #5F7987;
-    --color_17: #808080;
     --schwarz: #000000;
     --weiss: #FFFFFF;
-
-    /* Schattierungen */
-    --mainshatt: #236C93;
-    --shat_01: #71A0B9;
-    --shat_02: #BED4DF;
-    --shat_03: #307599;
-    --shat_04: #7EA9BF;
-    --shat_05: #CBDCE6;
-    --shat_15: #6497B3;
-    --shat_16: #B1CBD9;
 
     /* Fonts */
     --font-verdana: 'Verdana', sans-serif;
@@ -38,16 +13,8 @@
     /* Textgrößen */
     --Überschrift-01: 14pt;
     --Überschrift-02: 19pt;
-    --Überschrift-03: 24pt;
-    --Überschrift-04: 29pt;
     --Überschrift-05: 34pt;
-
-    --Text-klein: 7pt;
     --Text-groß: 8pt;
-
-    --Bildunterschrift-klein: 5pt;
-    --Bildunterschrift-mittel: 6pt;
-    --Bildunterschrift-groß: 7pt;
 }
 
 body {
@@ -69,7 +36,15 @@ body {
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+#sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+#sidebar.show {
+    transform: translateX(0);
 }
 
 #content {
@@ -88,27 +63,12 @@ body {
     font-size: var(--Überschrift-05);
 }
 
-#footer {
-    font-family: var(--font-verdana);
-    color: var(--color_17);
-    font-size: var(--Überschrift-02);
-}
-
-header, main {
-    border-bottom: 2px solid var(--schwarz);
-}
-
 p {
     font-family: var(--font-verdana);
     font-size: var(--Text-groß);
     line-height: 1.6;
     color: var(--schwarz);
     margin-bottom: 1em;
-}
-
-img, video {
-    max-width: 100%;
-    height: auto;
 }
 
 #sidebar-menu a {
@@ -124,24 +84,10 @@ img, video {
     text-decoration: underline;
 }
 
-#footer-content ul {
-    list-style: none;
-    display: flex;
-    gap: 1em;
-    padding: 0;
-    margin: 0;
-}
-
-#footer-content a {
-    color: var(--color_06);
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-01);
-    text-decoration: none;
-}
-
-#footer-content a:hover {
-    color: var(--color_01);
-    text-decoration: underline;
+/* Footer and separators - KEEP ORIGINAL LAYOUT */
+#footer-content {
+    font-family: var(--font-verdana);
+    color: var(--schwarz);
 }
 
 .border-separation {
@@ -168,64 +114,93 @@ img, video {
     border-left: none;
 }
 
+#footer-content a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    text-decoration: none;
+}
+
+#footer-content a:hover {
+    color: var(--color_01);
+    text-decoration: underline;
+}
+
+/* Hamburger button */
 #button-overlay {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 1000;
+    z-index: 1001;
 }
 
-/* Sidebar toggle logic - keep your HTML checkbox */
-body:has(#button-overlay > #sidebar-toggle:checked) #sidebar {
+#sidebar-toggle-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#sidebar-toggle-button span {
     display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--maincolor);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-#sidebar-toggle:checked {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+/* Hamburger animation to X */
+#sidebar-toggle-button.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
 }
 
-#sidebar-toggle:not(:checked) {
-    position: absolute;
-    top: 10px;
-    left: 140px;
+#sidebar-toggle-button.active span:nth-child(2) {
+    opacity: 0;
 }
 
-/* --------------------- MOBILE RESPONSIVE --------------------- */
+#sidebar-toggle-button.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
     #page {
         flex-direction: column;
     }
 
     #sidebar {
-        max-width: 100%;
-        min-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 70%;
         border-right: none;
         border-bottom: 2px solid var(--schwarz);
-        display: none;
-        position: relative;
-    }
-
-    body:has(#sidebar-toggle:checked) #sidebar {
-        display: block;
+        transform: translateX(-100%);
     }
 
     #content {
         grid-template-rows: 50px auto 50px;
     }
+
     #header-content {
         font-size: 1.5rem;
         text-align: center;
     }
+
     #sidebar-menu ul {
         flex-direction: column;
         gap: 0.5em;
         padding: 0.5em;
     }
-    #footer-content ul {
-        flex-direction: column;
-        gap: 0.5em;
-        text-align: center;
+
+    .border-separation ul {
+        flex-direction: row; /* keep horizontal footer on mobile as well */
+        justify-content: right;
     }
 }

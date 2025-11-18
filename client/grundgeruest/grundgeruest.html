@@ -2,13 +2,13 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Horst-Schlaemmer-Gedaechtnis-Gymnasium</title>
     <link href="grundgeruest.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div id="page">
-    <div id="sidebar">
+    <div id="sidebar" class="hidden">
         <nav id="sidebar-menu">
             <ul class="sidebar top"><li><a href="../homepage.html">Home</a></li></ul>
             <ul class="sidebar top">
@@ -33,9 +33,24 @@
         </footer>
     </div>
 </div>
+
+<!-- Hamburger button -->
 <div id="button-overlay">
-    <input type="checkbox" id="sidebar-toggle">
-    <label for="sidebar-toggle"></label>
+    <button id="sidebar-toggle-button">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 </div>
+
+<script>
+    const toggleButton = document.getElementById('sidebar-toggle-button');
+    const sidebar = document.getElementById('sidebar');
+
+    toggleButton.addEventListener('click', () => {
+        toggleButton.classList.toggle('active');
+        sidebar.classList.toggle('show');
+    });
+</script>
 </body>
 </html>
