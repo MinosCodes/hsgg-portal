@@ -1,6 +1,7 @@
 package com.hsgg.security.config;
 
 import com.hsgg.security.jwt.JwtAuthFilter;
+import com.hsgg.security.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ public class SecurityConfig {
 								"/api/auth/login",
 								"/api/auth/register"
 						).permitAll()
+						.requestMatchers("/api/admin/**").hasRole(UserRole.ADMIN.toString())
 						.requestMatchers("/api/**").authenticated()
 						.anyRequest().permitAll()
 				)
