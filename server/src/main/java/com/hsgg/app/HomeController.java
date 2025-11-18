@@ -1,4 +1,4 @@
-package com.hsgg.controllers;
+package com.hsgg.app;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

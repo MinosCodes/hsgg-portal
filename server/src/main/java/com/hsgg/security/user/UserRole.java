@@ -1,4 +1,4 @@
-package com.hsgg.auth;
+package com.hsgg.security.user;
 
 public enum UserRole {
 	ADMIN,

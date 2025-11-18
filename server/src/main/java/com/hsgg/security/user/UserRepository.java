@@ -1,4 +1,4 @@
-package com.hsgg.auth.user;
+package com.hsgg.security.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

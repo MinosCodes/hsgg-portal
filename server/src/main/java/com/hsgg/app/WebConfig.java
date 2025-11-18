@@ -1,4 +1,4 @@
-package com.hsgg.config;
+package com.hsgg.app;
 
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +11,10 @@ import java.nio.file.Path;
 @ConfigurationPropertiesScan
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path clientPath = Path.of("").toAbsolutePath().resolve("../client");
-        registry.addResourceHandler("/**")
-                .addResourceLocations("file:" + clientPath + "/");
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		Path clientPath = Path.of("").toAbsolutePath().resolve("../client");
+		registry.addResourceHandler("/**")
+				.addResourceLocations("file:" + clientPath + "/");
+	}
 }

@@ -1,4 +1,4 @@
-package com.hsgg.controllers;
+package com.hsgg.app;
 
 import com.hsgg.features.contentBlock.ContentBlockDto;
 import com.hsgg.features.files.FileService;
