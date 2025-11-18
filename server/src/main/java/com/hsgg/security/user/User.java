@@ -52,10 +52,6 @@ public class User implements UserDetails, Principal {
 	@Column(nullable = false, name = "updated_at", insertable = false)
 	private LocalDateTime modifiedAt;
 
-	private String getFullName() {
-		return firstName + " " + lastName;
-	}
-
 	@Override
 	public String getName() {
 		return this.username;
