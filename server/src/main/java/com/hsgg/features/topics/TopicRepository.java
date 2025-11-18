@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
-    List<Topic> findBySubjectId(Long subjectSlug);
+    List<Topic> findBySubjectId(Long subjectId);
 
     @Query("""
         SELECT t FROM Topic t
