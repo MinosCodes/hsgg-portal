@@ -3,6 +3,7 @@ package com.hsgg.security.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,7 +12,12 @@ import java.util.Date;
 public class JwtService {
 
 	private static final long EXPIRATION_MS = 1000 * 60 * 60 * 24;
-	private final Algorithm algorithm = Algorithm.HMAC256("CHANGE_THIS_SECRET_KEY");
+
+	private final Algorithm algorithm;
+
+	public JwtService(@Value("${jwt.secret}") String secret) {
+		this.algorithm = Algorithm.HMAC256(secret);
+	}
 
 	public String generateToken(Long userId, String role) {
 		return JWT.create()
