@@ -1,5 +1,7 @@
 package com.hsgg.auth;
 
 public enum UserRole {
-	EDITOR
+	ADMIN,
+	TEACHER,
+	STUDENT
 }
