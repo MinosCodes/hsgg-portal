@@ -77,8 +77,8 @@ CREATE TABLE content_blocks
 CREATE TABLE users
 (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
-    firstname     VARCHAR(100)                         NOT NULL,
-    lastname      VARCHAR(100)                         NOT NULL,
+    first_name    VARCHAR(100)                         NOT NULL,
+    last_name     VARCHAR(100)                         NOT NULL,
     username      VARCHAR(100)                         NOT NULL UNIQUE,
     password_hash VARCHAR(255)                         NOT NULL,
     role          ENUM ('ADMIN', 'TEACHER', 'STUDENT') NOT NULL DEFAULT 'STUDENT',

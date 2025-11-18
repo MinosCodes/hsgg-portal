@@ -27,10 +27,10 @@ public class User implements UserDetails, Principal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
-	private String firstname;
+	@Column(name = "first_name", nullable = false, length = 100)
+	private String firstName;
 
-	@Column(nullable = false, length = 100)
+	@Column(name = "last_name", nullable = false, length = 100)
 	private String lastName;
 
 	@Column(nullable = false, unique = true, length = 100)
@@ -52,7 +52,7 @@ public class User implements UserDetails, Principal {
 	private LocalDateTime modifiedAt;
 
 	private String getFullName() {
-		return firstname + " " + lastName;
+		return firstName + " " + lastName;
 	}
 
 	@Override
