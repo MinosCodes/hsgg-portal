@@ -1,5 +1,5 @@
-:root{
-    /*Hauptfarben*/
+:root {
+    /* Hauptfarben */
     --maincolor: #236C93;
     --color_01: #44738C;
     --color_02: #657A86;
@@ -21,7 +21,7 @@
     --schwarz: #000000;
     --weiss: #FFFFFF;
 
-    /*Schattierungen*/
+    /* Schattierungen */
     --mainshatt: #236C93;
     --shat_01: #71A0B9;
     --shat_02: #BED4DF;
@@ -31,19 +31,11 @@
     --shat_15: #6497B3;
     --shat_16: #B1CBD9;
 
-    /**
-Die Farbtöne schwarz und weiß bilden die Basis jeder Anwendung
-Sie können flächig als Hintergrundfarbe oder in der Typografie eingesetzt werden
-Blau(maincolor) wird ausschließlich als Auszeichnungsfarbe ergänzt und niemals vollflächig verwendet
-Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verwendet werden
- */
-
-    /*Fonts*/
+    /* Fonts */
     --font-verdana: 'Verdana', sans-serif;
     --font-aptos: 'Aptos', sans-serif;
-    /*--font-fantasy: 'Fantasy', sans-serif; iNTERNER Tester*/
 
-    /*Textgröße*/
+    /* Textgrößen */
     --Überschrift-01: 14pt;
     --Überschrift-02: 19pt;
     --Überschrift-03: 24pt;
@@ -56,135 +48,56 @@ Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verw
     --Bildunterschrift-klein: 5pt;
     --Bildunterschrift-mittel: 6pt;
     --Bildunterschrift-groß: 7pt;
-
-}
-
-.border-separation {
-    display: grid;
-    place-items: center right;
-    ul {
-        display: flex;
-        flex-direction: row;
-        justify-content: right;
-    }
-    & li {
-        list-style: none;
-        padding-left: 10%;
-        padding-right: 10%;
-    }
-    & li ~ li {
-        border-left: 1px black solid;
-    }
 }
 
 body {
-    position: relative;
     margin: 0;
+    font-family: var(--font-verdana);
+    position: relative;
 }
 
 #page {
     display: flex;
     flex-direction: row;
-
     min-height: 100vh;
-    min-width: 100vw;
-
-    & > * {
-        flex-grow: 1;
-    }
+    width: 100%;
 }
 
 #sidebar {
     max-width: 170px;
     min-width: 170px;
-
-    border-right: 2px black solid;
-
+    border-right: 2px solid var(--schwarz);
     font-weight: bold;
+    background-color: var(--weiss);
+    transition: all 0.3s ease;
 }
 
 #content {
     display: grid;
     grid-template-rows: 60px auto 60px;
-
-    & #header-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--maincolor);
-        font-family: var(--font-verdana);
-        font-weight: bold;
-        font-size: var(--Überschrift-05);
-
-    }
-
-    & #footer {
-        font-family: var(--font-verdana);
-        color: var(--color_17);
-        font-size: var(--Überschrift-02);
-
-    }
-
-    & header {
-        border-bottom: 2px black solid;
-    }
-    & main {
-        border-bottom: 2px black solid;
-    }
+    flex-grow: 1;
 }
 
-#button-overlay {
-    position: absolute;
-}
-
-body:has(#button-overlay > #sidebar-toggle:checked) {
-    #sidebar {
-        display: none;
-    }
-}
-
-#sidebar-toggle:checked {
-    position: absolute;
-    top: 10px;
-    left: 10px
-}
-
-#sidebar-toggle:not(:checked) {
-    position: absolute;
-    top: 10px;
-    left: 140px
-}
-
-#sidebar-menu a {
-    color: var(--color_06);
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-02);
-    line-height: 2;
-}
-
-#footer-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+#header-content {
     display: flex;
-    gap: 1em; /* Abstand zwischen den Links */
-
+    align-items: center;
+    justify-content: center;
+    color: var(--maincolor);
+    font-family: var(--font-verdana);
+    font-weight: bold;
+    font-size: var(--Überschrift-05);
 }
 
-#footer-content a {
-    color:   var(--color_06);
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-01);
-    text-decoration: none;
+#footer {
+    font-family: var(--font-verdana);
+    color: var(--color_17);
+    font-size: var(--Überschrift-02);
 }
 
-#footer-content a:hover {
-    color: var(--color_01);
-    text-decoration: underline; /* optional */
+header, main {
+    border-bottom: 2px solid var(--schwarz);
 }
-/**
-Einheitliches Textstyling für alle Textblöcke
- */
+
 p {
     font-family: var(--font-verdana);
     font-size: var(--Text-groß);
@@ -193,3 +106,126 @@ p {
     margin-bottom: 1em;
 }
 
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+#sidebar-menu a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-02);
+    line-height: 2;
+    text-decoration: none;
+}
+
+#sidebar-menu a:hover {
+    color: var(--color_01);
+    text-decoration: underline;
+}
+
+#footer-content ul {
+    list-style: none;
+    display: flex;
+    gap: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+#footer-content a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    text-decoration: none;
+}
+
+#footer-content a:hover {
+    color: var(--color_01);
+    text-decoration: underline;
+}
+
+.border-separation {
+    display: grid;
+    place-items: center right;
+}
+
+.border-separation ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding: 0;
+    margin: 0;
+}
+
+.border-separation li {
+    list-style: none;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-left: 1px solid var(--schwarz);
+}
+
+.border-separation li:first-child {
+    border-left: none;
+}
+
+#button-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+/* Sidebar toggle logic - keep your HTML checkbox */
+body:has(#button-overlay > #sidebar-toggle:checked) #sidebar {
+    display: block;
+}
+
+#sidebar-toggle:checked {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#sidebar-toggle:not(:checked) {
+    position: absolute;
+    top: 10px;
+    left: 140px;
+}
+
+/* --------------------- MOBILE RESPONSIVE --------------------- */
+@media (max-width: 768px) {
+    #page {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        max-width: 100%;
+        min-width: 0;
+        border-right: none;
+        border-bottom: 2px solid var(--schwarz);
+        display: none;
+        position: relative;
+    }
+
+    body:has(#sidebar-toggle:checked) #sidebar {
+        display: block;
+    }
+
+    #content {
+        grid-template-rows: 50px auto 50px;
+    }
+    #header-content {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    #sidebar-menu ul {
+        flex-direction: column;
+        gap: 0.5em;
+        padding: 0.5em;
+    }
+    #footer-content ul {
+        flex-direction: column;
+        gap: 0.5em;
+        text-align: center;
+    }
+}
