@@ -29,7 +29,8 @@ public class SecurityConfig {
 								"/api/auth/login",
 								"/api/auth/register"
 						).permitAll()
-						.anyRequest().authenticated()
+						.requestMatchers("/api/**").authenticated()
+						.anyRequest().permitAll()
 				)
 				.addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
 				.build();
