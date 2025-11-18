@@ -1,5 +1,6 @@
-package com.hsgg.auth;
+package com.hsgg.auth.user;
 
+import com.hsgg.auth.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
