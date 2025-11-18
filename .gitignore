@@ -38,7 +38,3 @@ out/
 
 # Nix Flake + Direnv Stuff
 .direnv/
-**/.envrc
-**/flake.lock
-**/flake.nix
-**/SWE.code-workspace
