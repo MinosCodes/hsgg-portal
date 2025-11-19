@@ -1,4 +1,4 @@
-package com.hsgg.app;
+package com.hsgg.app.config;
 
 import lombok.Getter;
 import lombok.Setter;
