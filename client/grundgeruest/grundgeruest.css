@@ -6,16 +6,31 @@
     --schwarz: #000000;
     --weiss: #FFFFFF;
 
-    /* Fonts */
+    /**
+ Die Farbtöne schwarz und weiß bilden die Basis jeder Anwendung
+ Sie können flächig als Hintergrundfarbe oder in der Typografie eingesetzt werden
+ Blau(maincolor) wird ausschließlich als Auszeichnungsfarbe ergänzt und niemals vollflächig verwendet
+ Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verwendet werden
+  */
+
+    /*Fonts*/
     --font-verdana: 'Verdana', sans-serif;
     --font-aptos: 'Aptos', sans-serif;
 
-    /* Textgrößen */
+    /*Textgröße*/
     --Überschrift-01: 14pt;
     --Überschrift-02: 19pt;
+    --Überschrift-03: 24pt;
+    --Überschrift-04: 29pt;
     --Überschrift-05: 34pt;
+
+    --Text-klein: 7pt;
     --Text-groß: 8pt;
-    --Bild-Schrift: 5pt;
+
+    --Bildunterschrift-klein: 5pt;
+    --Bildunterschrift-mittel: 6pt;
+    --Bildunterschrift-groß: 7pt;
+
 }
 
 body {
