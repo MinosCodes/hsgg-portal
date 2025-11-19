@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="page">
-    <div id="sidebar" class="hidden">
+    <div id="sidebar" class="show">
         <nav id="sidebar-menu">
             <ul class="sidebar top"><li><a href="../homepage.html">Home</a></li></ul>
             <ul class="sidebar top">
@@ -49,7 +49,7 @@
 
     toggleButton.addEventListener('click', () => {
         toggleButton.classList.toggle('active');
-        sidebar.classList.toggle('show');
+        sidebar.classList.toggle('hidden');
     });
 </script>
 </body>
