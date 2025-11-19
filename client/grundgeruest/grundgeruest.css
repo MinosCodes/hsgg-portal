@@ -15,6 +15,7 @@
     --Überschrift-02: 19pt;
     --Überschrift-05: 34pt;
     --Text-groß: 8pt;
+    --Bild-Schrift: 5pt;
 }
 
 body {
@@ -31,36 +32,43 @@ body {
 }
 
 #sidebar {
-    max-width: 170px;
-    min-width: 170px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    max-width: 15vw;
+    min-width: 15vw;
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
-    transition: transform 0.3s ease;
-}
-
-#sidebar.hidden {
-    transform: translateX(-100%);
 }
 
 #sidebar.show {
-    transform: translateX(0);
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
+}
+
+#sidebar.hidden {
+    max-width: 0;
+    min-width: 0;
+    border-right-width: 0;
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
 }
 
 #content {
     display: grid;
-    grid-template-rows: 60px auto 60px;
+    grid-template-rows: 100px auto 60px;
     flex-grow: 1;
 }
 
 #header-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: var(--maincolor);
+    justify-content: right;
+    color: var(--weiss);
     font-family: var(--font-verdana);
     font-weight: bold;
     font-size: var(--Überschrift-05);
+    background-color: var(--maincolor);
+    padding-right: 30px;
 }
 
 p {
@@ -69,6 +77,19 @@ p {
     line-height: 1.6;
     color: var(--schwarz);
     margin-bottom: 1em;
+}
+
+#sidebar-menu:first-child {
+    padding-top: 20px;
+}
+#sidebar-menu ul {
+    padding-left: 0px;
+    padding-right: 20px;
+}
+#sidebar-menu li {
+    list-style: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #sidebar-menu a {
@@ -152,6 +173,10 @@ p {
     background-color: var(--maincolor);
     border-radius: 2px;
     transition: all 0.3s ease;
+}
+
+#sidebar-toggle-button.active span{
+    background-color: var(--weiss);
 }
 
 /* Hamburger animation to X */
