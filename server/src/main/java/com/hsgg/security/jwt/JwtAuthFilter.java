@@ -43,11 +43,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		try {
 			DecodedJWT jwt = jwtService.verifyToken(token);
 
-			Long userId = Long.valueOf(jwt.getSubject());
+			String username = jwt.getSubject();
 			String role = jwt.getClaim("role").asString();
 
 			var authToken = new UsernamePasswordAuthenticationToken(
-					userId,
+					username,
 					null,
 					List.of(new SimpleGrantedAuthority("ROLE_" + role))
 			);
