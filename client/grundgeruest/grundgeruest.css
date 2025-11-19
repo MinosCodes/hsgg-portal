@@ -1,10 +1,36 @@
 :root {
-    /* Hauptfarben */
+    /*Hauptfarben*/
     --maincolor: #236C93;
     --color_01: #44738C;
+    --color_02: #657A86;
+    --color_03: #286D92;
+    --color_04: #49748B;
+    --color_05: #6A7B84;
     --color_06: #2E6E91;
+    --color_07: #4F758A;
+    --color_08: #707C83;
+    --color_09: #337090;
+    --color_10: #457789;
+    --color_11: #757E82;
+    --color_12: #39718F;
+    --color_13: #5A7888;
+    --color_14: #7B7F81;
+    --color_15: #3E728D;
+    --color_16: #5F7987;
+    --color_17: #808080;
     --schwarz: #000000;
     --weiss: #FFFFFF;
+
+    /*Schattierungen*/
+    --mainshatt: #236C93;
+    --shat_01: #71A0B9;
+    --shat_02: #BED4DF;
+    --shat_03: #307599;
+    --shat_04: #7EA9BF;
+    --shat_05: #CBDCE6;
+    --shat_15: #6497B3;
+    --shat_16: #B1CBD9;
+
 
     /**
  Die Farbtöne schwarz und weiß bilden die Basis jeder Anwendung
