@@ -1,6 +1,6 @@
 package com.hsgg.features.subjects;
 
-import com.hsgg.exceptions.NotFoundException;
+import com.hsgg.app.exceptions.NotFoundException;
 import com.hsgg.features.search.SearchResultDto;
 import com.hsgg.features.topics.TopicRepository;
 import com.hsgg.features.topics.TopicSummaryDto;

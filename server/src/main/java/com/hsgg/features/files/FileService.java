@@ -1,6 +1,6 @@
 package com.hsgg.features.files;
 
-import com.hsgg.exceptions.NotFoundException;
+import com.hsgg.app.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
