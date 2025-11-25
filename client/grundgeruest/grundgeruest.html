@@ -10,14 +10,64 @@
 <div id="page">
     <div id="sidebar" class="show">
         <nav id="sidebar-menu">
-            <ul class="sidebar top"><li><a href="../homepage.html">Home</a></li></ul>
             <ul class="sidebar top">
-                <li><a href="#">Jahr 1</a></li>
-                <li><a href="#">Jahr 2</a></li>
-                <li><a href="#">Jahr 3</a></li>
-                <li><a href="#">Jahr 4</a></li>
-                <li><a href="#">Jahr 5</a></li>
-                <li><a href="#">Jahr 6</a></li>
+                <li><a href="../homepage.html">Home</a></li>
+            </ul>
+            <ul class="sidebar top">
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 1</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=1&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=1&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=1&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=1&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 2</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=2&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=2&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=2&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=2&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 3</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=3&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=3&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=3&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=3&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 4</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=4&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=4&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=4&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=4&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 5</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=5&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=5&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=5&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=5&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 6</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="../content.html?jahr=6&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="../content.html?jahr=6&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="../content.html?jahr=6&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="../content.html?jahr=6&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
@@ -47,9 +97,36 @@
     const toggleButton = document.getElementById('sidebar-toggle-button');
     const sidebar = document.getElementById('sidebar');
 
+    // Ensure sensible initial state depending on viewport width
+    const setInitialSidebarState = () => {
+        if (window.innerWidth <= 768) {
+            // On small screens, keep sidebar hidden by default
+            sidebar.classList.add('hidden');
+        } else {
+            // On larger screens, show sidebar in its normal position
+            sidebar.classList.remove('hidden');
+        }
+    };
+
+    setInitialSidebarState();
+    window.addEventListener('resize', setInitialSidebarState);
+
     toggleButton.addEventListener('click', () => {
         toggleButton.classList.toggle('active');
         sidebar.classList.toggle('hidden');
+    });
+
+    // Toggle subjects for each year
+    document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const container = link.closest('.year-item');
+            if (!container) return;
+            const subjects = container.querySelector('.year-subjects');
+            if (subjects) {
+                subjects.classList.toggle('hidden');
+            }
+        });
     });
 </script>
 </body>

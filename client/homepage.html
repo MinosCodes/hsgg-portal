@@ -8,10 +8,63 @@
 </head>
 <body>
 <div id="page">
-    <div id="sidebar">
+    <div id="sidebar" class="show">
         <nav id="sidebar-menu">
             <ul class="sidebar top">
-                <li><a href="content.html?jahr=5">Jahr 5</a></li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 1</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=1&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=1&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=1&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=1&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 2</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=2&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=2&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=2&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=2&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 3</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=3&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=3&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=3&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=3&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 4</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=4&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=4&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=4&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=4&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 5</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=5&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
+                <li class="year-item">
+                    <a href="#" class="year-link">Jahr 6</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=6&amp;fach=mathe">Mathe</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=geographie">Geographie</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
@@ -52,10 +105,51 @@
             </ul>
         </footer>
     </div>
-    <div id="button-overlay">
-        <input type="checkbox" id="sidebar-toggle">
-        <label for="sidebar-toggle"></label>
-    </div>
 </div>
+
+<!-- Hamburger button -->
+<div id="button-overlay">
+    <button id="sidebar-toggle-button">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</div>
+
+<script>
+    const toggleButton = document.getElementById('sidebar-toggle-button');
+    const sidebar = document.getElementById('sidebar');
+
+    const setInitialSidebarState = () => {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('hidden');
+            toggleButton.classList.remove('active');
+        } else {
+            sidebar.classList.remove('hidden');
+            toggleButton.classList.remove('active');
+        }
+    };
+
+    setInitialSidebarState();
+    window.addEventListener('resize', setInitialSidebarState);
+
+    toggleButton.addEventListener('click', () => {
+        toggleButton.classList.toggle('active');
+        sidebar.classList.toggle('hidden');
+    });
+
+    // Toggle subjects for each year
+    document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const container = link.closest('.year-item');
+            if (!container) return;
+            const subjects = container.querySelector('.year-subjects');
+            if (subjects) {
+                subjects.classList.toggle('hidden');
+            }
+        });
+    });
+</script>
 </body>
 </html>

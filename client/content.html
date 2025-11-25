@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="page">
-    <div id="sidebar">
+    <div id="sidebar" class="show">
         <nav id="sidebar-menu">
             <ul class="sidebar top">
 
@@ -42,9 +42,13 @@
     </div>
 </div>
 
+<!-- Hamburger button -->
 <div id="button-overlay">
-    <input type="checkbox" id="sidebar-toggle">
-    <label for="sidebar-toggle"></label>
+    <button id="sidebar-toggle-button">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 </div>
 <script>
     const contentList = document.querySelector('#content-list');
@@ -83,6 +87,27 @@
 
         document.querySelector('#content-container').classList.remove('invisible');
     }
+
+    const toggleButton = document.getElementById('sidebar-toggle-button');
+    const sidebar = document.getElementById('sidebar');
+
+    const setInitialSidebarState = () => {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('hidden');
+            toggleButton.classList.remove('active');
+        } else {
+            sidebar.classList.remove('hidden');
+            toggleButton.classList.remove('active');
+        }
+    };
+
+    setInitialSidebarState();
+    window.addEventListener('resize', setInitialSidebarState);
+
+    toggleButton.addEventListener('click', () => {
+        toggleButton.classList.toggle('active');
+        sidebar.classList.toggle('hidden');
+    });
 </script>
 </body>
 </html>
