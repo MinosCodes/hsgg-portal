@@ -185,6 +185,11 @@ p {
     color: var(--color_06);
 }
 
+.year-subjects a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 /* Footer and separators - KEEP ORIGINAL LAYOUT */
 #footer-content {
     font-family: var(--font-verdana);

@@ -14,7 +14,7 @@
                 <li><a href="../homepage.html">Home</a></li>
             </ul>
             <ul class="sidebar top">
-                <li class="year-item">
+                <li class="year-item" data-year="1">
                     <a href="#" class="year-link">Jahr 1</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=1&amp;fach=mathe">Mathe</a></li>
@@ -23,7 +23,7 @@
                         <li><a href="../content.html?jahr=1&amp;fach=geographie">Geographie</a></li>
                     </ul>
                 </li>
-                <li class="year-item">
+                <li class="year-item" data-year="2">
                     <a href="#" class="year-link">Jahr 2</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=2&amp;fach=mathe">Mathe</a></li>
@@ -32,7 +32,7 @@
                         <li><a href="../content.html?jahr=2&amp;fach=geographie">Geographie</a></li>
                     </ul>
                 </li>
-                <li class="year-item">
+                <li class="year-item" data-year="3">
                     <a href="#" class="year-link">Jahr 3</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=3&amp;fach=mathe">Mathe</a></li>
@@ -41,7 +41,7 @@
                         <li><a href="../content.html?jahr=3&amp;fach=geographie">Geographie</a></li>
                     </ul>
                 </li>
-                <li class="year-item">
+                <li class="year-item" data-year="4">
                     <a href="#" class="year-link">Jahr 4</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=4&amp;fach=mathe">Mathe</a></li>
@@ -50,7 +50,7 @@
                         <li><a href="../content.html?jahr=4&amp;fach=geographie">Geographie</a></li>
                     </ul>
                 </li>
-                <li class="year-item">
+                <li class="year-item" data-year="5">
                     <a href="#" class="year-link">Jahr 5</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=5&amp;fach=mathe">Mathe</a></li>
@@ -59,7 +59,7 @@
                         <li><a href="../content.html?jahr=5&amp;fach=geographie">Geographie</a></li>
                     </ul>
                 </li>
-                <li class="year-item">
+                <li class="year-item" data-year="6">
                     <a href="#" class="year-link">Jahr 6</a>
                     <ul class="year-subjects hidden">
                         <li><a href="../content.html?jahr=6&amp;fach=mathe">Mathe</a></li>
@@ -116,15 +116,27 @@
         sidebar.classList.toggle('hidden');
     });
 
-    // Toggle subjects for each year
+    const closeAllYearSubjects = () => {
+        document.querySelectorAll('#sidebar-menu .year-subjects').forEach(list => {
+            list.classList.add('hidden');
+        });
+    };
+
+    // Toggle subjects for each year (accordion style)
     document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
             const container = link.closest('.year-item');
             if (!container) return;
             const subjects = container.querySelector('.year-subjects');
-            if (subjects) {
-                subjects.classList.toggle('hidden');
+            if (!subjects) return;
+
+            const wasHidden = subjects.classList.contains('hidden');
+            closeAllYearSubjects();
+            if (wasHidden) {
+                subjects.classList.remove('hidden');
+            } else {
+                subjects.classList.add('hidden');
             }
         });
     });

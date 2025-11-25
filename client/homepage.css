@@ -94,6 +94,11 @@
   color: var(--color_06);
 }
 
+.year-subjects a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   #top-welcome {
     flex-direction: column;
