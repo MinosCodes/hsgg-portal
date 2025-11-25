@@ -222,9 +222,7 @@
     // Only generate some example data for now - should at some point be requested from an API
     for (let i = 1; i <= 10; i++) {
         listOfContent.push({
-            name: (selectedYear && selectedSubject
-                    ? 'Jahr ' + selectedYear + ' ' + formatSubjectLabel(selectedSubject) + ' - Beispiel ' + i
-                    : 'Beispiel ' + i),
+            name: 'Beispiel ' + i,
             file: 'bspl' + i + '.pdf'
         });
     }
@@ -253,11 +251,7 @@
     if (currentFile) {
         const currentFileData = listOfContent.filter(v => v.file === currentFile)[0];
         const dateiName = document.querySelector('#datei-name');
-        const parts = [];
-        if (selectedYear) parts.push('Jahr ' + selectedYear);
-        if (selectedSubject) parts.push(formatSubjectLabel(selectedSubject));
-        parts.push(currentFileData ? currentFileData.name : currentFile);
-        dateiName.innerText = parts.join(' – ');
+        dateiName.innerText = currentFileData ? currentFileData.name : currentFile;
 
         document.querySelector('#download-link').href = 'content/' + currentFile;
         document.querySelector('#file-viewer').src = 'content/' + currentFile;
