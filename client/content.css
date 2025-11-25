@@ -4,8 +4,7 @@
 
 main {
   display: flex;
-  flex-direction: row;
-  gap: 2em;
+  flex-direction: column;
   flex-wrap: wrap;
   padding: 1em;
 }
@@ -56,12 +55,13 @@ main {
   width: fit-content;
   min-width: 220px;
   margin-right: 0;
-    li, a {
-        color: var(--color_06);
-        font-family: var(--font-aptos);
-        font-size: var(--Überschrift-01);
-        line-height: 1.5;
-    }
+  li,
+  a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    line-height: 1.5;
+  }
 }
 
 #content-container {
@@ -70,7 +70,6 @@ main {
   min-width: 300px;
   overflow-x: hidden;
   overflow-y: auto;
-  border-left: 1px solid var(--shat_03);
 
   div {
     display: flex;
@@ -79,10 +78,10 @@ main {
     margin-top: 1em;
 
     #datei-name {
-        margin: 0;
-        color: var(--maincolor);
-        font-family: var(--font-aptos);
-        font-size: var(--Überschrift-02);
+      margin: 0;
+      color: var(--maincolor);
+      font-family: var(--font-aptos);
+      font-size: var(--Überschrift-02);
     }
   }
 
@@ -92,13 +91,12 @@ main {
     border: none;
   }
 
-    a{
-        color: var(--color_06);
-        font-family: var(--font-aptos);
-        font-size: var(--Überschrift-01);
-        line-height: 1.2;
-    }
-
+  a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    line-height: 1.2;
+  }
 }
 
 #download-link {
@@ -151,7 +149,8 @@ main {
     padding: 0.5em;
   }
 
-  #content-list li, #content-list a,
+  #content-list li,
+  #content-list a,
   #content-container a {
     font-size: calc(var(--Überschrift-01) * 0.9);
   }
