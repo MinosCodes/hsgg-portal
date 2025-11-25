@@ -63,6 +63,7 @@ body {
     margin: 0;
     font-family: var(--font-verdana);
     position: relative;
+    overflow-x: hidden;
 }
 
 #page {
@@ -143,6 +144,49 @@ p {
 
 #sidebar-menu a:hover {
     color: var(--color_01);
+    text-decoration: underline;
+}
+
+/* Fächerlisten pro Jahr im Sidebar (Grundgerüst) */
+.year-item {
+    padding-bottom: 0.2em;
+}
+
+.year-subjects {
+    margin-top: 0.3em;
+    padding-left: 0;
+}
+
+.year-subjects li {
+    list-style: none;
+    margin: 0.15em 0;
+    padding: 0.2em 0.4em;
+    border-radius: 999px;
+    background-color: var(--shat_02);
+}
+
+.year-subjects li:hover {
+    background-color: var(--shat_01);
+}
+
+.year-subjects.hidden {
+    display: none;
+}
+
+.year-subjects a {
+    display: block;
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    color: var(--color_06);
+    text-decoration: none;
+}
+
+.year-subjects a:hover {
+    color: var(--color_06);
+}
+
+.year-subjects a.active {
+    font-weight: bold;
     text-decoration: underline;
 }
 
@@ -240,13 +284,26 @@ p {
     }
 
     #sidebar {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         height: 100%;
         width: 70%;
+        max-width: none;
+        min-width: auto;
         border-right: none;
         border-bottom: 2px solid var(--schwarz);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    #sidebar.show {
+        transform: translateX(0);
+    }
+
+    #sidebar.hidden {
         transform: translateX(-100%);
     }
 
@@ -257,6 +314,8 @@ p {
     #header-content {
         font-size: 1.5rem;
         text-align: center;
+        justify-content: center;
+        padding-right: 10px;
     }
 
     #sidebar-menu ul {
@@ -268,5 +327,14 @@ p {
     .border-separation ul {
         flex-direction: row; /* keep horizontal footer on mobile as well */
         justify-content: right;
+    }
+
+    .border-separation li {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    #footer-content a {
+        font-size: calc(var(--Überschrift-01) * 0.9);
     }
 }

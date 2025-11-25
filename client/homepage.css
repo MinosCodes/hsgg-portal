@@ -2,19 +2,22 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 20em;
+  min-height: 20em;
+  gap: 1em;
+  align-items: center;
+  flex-wrap: wrap;
 
   > div {
     padding: 1em;
-    flex-grow: 1;
+    flex: 1 1 320px;
   }
 
   > img {
-    flex-grow: 1;
+    flex: 1 1 280px;
     object-fit: contain;
-    max-height: 100%;
-    width: auto;
-    min-width: fit-content;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
     padding: 1em;
   }
 }
@@ -50,5 +53,82 @@
       margin: 0px;
       padding: 0px;
     }
+  }
+}
+
+/* Fächerlisten pro Jahr im Sidebar (Homepage) */
+.year-item {
+  padding-bottom: 0.2em;
+}
+
+.year-subjects {
+  margin-top: 0.3em;
+  padding-left: 0;
+}
+
+.year-subjects li {
+  list-style: none;
+  margin: 0.15em 0;
+  padding: 0.2em 0.4em;
+  border-radius: 999px;
+  background-color: var(--shat_02);
+}
+
+.year-subjects li:hover {
+  background-color: var(--shat_01);
+}
+
+.year-subjects.hidden {
+  display: none;
+}
+
+.year-subjects a {
+  display: block;
+  font-family: var(--font-aptos);
+  font-size: var(--Überschrift-01);
+  color: var(--color_06);
+  text-decoration: none;
+}
+
+.year-subjects a:hover {
+  color: var(--color_06);
+}
+
+.year-subjects a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  #top-welcome {
+    flex-direction: column;
+    text-align: center;
+
+    > div {
+      padding-bottom: 0;
+    }
+
+    > img {
+      max-width: 280px;
+      margin: 0 auto 1em;
+    }
+  }
+
+  #main-content {
+    padding: 0 1em 2em;
+  }
+}
+
+@media (max-width: 600px) {
+  #top-welcome > div {
+    padding: 0.5em;
+  }
+
+  #aktuelles {
+    padding: 0.5em;
+  }
+
+  #aktuelles > .mitteilung {
+    padding: 0.5em 0;
   }
 }
