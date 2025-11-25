@@ -1,5 +1,5 @@
 :root {
-    /* Hauptfarben */
+    /*Hauptfarben*/
     --maincolor: #236C93;
     --color_01: #44738C;
     --color_02: #657A86;
@@ -21,7 +21,7 @@
     --schwarz: #000000;
     --weiss: #FFFFFF;
 
-    /* Schattierungen */
+    /*Schattierungen*/
     --mainshatt: #236C93;
     --shat_01: #71A0B9;
     --shat_02: #BED4DF;
@@ -31,11 +31,19 @@
     --shat_15: #6497B3;
     --shat_16: #B1CBD9;
 
-    /* Fonts */
+
+    /**
+ Die Farbtöne schwarz und weiß bilden die Basis jeder Anwendung
+ Sie können flächig als Hintergrundfarbe oder in der Typografie eingesetzt werden
+ Blau(maincolor) wird ausschließlich als Auszeichnungsfarbe ergänzt und niemals vollflächig verwendet
+ Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verwendet werden
+  */
+
+    /*Fonts*/
     --font-verdana: 'Verdana', sans-serif;
     --font-aptos: 'Aptos', sans-serif;
 
-    /* Textgrößen */
+    /*Textgröße*/
     --Überschrift-01: 14pt;
     --Überschrift-02: 19pt;
     --Überschrift-03: 24pt;
@@ -48,6 +56,7 @@
     --Bildunterschrift-klein: 5pt;
     --Bildunterschrift-mittel: 6pt;
     --Bildunterschrift-groß: 7pt;
+
 }
 
 body {
@@ -64,38 +73,43 @@ body {
 }
 
 #sidebar {
-    max-width: 170px;
-    min-width: 170px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    max-width: 15vw;
+    min-width: 15vw;
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
-    transition: all 0.3s ease;
+}
+
+#sidebar.show {
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
+}
+
+#sidebar.hidden {
+    max-width: 0;
+    min-width: 0;
+    border-right-width: 0;
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
 }
 
 #content {
     display: grid;
-    grid-template-rows: 60px auto 60px;
+    grid-template-rows: 100px auto 60px;
     flex-grow: 1;
 }
 
 #header-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: var(--maincolor);
+    justify-content: right;
+    color: var(--weiss);
     font-family: var(--font-verdana);
     font-weight: bold;
     font-size: var(--Überschrift-05);
-}
-
-#footer {
-    font-family: var(--font-verdana);
-    color: var(--color_17);
-    font-size: var(--Überschrift-02);
-}
-
-header, main {
-    border-bottom: 2px solid var(--schwarz);
+    background-color: var(--maincolor);
+    padding-right: 30px;
 }
 
 p {
@@ -106,9 +120,17 @@ p {
     margin-bottom: 1em;
 }
 
-img, video {
-    max-width: 100%;
-    height: auto;
+#sidebar-menu:first-child {
+    padding-top: 20px;
+}
+#sidebar-menu ul {
+    padding-left: 0px;
+    padding-right: 20px;
+}
+#sidebar-menu li {
+    list-style: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #sidebar-menu a {
@@ -124,24 +146,10 @@ img, video {
     text-decoration: underline;
 }
 
-#footer-content ul {
-    list-style: none;
-    display: flex;
-    gap: 1em;
-    padding: 0;
-    margin: 0;
-}
-
-#footer-content a {
-    color: var(--color_06);
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-01);
-    text-decoration: none;
-}
-
-#footer-content a:hover {
-    color: var(--color_01);
-    text-decoration: underline;
+/* Footer and separators - KEEP ORIGINAL LAYOUT */
+#footer-content {
+    font-family: var(--font-verdana);
+    color: var(--schwarz);
 }
 
 .border-separation {
@@ -168,64 +176,97 @@ img, video {
     border-left: none;
 }
 
+#footer-content a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    text-decoration: none;
+}
+
+#footer-content a:hover {
+    color: var(--color_01);
+    text-decoration: underline;
+}
+
+/* Hamburger button */
 #button-overlay {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 1000;
+    z-index: 1001;
 }
 
-/* Sidebar toggle logic - keep your HTML checkbox */
-body:has(#button-overlay > #sidebar-toggle:checked) #sidebar {
+#sidebar-toggle-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#sidebar-toggle-button span {
     display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--maincolor);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-#sidebar-toggle:checked {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+#sidebar-toggle-button.active span{
+    background-color: var(--weiss);
 }
 
-#sidebar-toggle:not(:checked) {
-    position: absolute;
-    top: 10px;
-    left: 140px;
+/* Hamburger animation to X */
+#sidebar-toggle-button.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
 }
 
-/* --------------------- MOBILE RESPONSIVE --------------------- */
+#sidebar-toggle-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+#sidebar-toggle-button.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
     #page {
         flex-direction: column;
     }
 
     #sidebar {
-        max-width: 100%;
-        min-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 70%;
         border-right: none;
         border-bottom: 2px solid var(--schwarz);
-        display: none;
-        position: relative;
-    }
-
-    body:has(#sidebar-toggle:checked) #sidebar {
-        display: block;
+        transform: translateX(-100%);
     }
 
     #content {
         grid-template-rows: 50px auto 50px;
     }
+
     #header-content {
         font-size: 1.5rem;
         text-align: center;
     }
+
     #sidebar-menu ul {
         flex-direction: column;
         gap: 0.5em;
         padding: 0.5em;
     }
-    #footer-content ul {
-        flex-direction: column;
-        gap: 0.5em;
-        text-align: center;
+
+    .border-separation ul {
+        flex-direction: row; /* keep horizontal footer on mobile as well */
+        justify-content: right;
     }
 }
