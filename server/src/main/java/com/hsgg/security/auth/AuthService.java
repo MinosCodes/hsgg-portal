@@ -33,15 +33,35 @@ public class AuthService {
 		}
 
 		String token = jwtService.generateToken(user.getUsername(), user.getRole().toString());
-		return ResponseEntity.ok(new AuthResponseDto(token, user.getRole().toString()));
+
+		return ResponseEntity.ok(
+				new AuthResponseDto(
+						token,
+						user.getRole().toString(),
+						user.getFirstName(),
+						user.getLastName()
+				)
+		);
 	}
 
 	public ResponseEntity<?> register(@RequestBody RegisterRequestDto request) {
 		if (userRepository.existsByUsername(request.username())) {
 			return ResponseEntity.badRequest().body("Username already taken.");
 		}
-		userRepository.save(toStudent(request));
-		return ResponseEntity.ok("Registered successfully");
+
+		User user = toStudent(request);
+		userRepository.save(user);
+
+		String token = jwtService.generateToken(user.getUsername(), user.getRole().toString());
+
+		return ResponseEntity.ok(
+				new AuthResponseDto(
+						token,
+						user.getRole().toString(),
+						user.getFirstName(),
+						user.getLastName()
+				)
+		);
 	}
 
 	private User toStudent(RegisterRequestDto request) {
