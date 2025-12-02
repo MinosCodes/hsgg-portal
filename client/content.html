@@ -8,7 +8,17 @@
 </head>
 <body>
 <div id="page">
-    <div id="sidebar" class="show">
+
+    <!-- Sidebar mit Close-Button wie auf der Homepage -->
+    <aside id="sidebar" class="show">
+        <div id="sidebar-close-overlay">
+            <button id="sidebar-close-button" aria-label="Navigation schließen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
@@ -90,10 +100,20 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </aside>
 
     <div id="content">
-        <header id="header-content">Horst-Schlaemmer-Gedaechtnis-Gymnasium</header>
+        <!-- Header mit Header-Button wie auf der Homepage -->
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+        </header>
 
         <main id="main-content">
             <h2 id="context-heading"></h2>
@@ -116,16 +136,6 @@
         </footer>
     </div>
 </div>
-
-<!-- Hamburger button -->
-<div id="button-overlay">
-    <button id="sidebar-toggle-button">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-</div>
-
 
 <script src="content.js"></script>
 </body>
