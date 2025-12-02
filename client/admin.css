@@ -1,0 +1,183 @@
+/* Admin-spezifische Styles, im Zusammenspiel mit grundgeruest.css */
+
+/* Hauptbereich der Adminseite innerhalb von .content-wrapper */
+.admin-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-family: var(--font-verdana);
+}
+
+/* Überschrift wie große Inhaltsüberschrift, aber kleiner als Seitenkopf */
+.admin-section h1 {
+    font-size: var(--Überschrift-03);
+    margin: 0 0 8px 0;
+    color: var(--schwarz);
+}
+
+.admin-section p {
+    font-size: var(--Text-groß);
+    color: var(--schwarz);
+    margin-bottom: 14px;
+}
+
+/* Filterbereich (Rolle + Suche) */
+.admin-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    align-items: center;
+    margin: 10px 0 12px 0;
+}
+
+.admin-filters label {
+    font-size: var(--Text-groß);
+    color: var(--schwarz);
+    margin-right: 4px;
+}
+
+.admin-filters select,
+.admin-filters input[type="text"] {
+    padding: 4px 6px;
+    font-size: var(--Text-groß);
+    border: 1px solid var(--shat_02);
+    border-radius: 4px;
+    font-family: var(--font-verdana);
+    background-color: var(--weiss);
+    color: var(--schwarz);
+}
+
+/* Tabellen-Wrapper (horizontal scroll auf kleinen Screens) */
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 18px;
+}
+
+/* Tabelle für Benutzerverwaltung – schlicht wie Textbereich */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--Text-groß);
+    background-color: var(--weiss);
+}
+
+.admin-table thead {
+    background-color: var(--shat_02);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--shat_02);
+}
+
+.admin-table th {
+    font-weight: bold;
+    color: var(--color_06);
+    white-space: nowrap;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: var(--shat_05);
+}
+
+.admin-table tbody tr:hover {
+    background-color: var(--shat_16);
+}
+
+/* Select in der Tabelle */
+.admin-table select {
+    padding: 2px 4px;
+    font-size: var(--Text-groß);
+    border: 1px solid var(--shat_02);
+    border-radius: 4px;
+    font-family: var(--font-verdana);
+    background-color: var(--weiss);
+    color: var(--schwarz);
+}
+
+/* Rollen-Badges im Tabellenfeld, an Farbpalette angepasst */
+.role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: var(--Text-klein);
+    font-weight: bold;
+    color: var(--weiss);
+}
+
+.role-user {
+    background-color: var(--color_17);   /* grau */
+}
+
+.role-editor {
+    background-color: var(--color_01);   /* blaustichig */
+}
+
+.role-admin {
+    background-color: var(--maincolor);  /* Hauptfarbe */
+}
+
+/* Kleiner Button (z.B. "Speichern") in Hauptfarbe */
+.btn-small {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: var(--Text-groß);
+    border-radius: 4px;
+    border: 1px solid var(--maincolor);
+    cursor: pointer;
+    background-color: var(--maincolor);
+    color: var(--weiss);
+    font-family: var(--font-verdana);
+    transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.btn-small:hover {
+    background-color: var(--color_03);
+}
+
+.btn-small:active {
+    transform: scale(0.97);
+}
+
+/* Hinweis-Box */
+.admin-info {
+    margin-top: 18px;
+    padding: 10px 10px 12px;
+    border-radius: 4px;
+    background-color: var(--shat_05);
+    border: 1px solid var(--shat_02);
+}
+
+.admin-info h2 {
+    font-size: var(--Überschrift-02);
+    margin: 0 0 6px 0;
+    color: var(--color_06);
+}
+
+.admin-info p {
+    margin: 0;
+    font-size: var(--Text-groß);
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-section {
+        padding-top: 8px;
+        padding-bottom: 16px;
+    }
+
+    .admin-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 4px 6px;
+    }
+}
