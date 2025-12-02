@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Adminbereich – Horst-Schlaemmer-Gedaechtnis-Gymnasium</title>
+    <link href="grundgeruest/grundgeruest.css" rel="stylesheet"/>
+    <link href="admin.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div id="page">
+    <!-- Sidebar -->
+    <div id="sidebar" class="show">
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
+                <li><a href="homepage.html">Home</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- rechter Bereich -->
+    <div id="content">
+        <!-- Header inkl. Button-Overlay -->
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <div id="sidebar-close-overlay">
+                <button id="sidebar-close-button" aria-label="Navigation schließen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            Adminbereich – Benutzerrechte
+        </header>
+
+        <!-- Inhalt -->
+        <main id="main-content" class="content-wrapper">
+            <section class="admin-section">
+                <h1>Benutzerverwaltung</h1>
+                <p>Hier können Administratoren Rollen und Rechte der Benutzer verwalten.</p>
+
+                <!-- Filter / Suche (rudimentär, später per JS angebunden) -->
+                <div class="admin-filters">
+                    <label for="role-filter">Rolle filtern:</label>
+                    <select id="role-filter">
+                        <option value="all">Alle</option>
+                        <option value="user">User</option>
+                        <option value="editor">Editor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <label for="user-search">Benutzer suchen:</label>
+                    <input type="text" id="user-search" placeholder="Name oder E-Mail">
+                </div>
+
+                <!-- einfache Tabelle für Benutzerverwaltung -->
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Benutzer-ID</th>
+                            <th>Name</th>
+                            <th>E-Mail</th>
+                            <th>Aktuelle Rolle</th>
+                            <th>Neue Rolle</th>
+                            <th>Aktion</th>
+                        </tr>
+                        </thead>
+                        <tbody id="admin-user-table-body">
+                        <!-- Platzhalterdaten, werden später durch JS ersetzt -->
+                        <tr>
+                            <td>1</td>
+                            <td>Max Mustermann</td>
+                            <td>max@example.com</td>
+                            <td><span class="role-badge role-user">user</span></td>
+                            <td>
+                                <select>
+                                    <option value="user" selected>user</option>
+                                    <option value="editor">editor</option>
+                                    <option value="admin">admin</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="btn-small">Speichern</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Erika Admin</td>
+                            <td>erika@example.com</td>
+                            <td><span class="role-badge role-admin">admin</span></td>
+                            <td>
+                                <select>
+                                    <option value="user">user</option>
+                                    <option value="editor">editor</option>
+                                    <option value="admin" selected>admin</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="btn-small">Speichern</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <section class="admin-info">
+                    <h2>Hinweis</h2>
+                    <p>
+                        Diese Seite ist nur für Administratoren gedacht.
+                        Vor dem Zugriff sollte geprüft werden, ob der aktuell eingeloggte Benutzer Admin-Rechte besitzt.
+                    </p>
+                </section>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li><a href="#">Adresse</a></li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
