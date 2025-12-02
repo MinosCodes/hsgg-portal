@@ -1,0 +1,72 @@
+/* Loginbereich in der Mitte des Inhaltsbereichs platzieren */
+#login-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 140px); /* Höhe minus Header+Footer, bei Bedarf anpassen */
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+/* Box-Stil an dein Farbschema angepasst */
+.login-box {
+    background: var(--color_01);
+    padding: 2em;
+    max-width: 340px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(35,108,147,0.2);
+}
+
+.login-box h1 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.login-box label {
+    display: block;
+    margin-top: 1em;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--color_05);
+    border-radius: 4px;
+    margin-top: 0.3em;
+    font-size: 1em;
+}
+
+.login-box .main-btn {
+    margin-top: 1.5em;
+    width: 100%;
+    background: var(--maincolor);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.7em;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.login-box .main-btn:hover {
+    background: var(--color_03);
+}
+
+/* etwas kompakter auf kleinen Screens */
+@media (max-width: 768px) {
+    #login-section {
+        padding-top: 1.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+
+    .login-box {
+        padding: 1.5em;
+    }
+}

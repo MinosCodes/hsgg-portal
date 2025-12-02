@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HSGG - Login</title>
+    <link href="grundgeruest/grundgeruest.css" rel="stylesheet"/>
+    <link href="login.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div id="page">
+
+    <!-- Sidebar wie auf der Homepage (kannst du bei Bedarf füllen oder leer lassen) -->
+    <aside id="sidebar" class="hidden">
+        <div id="sidebar-close-overlay">
+            <button id="sidebar-close-button" aria-label="Navigation schließen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
+                <!-- Wenn du beim Login keine Jahrgänge brauchst, kannst du diese Liste auch leer lassen -->
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="content">
+        <!-- Header 1:1 aus homepage.html übernommen -->
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+        </header>
+
+        <!-- Inhalt mit Wrapper wie auf der Homepage -->
+        <main id="main-content" class="content-wrapper">
+            <section id="login-section">
+                <div class="login-box">
+                    <h1>Anmelden</h1>
+                    <form>
+                        <label for="user">Benutzername</label>
+                        <input id="user" name="user" type="text" required>
+
+                        <label for="password">Passwort</label>
+                        <input id="password" name="password" type="password" required>
+
+                        <button type="submit" class="main-btn">Login</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer 1:1 wie auf der Homepage -->
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li><a href="#">Adresse</a></li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
+</div>
+
+<script src="homepage.js"></script>
+</body>
+</html>
