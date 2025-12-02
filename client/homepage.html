@@ -8,7 +8,18 @@
 </head>
 <body>
 <div id="page">
-    <div id="sidebar" class="show">
+
+    <!-- Sidebar (nimmt Platz ein, wenn .show, sonst .hidden) -->
+    <aside id="sidebar" class="hidden">
+        <!-- Button B in der Navbar: schließt Sidebar -->
+        <div id="sidebar-close-overlay">
+            <button id="sidebar-close-button" aria-label="Navigation schließen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
@@ -20,6 +31,7 @@
                         <li><a href="content.html?jahr=5&amp;fach=biologie">Biologie</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="6">
                     <a href="#" class="year-link">Jahr 6</a>
                     <ul class="year-subjects hidden">
@@ -32,6 +44,7 @@
                         <li><a href="content.html?jahr=6&amp;fach=physik">Physik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="7">
                     <a href="#" class="year-link">Jahr 7</a>
                     <ul class="year-subjects hidden">
@@ -46,6 +59,7 @@
                         <li><a href="content.html?jahr=7&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="8">
                     <a href="#" class="year-link">Jahr 8</a>
                     <ul class="year-subjects hidden">
@@ -60,6 +74,7 @@
                         <li><a href="content.html?jahr=8&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="9">
                     <a href="#" class="year-link">Jahr 9</a>
                     <ul class="year-subjects hidden">
@@ -74,6 +89,7 @@
                         <li><a href="content.html?jahr=9&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="10">
                     <a href="#" class="year-link">Jahr 10</a>
                     <ul class="year-subjects hidden">
@@ -90,34 +106,44 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </aside>
+
     <div id="content">
-        <header id="header-content">Horst-Schlaemmer-Gedaechtnis-Gymnasium</header>
+        <!-- Header mit Button A (öffnet Sidebar) -->
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+        </header>
 
         <main id="main-content">
-            <div id="top-welcome">
+            <section id="top-welcome">
                 <div>
                     <h1>Willkommen auf der Website des HSGG</h1>
-                    <p>Auf der linken Seite können Sie einen Jahrgang auswählen um das unterichtsbegleitendes
-                        Lernmaterial
-                        für diesen auf zu rufen.</p>
-                    <p>Aktuelle Infos finden sie direkt hier drunter.</p>
+                    <p>Auf der linken Seite können Sie einen Jahrgang auswählen, um das unterrichtsbegleitende
+                        Lernmaterial für diesen aufzurufen.</p>
+                    <p>Aktuelle Infos finden Sie direkt hier drunter.</p>
                 </div>
-                <img src="Logo_A4B.jpg" width="493" height="548">
-            </div>
-            <div id="aktuelles">
+                <img src="Logo_A4B.jpg" width="493" height="548" alt="Schullogo">
+            </section>
+
+            <section id="aktuelles">
                 <h2>Aktuelles</h2>
-                <div class="mitteilung">
-                    <h3>Lernmaterial für 5. Klassen nun Online Abrufbar</h3>
-                    <p class="datum">32.13.9999</p>
-                    <p>Es gibt nun eine Website für die Schule auf der aktuelle Infos und Lernmaterial für die 5.
-                        Klassen
-                        abgerufen werden kann.</p>
+                <article class="mitteilung">
+                    <h3>Lernmaterial für 5. Klassen nun online abrufbar</h3>
+                    <p class="datum">23.12.2009</p>
+                    <p>Es gibt nun eine Website für die Schule, auf der aktuelle Infos und Lernmaterial für die
+                        5. Klassen abgerufen werden kann.</p>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis modi fuga ipsam autem similique
-                        officia deserunt obcaecati id. Perspiciatis in voluptatum officia atque fugiat repellendus quod
-                        consequuntur. Maxime, perspiciatis quam?</p>
-                </div>
-            </div>
+                        officia deserunt obcaecati id. Perspiciatis in voluptatum officia atque fugiat repellendus
+                        quod consequuntur.</p>
+                </article>
+            </section>
         </main>
 
         <footer id="footer-content" class="border-separation">
@@ -129,16 +155,6 @@
         </footer>
     </div>
 </div>
-
-<!-- Hamburger button -->
-<div id="button-overlay">
-    <button id="sidebar-toggle-button">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-</div>
-
 
 <script src="homepage.js"></script>
 </body>

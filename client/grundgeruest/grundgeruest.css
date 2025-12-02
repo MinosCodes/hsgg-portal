@@ -31,14 +31,6 @@
     --shat_15: #6497B3;
     --shat_16: #B1CBD9;
 
-
-    /**
- Die Farbtöne schwarz und weiß bilden die Basis jeder Anwendung
- Sie können flächig als Hintergrundfarbe oder in der Typografie eingesetzt werden
- Blau(maincolor) wird ausschließlich als Auszeichnungsfarbe ergänzt und niemals vollflächig verwendet
- Weitere, nicht definierte Farben dürfen nur innerhalb eines Übungsblattes verwendet werden
-  */
-
     /*Fonts*/
     --font-verdana: 'Verdana', sans-serif;
     --font-aptos: 'Aptos', sans-serif;
@@ -56,7 +48,6 @@
     --Bildunterschrift-klein: 5pt;
     --Bildunterschrift-mittel: 6pt;
     --Bildunterschrift-groß: 7pt;
-
 }
 
 body {
@@ -66,6 +57,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Gesamtlayout */
 #page {
     display: flex;
     flex-direction: row;
@@ -73,44 +65,50 @@ body {
     width: 100%;
 }
 
+/* Sidebar mit dynamischer Breite (Desktop) */
 #sidebar {
     overflow: hidden;
     display: flex;
     justify-content: center;
-    max-width: 15vw;
-    min-width: 15vw;
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
-}
-
-#sidebar.show {
-    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
+    transition: width 0.3s ease;
+    width: 0;
 }
 
 #sidebar.hidden {
-    max-width: 0;
-    min-width: 0;
+    width: 0;
     border-right-width: 0;
-    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
 }
 
+#sidebar.show {
+    width: auto;
+    min-width: 180px;
+    max-width: 260px;
+    border-right-width: 2px;
+}
+
+/* Inhalt rechts füllt Rest */
 #content {
+    flex-grow: 1;
     display: grid;
     grid-template-rows: 100px auto 60px;
-    flex-grow: 1;
 }
 
+/* Header oben, mit Button innen links */
 #header-content {
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: center;
     color: var(--weiss);
     font-family: var(--font-verdana);
     font-weight: bold;
     font-size: var(--Überschrift-05);
     background-color: var(--maincolor);
-    padding-right: 30px;
+    padding: 10px 30px;
+    padding-left: 60px;      /* Platz für Header-Button links */
+    position: relative;      /* Bezugspunkt für #button-overlay */
 }
 
 p {
@@ -124,10 +122,12 @@ p {
 #sidebar-menu:first-child {
     padding-top: 20px;
 }
+
 #sidebar-menu ul {
     padding-left: 0px;
     padding-right: 20px;
 }
+
 #sidebar-menu li {
     list-style: none;
     padding-top: 5px;
@@ -147,7 +147,7 @@ p {
     text-decoration: underline;
 }
 
-/* Fächerlisten pro Jahr im Sidebar (Grundgerüst) */
+/* Fächerlisten pro Jahr */
 .year-item {
     padding-bottom: 0.2em;
 }
@@ -190,7 +190,7 @@ p {
     text-decoration: underline;
 }
 
-/* Footer and separators - KEEP ORIGINAL LAYOUT */
+/* Footer and separators */
 #footer-content {
     font-family: var(--font-verdana);
     color: var(--schwarz);
@@ -232,7 +232,7 @@ p {
     text-decoration: underline;
 }
 
-/* Hamburger button */
+/* Header-Button A – Hamburger in weiß */
 #button-overlay {
     position: absolute;
     top: 10px;
@@ -245,35 +245,74 @@ p {
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
-    height: 25px;
+    height: 30px;      /* gleiche Größe wie Navbar-Button */
     background: transparent;
     border: none;
+    padding: 0;
+    box-sizing: content-box;
     cursor: pointer;
 }
 
+/* eingeklappt weißer Hamburger */
 #sidebar-toggle-button span {
     display: block;
     height: 3px;
     width: 100%;
-    background-color: var(--maincolor);
+    background-color: var(--weiss);
     border-radius: 2px;
     transition: all 0.3s ease;
 }
 
-#sidebar-toggle-button.active span{
-    background-color: var(--weiss);
-}
-
-/* Hamburger animation to X */
+/* Hamburger -> X (falls active genutzt wird) */
 #sidebar-toggle-button.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
 }
-
 #sidebar-toggle-button.active span:nth-child(2) {
     opacity: 0;
 }
-
 #sidebar-toggle-button.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Navbar-Button B – X in maincolor */
+#sidebar-close-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    display: none;           /* wird per JS ein-/ausgeblendet */
+}
+
+#sidebar-close-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;      /* gleiche Größe wie Header-Button */
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+}
+
+#sidebar-close-button span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--maincolor); /* Hauptfarbe in der offenen Navbar */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Als X darstellen */
+#sidebar-close-button span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+#sidebar-close-button span:nth-child(2) {
+    opacity: 0;
+}
+#sidebar-close-button span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
@@ -283,20 +322,7 @@ p {
         flex-direction: column;
     }
 
-    #sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        width: 70%;
-    }
-
-    #sidebar.show {
-        transform: translateX(0);
-    }
-
-    #sidebar.hidden {
-        transform: translateX(-100%);
-    }
-
+    /* mobil Overlay-Sidebar */
     #sidebar {
         position: fixed;
         top: 0;
@@ -304,7 +330,6 @@ p {
         height: 100%;
         width: 70%;
         max-width: none;
-        min-width: auto;
         border-right: none;
         border-bottom: 2px solid var(--schwarz);
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
@@ -330,25 +355,5 @@ p {
         text-align: center;
         justify-content: center;
         padding-right: 10px;
-    }
-
-    #sidebar-menu ul {
-        flex-direction: column;
-        gap: 0.5em;
-        padding: 0.5em;
-    }
-
-    .border-separation ul {
-        flex-direction: row; /* keep horizontal footer on mobile as well */
-        justify-content: right;
-    }
-
-    .border-separation li {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
-    #footer-content a {
-        font-size: calc(var(--Überschrift-01) * 0.9);
     }
 }

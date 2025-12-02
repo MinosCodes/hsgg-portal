@@ -1,28 +1,33 @@
 #top-welcome {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 20em;
-  gap: 1em;
-  align-items: center;
-  flex-wrap: wrap;
-
-  > div {
-    padding: 1em;
-    flex: 1 1 320px;
-  }
-
-  > img {
-    flex: 1 1 280px;
-    object-fit: contain;
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    max-width: 350px;
-    height: auto;
-    padding: 1em;
-  }
+    min-height: 20em;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2.5rem; /* NEU: Inhalt unter die Navbar schieben */
+
+    > div {
+        padding: 1em;
+        flex: 1 1 320px;
+    }
+
+    > img {
+        flex: 1 1 280px;
+        object-fit: contain;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        padding: 1em;
+    }
 }
 
+/* optional: zusätzlicher Abstand über der H1,
+   falls der Titel noch etwas tiefer sitzen soll */
 #main-content {
+    padding-top: 0.5rem; /* NEU: feine Korrektur */
+
     h1 {
         font-size: var(--Überschrift-03);
         font-family: var(--font-verdana);
@@ -32,7 +37,7 @@
 }
 
 #aktuelles {
-  padding: 1em;
+    padding: 1em;
 
     h2 {
         font-size: var(--Überschrift-03);
@@ -40,95 +45,96 @@
         color: var(--maincolor);
     }
 
-  > .mitteilung {
-    h3 {
-      margin: 0px;
-      padding: 0px;
-      text-decoration: underline;
-        font-family: var(--font-verdana);
-        font-size: var(--Überschrift-02);
-        color: var(--shat_03);
+    > .mitteilung {
+        h3 {
+            margin: 0px;
+            padding: 0px;
+            text-decoration: underline;
+            font-family: var(--font-verdana);
+            font-size: var(--Überschrift-02);
+            color: var(--shat_03);
+        }
+        > .datum {
+            margin: 0px;
+            padding: 0px;
+        }
     }
-    > .datum {
-      margin: 0px;
-      padding: 0px;
-    }
-  }
 }
 
 /* Fächerlisten pro Jahr im Sidebar (Homepage) */
 .year-item {
-  padding-bottom: 0.2em;
+    padding-bottom: 0.2em;
 }
 
 .year-subjects {
-  margin-top: 0.3em;
-  padding-left: 0;
+    margin-top: 0.3em;
+    padding-left: 0;
 }
 
 .year-subjects li {
-  list-style: none;
-  margin: 0.15em 0;
-  padding: 0.2em 0.4em;
-  border-radius: 999px;
-  background-color: var(--shat_02);
+    list-style: none;
+    margin: 0.15em 0;
+    padding: 0.2em 0.4em;
+    border-radius: 999px;
+    background-color: var(--shat_02);
 }
 
 .year-subjects li:hover {
-  background-color: var(--shat_01);
+    background-color: var(--shat_01);
 }
 
 .year-subjects.hidden {
-  display: none;
+    display: none;
 }
 
 .year-subjects a {
-  display: block;
-  font-family: var(--font-aptos);
-  font-size: var(--Überschrift-01);
-  color: var(--color_06);
-  text-decoration: none;
+    display: block;
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    color: var(--color_06);
+    text-decoration: none;
 }
 
 .year-subjects a:hover {
-  color: var(--color_06);
+    color: var(--color_06);
 }
 
 .year-subjects a.active {
-  font-weight: bold;
-  text-decoration: underline;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 @media (max-width: 900px) {
-  #top-welcome {
-    flex-direction: column;
-    text-align: center;
+    #top-welcome {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 3rem; /* NEU: auf kleineren Screens etwas mehr Platz */
 
-    > div {
-      padding-bottom: 0;
+        > div {
+            padding-bottom: 0;
+        }
+
+        > img {
+            max-width: 280px;
+            margin: 0 auto 1em;
+        }
     }
 
-    > img {
-      max-width: 280px;
-      margin: 0 auto 1em;
+    #main-content {
+        padding: 1.5rem 1em 2em; /* NEU: oben mehr Abstand in Mobile */
     }
-  }
-
-  #main-content {
-    padding: 0 1em 2em;
-  }
 }
 
 @media (max-width: 600px) {
-  #top-welcome > div {
-    padding: 0.5em;
-  }
+    #top-welcome > div {
+        padding: 0.5em;
+    }
 
-  #aktuelles {
-    padding: 0.5em;
-  }
+    #aktuelles {
+        padding: 0.5em;
+    }
 
-  #aktuelles > .mitteilung {
-    padding: 0.5em 0;
-  }
+    #aktuelles > .mitteilung {
+        padding: 0.5em 0;
+    }
 }
