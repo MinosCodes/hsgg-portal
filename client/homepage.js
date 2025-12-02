@@ -1,31 +1,41 @@
-const toggleButton = document.getElementById('sidebar-toggle-button');
-const sidebar = document.getElementById('sidebar');
+const toggleButton    = document.getElementById('sidebar-toggle-button');   // Header-Button
+const sidebar         = document.getElementById('sidebar');
+const closeOverlay    = document.getElementById('sidebar-close-overlay');   // Wrapper für Navbar-Button
+const closeButton     = document.getElementById('sidebar-close-button');    // Navbar-Button
 
 const setInitialSidebarState = () => {
     if (window.innerWidth <= 768) {
         // Mobil: Sidebar standardmäßig eingeklappt (Overlay)
         sidebar.classList.add('hidden');
         sidebar.classList.remove('show');
-        toggleButton.classList.remove('active');
-        document.body.classList.remove('nav-open'); // NEU
+        toggleButton.style.display = 'block';
+        closeOverlay.style.display = 'none';
     } else {
         // Desktop: Sidebar standardmäßig ausgeklappt und schiebt Inhalt
         sidebar.classList.add('show');
         sidebar.classList.remove('hidden');
-        toggleButton.classList.remove('active');
-        document.body.classList.remove('nav-open'); // NEU
+        toggleButton.style.display = 'none';
+        closeOverlay.style.display = 'block';
     }
 };
 
 setInitialSidebarState();
 window.addEventListener('resize', setInitialSidebarState);
 
-// Sidebar ein-/ausklappen
+// Button A im Header: Sidebar öffnen
 toggleButton.addEventListener('click', () => {
-    toggleButton.classList.toggle('active');
-    sidebar.classList.toggle('show');
-    sidebar.classList.toggle('hidden');
-    document.body.classList.toggle('nav-open'); // NEU: steuert Button-Position
+    sidebar.classList.add('show');
+    sidebar.classList.remove('hidden');
+    toggleButton.style.display = 'none';
+    closeOverlay.style.display = 'block';
+});
+
+// Button B in Navbar: Sidebar schließen
+closeButton.addEventListener('click', () => {
+    sidebar.classList.add('hidden');
+    sidebar.classList.remove('show');
+    toggleButton.style.display = 'block';
+    closeOverlay.style.display = 'none';
 });
 
 // --- Jahrgangs-Fächer-Accordion ---
