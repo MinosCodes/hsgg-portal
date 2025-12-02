@@ -8,11 +8,13 @@
 </head>
 <body>
 <div id="page">
+    <!-- Sidebar -->
     <div id="sidebar" class="show">
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li><a href="../homepage.html">Home</a></li>
             </ul>
+
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
                     <a href="#" class="year-link">Jahr 5</a>
@@ -23,6 +25,7 @@
                         <li><a href="../content.html?jahr=5&amp;fach=biologie">Biologie</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="6">
                     <a href="#" class="year-link">Jahr 6</a>
                     <ul class="year-subjects hidden">
@@ -35,6 +38,7 @@
                         <li><a href="../content.html?jahr=6&amp;fach=physik">Physik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="7">
                     <a href="#" class="year-link">Jahr 7</a>
                     <ul class="year-subjects hidden">
@@ -49,6 +53,7 @@
                         <li><a href="../content.html?jahr=7&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="8">
                     <a href="#" class="year-link">Jahr 8</a>
                     <ul class="year-subjects hidden">
@@ -63,6 +68,7 @@
                         <li><a href="../content.html?jahr=8&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="9">
                     <a href="#" class="year-link">Jahr 9</a>
                     <ul class="year-subjects hidden">
@@ -77,6 +83,7 @@
                         <li><a href="../content.html?jahr=9&amp;fach=informatik">Informatik</a></li>
                     </ul>
                 </li>
+
                 <li class="year-item" data-year="10">
                     <a href="#" class="year-link">Jahr 10</a>
                     <ul class="year-subjects hidden">
@@ -94,9 +101,36 @@
             </ul>
         </nav>
     </div>
+
+    <!-- rechter Bereich -->
     <div id="content">
-        <header id="header-content">Horst-Schlaemmer-Gedaechtnis-Gymnasium</header>
-        <main id="main-content"></main>
+        <!-- Header inkl. Button-Overlay -->
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <div id="sidebar-close-overlay">
+                <button id="sidebar-close-button" aria-label="Navigation schließen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+        </header>
+
+        <!-- Inhalt mit Padding -->
+        <main id="main-content" class="content-wrapper">
+            <!-- wird von homepage.html / content.html befüllt -->
+        </main>
+
+        <!-- Footer -->
         <footer id="footer-content" class="border-separation">
             <ul>
                 <li><a href="#">Adresse</a></li>
@@ -105,15 +139,6 @@
             </ul>
         </footer>
     </div>
-</div>
-
-<!-- Hamburger button -->
-<div id="button-overlay">
-    <button id="sidebar-toggle-button">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
 </div>
 
 <script src="grundgeruest.js"></script>
