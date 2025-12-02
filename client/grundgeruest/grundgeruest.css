@@ -329,6 +329,16 @@ p {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* Overlay soll Klicks nicht blockieren, nur der Button selbst */
+#sidebar-close-overlay {
+    pointer-events: none;
+}
+
+#sidebar-close-button {
+    pointer-events: auto;
+}
+
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     #page {
