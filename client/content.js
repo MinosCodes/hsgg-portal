@@ -46,6 +46,11 @@ const closeAllYearSubjects = () => {
 const attachYearToggles = () => {
     document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
         link.addEventListener('click', (event) => {
+            // Home-Link NICHT abfangen, normale Navigation erlauben
+            if (link.closest('.home-item')) {
+                return;
+            }
+
             event.preventDefault();
             const container = link.closest('.year-item');
             if (!container) return;

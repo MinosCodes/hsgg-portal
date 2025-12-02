@@ -1,161 +1,123 @@
 .invisible {
-  visibility: hidden;
+    visibility: hidden;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 1em;
+/* Hauptbereich der Content-Seite */
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1em; /* zusätzlicher Innenabstand im Lernmaterial-Bereich */
 }
 
-.year-item {
-  padding-bottom: 0.2em;
-}
-
-.year-subjects {
-  margin-top: 0.3em;
-  padding-left: 0;
-}
-
-.year-subjects li {
-  list-style: none;
-  margin: 0.15em 0;
-  padding: 0.2em 0.4em;
-  border-radius: 999px;
-  background-color: var(--shat_02);
-}
-
-.year-subjects li:hover {
-  background-color: var(--shat_01);
-}
-
-.year-subjects.hidden {
-  display: none;
-}
-
-.year-subjects a {
-  display: block;
-  font-family: var(--font-aptos);
-  font-size: var(--Überschrift-01);
-  color: var(--color_06);
-  text-decoration: none;
-}
-
-.year-subjects a:hover {
-  color: var(--color_06);
-}
-
-.year-subjects a.active {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
+/* Liste der Beispiele links */
 #content-list {
-  width: fit-content;
-  min-width: 220px;
-  margin-right: 0;
-  li,
-  a {
+    width: fit-content;
+    min-width: 220px;
+    margin-right: 0;
+}
+
+#content-list li,
+#content-list a {
     color: var(--color_06);
     font-family: var(--font-aptos);
     font-size: var(--Überschrift-01);
     line-height: 1.5;
-  }
 }
 
+/* Detailbereich mit Download und Vorschau rechts/unterhalb */
 #content-container {
-  flex-grow: 1;
-  padding: 0 2em;
-  min-width: 300px;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  div {
+    flex-grow: 1;
+    padding: 0 2em;
+    min-width: 0;          /* wichtig: darf schrumpfen, verhindert Überbreite */
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 1em;
+    flex-direction: column;
+    gap: 0.75em;
+}
 
-    #datei-name {
-      margin: 0;
-      color: var(--maincolor);
-      font-family: var(--font-aptos);
-      font-size: var(--Überschrift-02);
-    }
-  }
+#datei-name {
+    margin: 0;
+    color: var(--maincolor);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-02);
+}
 
-  #file-viewer {
-    width: 100%;
-    height: 65vh;
-    border: none;
-  }
-
-  a {
+#content-container a {
     color: var(--color_06);
     font-family: var(--font-aptos);
     font-size: var(--Überschrift-01);
     line-height: 1.2;
-  }
 }
 
+/* Download-Button */
 #download-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25em;
-  padding: 0.4em 0.8em;
-  border: 1px solid var(--maincolor);
-  border-radius: 999px;
-  text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+    display: block;              /* volle Zeilenbreite */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;      /* berücksichtigt Padding des Containers */
+    padding: 0.4em 0.8em;
+    border: 1px solid var(--maincolor);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #download-link:hover {
-  background-color: var(--maincolor);
-  color: var(--weiss);
+    background-color: var(--maincolor);
+    color: var(--weiss);
 }
 
-@media (max-width: 1000px) {
-  main {
-    flex-direction: column;
-    gap: 1.5em;
-  }
-
-  #content-list,
-  #content-container {
+/* Vorschau-Frame */
+#file-viewer {
     width: 100%;
-    min-width: auto;
-  }
+    max-width: 100%;   /* nicht breiter als der Container */
+    height: 65vh;
+    border: none;
+    display: block;
+}
 
-  #content-container {
-    padding: 0 1em;
-    border-left: none;
-    border-top: 1px solid var(--shat_03);
-  }
+/* Responsive Anpassungen */
+@media (max-width: 1000px) {
+    .content-wrapper {
+        flex-direction: column;
+        gap: 1.5em;
+        box-sizing: border-box; /* Padding in Breite einrechnen */
+        width: 100%;
+        max-width: 100%;
+    }
 
-  #content-container div {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
-  }
+    #content-list,
+    #content-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;          /* verhindert Überbreite */
+    }
 
-  #file-viewer {
-    height: 60vh;
-  }
+    #content-container {
+        padding: 0 1em;
+        border-left: none;
+        border-top: 1px solid var(--shat_03);
+    }
 }
 
 @media (max-width: 600px) {
-  main {
-    padding: 0.5em;
-  }
+    .content-wrapper {
+        padding: 0.5em;
+    }
 
-  #content-list li,
-  #content-list a,
-  #content-container a {
-    font-size: calc(var(--Überschrift-01) * 0.9);
-  }
+    #content-container {
+        padding: 0 0.5em;      /* etwas weniger Innenabstand auf sehr kleinen Screens */
+    }
 
-  #file-viewer {
-    height: 50vh;
-  }
+    #content-list li,
+    #content-list a,
+    #content-container a {
+        font-size: calc(var(--Überschrift-01) * 0.9);
+    }
+
+    #file-viewer {
+        height: 50vh;
+    }
 }

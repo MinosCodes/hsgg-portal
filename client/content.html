@@ -5,6 +5,7 @@
     <title>HSGG - Lernmaterial</title>
     <link href="grundgeruest/grundgeruest.css" rel="stylesheet">
     <link href="content.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div id="page">
@@ -20,6 +21,12 @@
         </div>
 
         <nav id="sidebar-menu">
+            <ul class="sidebar top">
+                <li class="year-item home-item">
+                    <a href="homepage.html" class="year-link">Home</a>
+                </li>
+            </ul>
+
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
                     <a href="#" class="year-link">Jahr 5</a>
@@ -115,14 +122,14 @@
             Horst-Schlaemmer-Gedaechtnis-Gymnasium
         </header>
 
-        <main id="main-content">
+        <main id="main-content" class="content-wrapper">
             <h2 id="context-heading"></h2>
+
             <ol id="content-list"></ol>
+
             <div id="content-container" class="invisible">
-                <div>
-                    <h3 id="datei-name"></h3>
-                    <a id="download-link" href="" download="">Download</a>
-                </div>
+                <h3 id="datei-name"></h3>
+                <a id="download-link" href="" download="">Download</a>
                 <iframe id="file-viewer" src=""></iframe>
             </div>
         </main>
