@@ -3,21 +3,32 @@ const sidebar = document.getElementById('sidebar');
 
 const setInitialSidebarState = () => {
     if (window.innerWidth <= 768) {
+        // Mobil: Sidebar standardmäßig eingeklappt (Overlay)
         sidebar.classList.add('hidden');
+        sidebar.classList.remove('show');
         toggleButton.classList.remove('active');
+        document.body.classList.remove('nav-open'); // NEU
     } else {
+        // Desktop: Sidebar standardmäßig ausgeklappt und schiebt Inhalt
+        sidebar.classList.add('show');
         sidebar.classList.remove('hidden');
         toggleButton.classList.remove('active');
+        document.body.classList.remove('nav-open'); // NEU
     }
 };
 
 setInitialSidebarState();
 window.addEventListener('resize', setInitialSidebarState);
 
+// Sidebar ein-/ausklappen
 toggleButton.addEventListener('click', () => {
     toggleButton.classList.toggle('active');
+    sidebar.classList.toggle('show');
     sidebar.classList.toggle('hidden');
+    document.body.classList.toggle('nav-open'); // NEU: steuert Button-Position
 });
+
+// --- Jahrgangs-Fächer-Accordion ---
 
 const closeAllYearSubjects = () => {
     document.querySelectorAll('#sidebar-menu .year-subjects').forEach(list => {
@@ -44,6 +55,7 @@ document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
     });
 });
 
+// Klick außerhalb der Jahrgangsliste schließt Unterlisten
 document.addEventListener('click', (event) => {
     const clickedInsideYearList = event.target.closest('#sidebar .year-item');
     if (!clickedInsideYearList) {
