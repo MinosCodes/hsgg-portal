@@ -75,23 +75,21 @@ body {
     overflow: hidden;
     display: flex;
     justify-content: center;
+    max-width: 15vw;
+    min-width: 15vw;
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
-    transition: width 0.3s ease;
-    width: 0;
-}
 
-#sidebar.hidden {
-    width: 0;
-    border-right-width: 0;
-}
-
-#sidebar.show {
-    width: auto;
-    min-width: 180px;
-    max-width: 260px;
-    border-right-width: 2px;
+    &.show {
+        transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
+    }
+    &.hidden {
+        max-width: 0;
+        min-width: 0;
+        border-right-width: 0;
+        transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
+    }
 }
 
 /* Inhalt rechts füllt Rest (global für alle Seiten) */
@@ -131,79 +129,106 @@ p {
     margin-bottom: 1em;
 }
 
-#sidebar-menu:first-child {
-    padding-top: 20px;
-}
+#sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-#sidebar-menu ul {
-    padding-left: 0px;
-    padding-right: 20px;
-}
+    & > ul {
+        padding-left: 0px;
+        padding-right: 20px;
+    }
+    & li {
+        list-style: none;
+    }
+    & a {
+        color: var(--color_06);
+        font-family: var(--font-aptos);
+        font-size: var(--Überschrift-02);
+        line-height: 2;
+        text-decoration: none;
 
-#sidebar-menu li {
-    list-style: none;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-#sidebar-menu a {
-    color: var(--color_06);
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-02);
-    line-height: 2;
-    text-decoration: none;
-    text-align: center;   /* Links zentriert */
-}
-
-/* Jahr-Links: zentriert + mehr Abstand */
-#sidebar-menu .year-link {
-    display: block;
-    margin-top: 0.8em;
+        &:hover {
+            color: var(--color_01);
+            text-decoration: underline;
+        }
+    }
 }
 
 /* Fächerlisten pro Jahr (Desktop-Basis) */
-.year-item {
-    padding-bottom: 0.2em;
+.sidebar {
+    padding: 0;
+    width: 100%;
+    align-items: stretch;
+    & > li > a:hover {
+        color: var(--weiss) !important;
+        background-color: var(--color_11);
+    }
+    & > .year-item {
+        &:has(.year-subjects:not(.hidden)):not(.year-link:hover) > .year-link{
+            background-color: var(--maincolor);
+            color: var(--weiss) !important;
+        }
+        & .year-link:hover {
+            color: var(--weiss) !important;
+            background-color: var(--color_11);
+        }
+    }
+
+    & > li {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        & > a {
+            padding: 4px 100%;
+            margin: 0 -100%;
+            display: block;
+        }
+    }
 }
 
 .year-subjects {
-    margin-top: 0.3em;
-    padding-left: 0;
-}
-
-.year-subjects li {
-    list-style: none;
-    margin: 0.15em auto;          /* Pills zentriert */
-    padding: 0.2em 0.4em;
-    border-radius: 999px;
-    background-color: var(--shat_02);
-    max-width: 220px;
-    width: 100%;
-}
-
-.year-subjects li:hover {
-    background-color: var(--shat_01);
-}
-
-.year-subjects.hidden {
-    display: none;
-}
-
-.year-subjects a {
     display: block;
-    font-family: var(--font-aptos);
-    font-size: var(--Überschrift-01);
-    color: var(--color_06);
-    text-decoration: none;
-}
+    padding: 10px 100%;
+    margin: 0 -100%;
+    background-color: var(--shat_02);
 
-.year-subjects a:hover {
-    color: var(--color_06);
-}
+    & li {
+        text-align: center;
+        list-style: none;
+        margin: 0.15em 0;
+        padding: 0.2em 0.4em;
+        border-radius: 999px;
+        background-color: var(--shat_02);
 
-.year-subjects a.active {
-    font-weight: bold;
-    text-decoration: underline;
+        &:hover {
+            background-color: var(--shat_01);
+        }
+    }
+
+    & a {
+        display: block;
+        font-family: var(--font-aptos);
+        font-size: var(--Überschrift-01);
+        color: var(--color_06);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--weiss) !important;
+        }
+
+        &.active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+
+    &.hidden {
+        display: none;
+    }
 }
 
 /* Footer and separators */
