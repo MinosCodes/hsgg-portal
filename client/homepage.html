@@ -12,15 +12,6 @@
 
     <!-- Sidebar (nimmt Platz ein, wenn .show, sonst .hidden) -->
     <aside id="sidebar" class="hidden">
-        <!-- Button B in der Navbar: schließt Sidebar -->
-        <div id="sidebar-close-overlay">
-            <button id="sidebar-close-button" aria-label="Navigation schließen">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
@@ -112,13 +103,6 @@
     <div id="content">
         <!-- Header mit Button A (öffnet Sidebar) -->
         <header id="header-content">
-            <div id="button-overlay">
-                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
             Horst-Schlaemmer-Gedaechtnis-Gymnasium
         </header>
 
@@ -155,6 +139,13 @@
                 <li><a href="mailto:">Email</a></li>
             </ul>
         </footer>
+    </div>
+    <div id="button-overlay">
+        <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </div>
 

@@ -64,6 +64,7 @@ body {
 
 /* Gesamtlayout */
 #page {
+    position: relative;
     display: flex;
     flex-direction: row;
     min-height: 100vh;
@@ -160,6 +161,10 @@ p {
     padding: 0;
     width: 100%;
     align-items: stretch;
+    &:first-child {
+        margin-top: 40px;
+    }
+
     & > li > a:hover {
         color: var(--weiss) !important;
         background-color: var(--color_11);
@@ -282,6 +287,7 @@ p {
 }
 
 #sidebar-toggle-button {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -298,70 +304,72 @@ p {
     display: block;
     height: 3px;
     width: 100%;
-    background-color: var(--weiss);
+    background-color: var(--maincolor);
     border-radius: 2px;
     transition: all 0.3s ease;
 }
 
 #sidebar-toggle-button.active span:nth-child(1) {
+    background-color: var(--weiss) !important;
     transform: rotate(45deg) translate(7px, 7px);
 }
 #sidebar-toggle-button.active span:nth-child(2) {
     opacity: 0;
 }
 #sidebar-toggle-button.active span:nth-child(3) {
+    background-color: var(--weiss) !important;
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Navbar-Button B – X in maincolor */
-#sidebar-close-overlay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1001;
-    display: none;
-}
+/*!* Navbar-Button B – X in maincolor *!*/
+/*#sidebar-close-overlay {*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    left: 10px;*/
+/*    z-index: 1001;*/
+/*    display: none;*/
+/*}*/
 
-#sidebar-close-button {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    padding: 0;
-    box-sizing: content-box;
-    cursor: pointer;
-}
+/*#sidebar-close-button {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-around;*/
+/*    width: 30px;*/
+/*    height: 30px;*/
+/*    background: transparent;*/
+/*    border: none;*/
+/*    padding: 0;*/
+/*    box-sizing: content-box;*/
+/*    cursor: pointer;*/
+/*}*/
 
-#sidebar-close-button span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: var(--maincolor);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
+/*#sidebar-close-button span {*/
+/*    display: block;*/
+/*    height: 3px;*/
+/*    width: 100%;*/
+/*    background-color: var(--maincolor);*/
+/*    border-radius: 2px;*/
+/*    transition: all 0.3s ease;*/
+/*}*/
 
-#sidebar-close-button span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-#sidebar-close-button span:nth-child(2) {
-    opacity: 0;
-}
-#sidebar-close-button span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
+/*#sidebar-close-button span:nth-child(1) {*/
+/*    transform: rotate(45deg) translate(7px, 7px);*/
+/*}*/
+/*#sidebar-close-button span:nth-child(2) {*/
+/*    opacity: 0;*/
+/*}*/
+/*#sidebar-close-button span:nth-child(3) {*/
+/*    transform: rotate(-45deg) translate(7px, -7px);*/
+/*}*/
 
-/* Overlay soll Klicks nicht blockieren, nur der Button selbst */
-#sidebar-close-overlay {
-    pointer-events: none;
-}
+/*!* Overlay soll Klicks nicht blockieren, nur der Button selbst *!*/
+/*#sidebar-close-overlay {*/
+/*    pointer-events: none;*/
+/*}*/
 
-#sidebar-close-button {
-    pointer-events: auto;
-}
+/*#sidebar-close-button {*/
+/*    pointer-events: auto;*/
+/*}*/
 
 
 /* Mobile responsive adjustments */
