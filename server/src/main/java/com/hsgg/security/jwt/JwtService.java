@@ -19,9 +19,9 @@ public class JwtService {
 		this.algorithm = Algorithm.HMAC256(secret);
 	}
 
-	public String generateToken(String username, String role) {
+	public String generateToken(Long userId, String role) {
 		return JWT.create()
-				.withSubject(username)
+				.withSubject(userId.toString())
 				.withClaim("role", role)
 				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_MS))
 				.sign(algorithm);

@@ -43,11 +43,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		try {
 			DecodedJWT jwt = jwtService.verifyToken(token);
 
-			String username = jwt.getSubject();
+			Long userId = Long.valueOf(jwt.getSubject());
 			String role = jwt.getClaim("role").asString();
 
 			var authToken = new UsernamePasswordAuthenticationToken(
-					username,
+					userId,
 					null,
 					List.of(new SimpleGrantedAuthority("ROLE_" + role))
 			);
@@ -57,7 +57,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			);
 
 			SecurityContextHolder.getContext().setAuthentication(authToken);
-
 		} catch (Exception _) {
 		}
 

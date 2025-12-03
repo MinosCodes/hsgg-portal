@@ -32,8 +32,7 @@ public class AuthService {
 			return ResponseEntity.status(401).body("Invalid credentials");
 		}
 
-		String token = jwtService.generateToken(user.getUsername(), user.getRole().toString());
-
+		String token = jwtService.generateToken(user.getId(), user.getRole().toString());
 		return ResponseEntity.ok(
 				new AuthResponseDto(
 						token,
@@ -52,7 +51,7 @@ public class AuthService {
 		User user = toStudent(request);
 		userRepository.save(user);
 
-		String token = jwtService.generateToken(user.getUsername(), user.getRole().toString());
+		String token = jwtService.generateToken(user.getId(), user.getRole().toString());
 
 		return ResponseEntity.ok(
 				new AuthResponseDto(
