@@ -2,6 +2,9 @@ package com.hsgg.features.subjects;
 
 import com.hsgg.app.exceptions.NotFoundException;
 import com.hsgg.features.search.SearchResultDto;
+import com.hsgg.features.subjects.dtos.CreateSubjectDto;
+import com.hsgg.features.subjects.dtos.SubjectDto;
+import com.hsgg.features.subjects.dtos.UpdateSubjectRequest;
 import com.hsgg.features.topics.TopicRepository;
 import com.hsgg.features.topics.TopicSummaryDto;
 import org.springframework.stereotype.Service;
@@ -56,5 +59,28 @@ public class SubjectService {
 						null
 				))
 				.toList();
+	}
+
+	public void create(CreateSubjectDto request) {
+		Subject subject = new Subject();
+		subject.setName(request.name());
+		subject.setDescription(request.description());
+		subjectRepository.save(subject);
+	}
+
+	public void update(Long id, UpdateSubjectRequest request) {
+		Subject subject = subjectRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Subject not found"));
+
+		request.newName().ifPresent(subject::setName);
+		request.newDescription().ifPresent(subject::setDescription);
+		subjectRepository.save(subject);
+	}
+
+	public void delete(Long id) {
+		Subject subject = subjectRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Subject not found"));
+
+		subjectRepository.delete(subject);
 	}
 }

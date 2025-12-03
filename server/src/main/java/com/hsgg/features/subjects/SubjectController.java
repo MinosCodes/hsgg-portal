@@ -1,12 +1,15 @@
 package com.hsgg.features.subjects;
 
+import com.hsgg.features.subjects.dtos.CreateSubjectDto;
+import com.hsgg.features.subjects.dtos.SubjectDto;
+import com.hsgg.features.subjects.dtos.UpdateSubjectRequest;
 import com.hsgg.features.topics.TopicSummaryDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/subjects")
@@ -30,21 +33,22 @@ public class SubjectController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
-	public ResponseEntity<?> create(@RequestBody SubjectRequest req) {
-		return ResponseEntity.status(201).body(subjectService.create(req).getId());
+	public ResponseEntity<?> create(@RequestBody CreateSubjectDto req) {
+		subjectService.create(req);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{subjectId}")
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
-	public ResponseEntity<?> update(@PathVariable Long subjectId, @RequestBody SubjectRequest req) {
+	public ResponseEntity<?> update(@PathVariable Long subjectId, @RequestBody UpdateSubjectRequest req) {
 		subjectService.update(subjectId, req);
-		return ResponseEntity.ok(Map.of("message", "updated"));
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{subjectId}")
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable Long subjectId) {
 		subjectService.delete(subjectId);
-		return ResponseEntity.ok(Map.of("message", "deleted"));
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
