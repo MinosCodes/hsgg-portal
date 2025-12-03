@@ -287,17 +287,25 @@ p {
 }
 
 #sidebar-toggle-button {
-    position: absolute;
+    background-color: var(--weiss);
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
     height: 30px;
-    background: transparent;
+    padding: 10px;
     border: none;
-    padding: 0;
+    border-radius: 30px;
     box-sizing: content-box;
     cursor: pointer;
+
+    transition: background-color 0.3s ease;
+
+    &.active {
+       background-color: var(--maincolor);
+       transition: background-color 0.3s ease;
+   }
 }
 
 #sidebar-toggle-button span {
@@ -400,11 +408,18 @@ p {
         white-space: nowrap;
     }
 
+    /* Fix for the Mobile view Automatically toggling the Sidebar */
     #sidebar-toggle-button span {
         background-color: var(--weiss) !important;
     }
     #sidebar-toggle-button.active span {
         background-color: var(--maincolor) !important;
+    }
+    #sidebar-toggle-button {
+        background-color: var(--maincolor) !important;
+    }
+    #sidebar-toggle-button.active {
+        background-color: var(--weiss) !important;
     }
 }
 
