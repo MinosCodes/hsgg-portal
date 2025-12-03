@@ -162,7 +162,7 @@ p {
     width: 100%;
     align-items: stretch;
     &:first-child {
-        margin-top: 40px;
+        margin-top: 60px;
     }
 
     & > li > a:hover {
