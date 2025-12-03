@@ -310,67 +310,16 @@ p {
 }
 
 #sidebar-toggle-button.active span:nth-child(1) {
-    background-color: var(--weiss) !important;
+    background-color: var(--weiss);
     transform: rotate(45deg) translate(7px, 7px);
 }
 #sidebar-toggle-button.active span:nth-child(2) {
     opacity: 0;
 }
 #sidebar-toggle-button.active span:nth-child(3) {
-    background-color: var(--weiss) !important;
+    background-color: var(--weiss);
     transform: rotate(-45deg) translate(7px, -7px);
 }
-
-/*!* Navbar-Button B – X in maincolor *!*/
-/*#sidebar-close-overlay {*/
-/*    position: absolute;*/
-/*    top: 10px;*/
-/*    left: 10px;*/
-/*    z-index: 1001;*/
-/*    display: none;*/
-/*}*/
-
-/*#sidebar-close-button {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-around;*/
-/*    width: 30px;*/
-/*    height: 30px;*/
-/*    background: transparent;*/
-/*    border: none;*/
-/*    padding: 0;*/
-/*    box-sizing: content-box;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*#sidebar-close-button span {*/
-/*    display: block;*/
-/*    height: 3px;*/
-/*    width: 100%;*/
-/*    background-color: var(--maincolor);*/
-/*    border-radius: 2px;*/
-/*    transition: all 0.3s ease;*/
-/*}*/
-
-/*#sidebar-close-button span:nth-child(1) {*/
-/*    transform: rotate(45deg) translate(7px, 7px);*/
-/*}*/
-/*#sidebar-close-button span:nth-child(2) {*/
-/*    opacity: 0;*/
-/*}*/
-/*#sidebar-close-button span:nth-child(3) {*/
-/*    transform: rotate(-45deg) translate(7px, -7px);*/
-/*}*/
-
-/*!* Overlay soll Klicks nicht blockieren, nur der Button selbst *!*/
-/*#sidebar-close-overlay {*/
-/*    pointer-events: none;*/
-/*}*/
-
-/*#sidebar-close-button {*/
-/*    pointer-events: auto;*/
-/*}*/
-
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
@@ -452,6 +401,13 @@ p {
         font-size: 0.9rem;
         padding: 0.25em 0.8em;
         white-space: nowrap;
+    }
+
+    #sidebar-toggle-button span {
+        background-color: var(--weiss) !important;
+    }
+    #sidebar-toggle-button.active span {
+        background-color: var(--maincolor) !important;
     }
 }
 
