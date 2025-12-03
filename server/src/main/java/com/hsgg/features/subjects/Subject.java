@@ -27,7 +27,7 @@ public class Subject {
 
 	private String description;
 
-	@OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Topic> topics;
 
 	@CreatedDate

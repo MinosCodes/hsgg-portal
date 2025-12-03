@@ -32,11 +32,11 @@ public class Topic {
 	private String title;
 
 	private String description;
-	
-	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ContentBlock> blocks;
 
-	@OneToMany(mappedBy = "topic")
+	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileEntity> files;
 
 	@CreatedDate
