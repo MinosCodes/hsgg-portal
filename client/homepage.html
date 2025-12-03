@@ -12,15 +12,6 @@
 
     <!-- Sidebar (nimmt Platz ein, wenn .show, sonst .hidden) -->
     <aside id="sidebar" class="hidden">
-        <!-- Button B in der Navbar: schließt Sidebar -->
-        <div id="sidebar-close-overlay">
-            <button id="sidebar-close-button" aria-label="Navigation schließen">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
@@ -112,13 +103,6 @@
     <div id="content">
         <!-- Header mit Button A (öffnet Sidebar) -->
         <header id="header-content">
-            <div id="button-overlay">
-                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
             Horst-Schlaemmer-Gedaechtnis-Gymnasium
         </header>
 
@@ -133,19 +117,6 @@
                 </div>
                 <img src="Logo_A4B.jpg" width="493" height="548" alt="Schullogo">
             </section>
-
-            <section id="aktuelles">
-                <h2>Aktuelles</h2>
-                <article class="mitteilung">
-                    <h3>Lernmaterial für 5. Klassen nun online abrufbar</h3>
-                    <p class="datum">23.12.2009</p>
-                    <p>Es gibt nun eine Website für die Schule, auf der aktuelle Infos und Lernmaterial für die
-                        5. Klassen abgerufen werden kann.</p>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis modi fuga ipsam autem similique
-                        officia deserunt obcaecati id. Perspiciatis in voluptatum officia atque fugiat repellendus
-                        quod consequuntur.</p>
-                </article>
-            </section>
         </main>
 
         <footer id="footer-content" class="border-separation">
@@ -155,6 +126,13 @@
                 <li><a href="mailto:">Email</a></li>
             </ul>
         </footer>
+    </div>
+    <div id="button-overlay">
+        <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </div>
 

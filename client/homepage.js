@@ -1,42 +1,35 @@
 const toggleButton    = document.getElementById('sidebar-toggle-button');   // Header-Button
 const sidebar         = document.getElementById('sidebar');
-const closeOverlay    = document.getElementById('sidebar-close-overlay');   // Wrapper für Navbar-Button
-const closeButton     = document.getElementById('sidebar-close-button');    // Navbar-Button
+
 
 const setInitialSidebarState = () => {
     if (window.innerWidth <= 768) {
         // Mobil: Sidebar standardmäßig eingeklappt (Overlay)
         sidebar.classList.add('hidden');
         sidebar.classList.remove('show');
-        toggleButton.style.display = 'block';
-        closeOverlay.style.display = 'none';
     } else {
         // Desktop: Sidebar standardmäßig ausgeklappt und schiebt Inhalt
         sidebar.classList.add('show');
         sidebar.classList.remove('hidden');
-        toggleButton.style.display = 'none';
-        closeOverlay.style.display = 'block';
     }
 };
 
 setInitialSidebarState();
 window.addEventListener('resize', setInitialSidebarState);
 
-// Button A im Header: Sidebar öffnen
+// Button im Overlay
 toggleButton.addEventListener('click', () => {
-    sidebar.classList.add('show');
-    sidebar.classList.remove('hidden');
-    toggleButton.style.display = 'none';
-    closeOverlay.style.display = 'block';
+    if(sidebar.classList.contains('show')){
+        toggleButton.classList.toggle('active');
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('show');
+    } else {
+        toggleButton.classList.toggle('active');
+        sidebar.classList.add('show');
+        sidebar.classList.remove('hidden');
+    }
 });
 
-// Button B in Navbar: Sidebar schließen
-closeButton.addEventListener('click', () => {
-    sidebar.classList.add('hidden');
-    sidebar.classList.remove('show');
-    toggleButton.style.display = 'block';
-    closeOverlay.style.display = 'none';
-});
 
 // --- Jahrgangs-Fächer-Accordion ---
 
