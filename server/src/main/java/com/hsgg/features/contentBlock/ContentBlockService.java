@@ -1,6 +1,7 @@
 package com.hsgg.features.contentBlock;
 
 import com.hsgg.app.exceptions.NotFoundException;
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
 import com.hsgg.features.contentBlock.dtos.textBlock.CreateTextBlockRequest;
 import com.hsgg.features.contentBlock.dtos.textBlock.UpdateTextBlockRequest;
 import com.hsgg.features.search.SearchResultDto;
@@ -33,6 +34,21 @@ public class ContentBlockService {
 						b.getId()
 				))
 				.toList();
+	}
+
+	public ContentBlockDto get(Long id) {
+		ContentBlock b = contentBlockRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Content block not found: " + id));
+
+		return new ContentBlockDto(
+				b.getId(),
+				b.getType().name(),
+				b.getTitle(),
+				b.getPosition(),
+				b.getText(),
+				b.getReferenceTopic() != null ? b.getReferenceTopic().getId() : null,
+				b.getFile() != null ? "/api/files/" + b.getFile().getId() + "/download" : null
+		);
 	}
 
 	public void createText(CreateTextBlockRequest req) throws BadRequestException {

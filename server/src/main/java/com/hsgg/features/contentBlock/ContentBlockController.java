@@ -1,5 +1,6 @@
 package com.hsgg.features.contentBlock;
 
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
 import com.hsgg.features.contentBlock.dtos.textBlock.CreateTextBlockRequest;
 import com.hsgg.features.contentBlock.dtos.textBlock.UpdateTextBlockRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class ContentBlockController {
 
 	private final ContentBlockService contentBlockService;
+
+	@GetMapping("/{topicId}")
+	public ResponseEntity<ContentBlockDto> get(@PathVariable Long topicId) {
+		ContentBlockDto dto = contentBlockService.get(topicId);
+		return ResponseEntity.ok(dto);
+	}
 
 	@PostMapping("/text")
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
