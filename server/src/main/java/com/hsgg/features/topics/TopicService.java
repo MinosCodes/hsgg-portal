@@ -1,8 +1,8 @@
 package com.hsgg.features.topics;
 
 import com.hsgg.app.exceptions.NotFoundException;
-import com.hsgg.features.contentBlock.ContentBlockDto;
 import com.hsgg.features.contentBlock.ContentBlockRepository;
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
 import com.hsgg.features.search.SearchResultDto;
 import com.hsgg.features.subjects.Subject;
 import com.hsgg.features.subjects.SubjectRepository;

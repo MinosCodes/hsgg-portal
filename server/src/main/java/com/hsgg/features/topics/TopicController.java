@@ -1,6 +1,6 @@
 package com.hsgg.features.topics;
 
-import com.hsgg.features.contentBlock.ContentBlockDto;
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
 import com.hsgg.features.topics.dtos.CreateTopicRequest;
 import com.hsgg.features.topics.dtos.TopicDetailDto;
 import com.hsgg.features.topics.dtos.UpdateTopicRequest;
