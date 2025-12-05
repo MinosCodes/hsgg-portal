@@ -1,4 +1,4 @@
-package com.hsgg.features.topics;
+package com.hsgg.features.topics.dtos;
 
 public record TopicSummaryDto(
 		Long id,
