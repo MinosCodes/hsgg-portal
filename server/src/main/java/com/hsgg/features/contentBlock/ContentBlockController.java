@@ -34,21 +34,21 @@ public class ContentBlockController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{topicId}")
+	@PutMapping("/{blockId}")
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
-	public ResponseEntity<?> update(@PathVariable Long topicId, @RequestBody UpdateTextBlockRequest req) {
+	public ResponseEntity<?> update(@PathVariable Long blockId, @RequestBody UpdateTextBlockRequest req) {
 		try {
-			contentBlockService.updateText(topicId, req);
+			contentBlockService.updateText(blockId, req);
 		} catch (BadRequestException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{topicId}")
+	@DeleteMapping("/{blockId}")
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
-	public ResponseEntity<?> delete(@PathVariable Long topicId) {
-		contentBlockService.delete(topicId);
+	public ResponseEntity<?> delete(@PathVariable Long blockId) {
+		contentBlockService.delete(blockId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

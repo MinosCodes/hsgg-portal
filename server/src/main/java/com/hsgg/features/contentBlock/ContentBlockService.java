@@ -36,9 +36,9 @@ public class ContentBlockService {
 				.toList();
 	}
 
-	public ContentBlockDto get(Long id) {
-		ContentBlock b = contentBlockRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Content block not found: " + id));
+	public ContentBlockDto get(Long blockId) {
+		ContentBlock b = contentBlockRepository.findById(blockId)
+				.orElseThrow(() -> new NotFoundException("Content block not found: " + blockId));
 
 		return new ContentBlockDto(
 				b.getId(),
@@ -67,14 +67,14 @@ public class ContentBlockService {
 		contentBlockRepository.save(block);
 	}
 
-	public void delete(Long id) {
-		ContentBlock block = contentBlockRepository.findById(id)
+	public void delete(Long blockId) {
+		ContentBlock block = contentBlockRepository.findById(blockId)
 				.orElseThrow(() -> new NotFoundException("Content block not found"));
 		contentBlockRepository.delete(block);
 	}
 
-	public void updateText(Long id, UpdateTextBlockRequest req) throws BadRequestException {
-		ContentBlock block = findBlock(id, ContentBlockType.text);
+	public void updateText(Long blockId, UpdateTextBlockRequest req) throws BadRequestException {
+		ContentBlock block = findBlock(blockId, ContentBlockType.text);
 		req.newPosition().ifPresent(block::setPosition);
 		req.newText().ifPresent(block::setText);
 		req.newTitle().ifPresent(block::setTitle);
@@ -82,8 +82,8 @@ public class ContentBlockService {
 		contentBlockRepository.save(block);
 	}
 
-	private ContentBlock findBlock(Long id, ContentBlockType expectedType) throws BadRequestException {
-		ContentBlock block = contentBlockRepository.findById(id)
+	private ContentBlock findBlock(Long blockId, ContentBlockType expectedType) throws BadRequestException {
+		ContentBlock block = contentBlockRepository.findById(blockId)
 				.orElseThrow(() -> new NotFoundException("Content block not found"));
 		if (block.getType() != expectedType) {
 			throw new BadRequestException(
