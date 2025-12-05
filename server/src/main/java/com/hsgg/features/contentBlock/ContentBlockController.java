@@ -17,9 +17,9 @@ public class ContentBlockController {
 
 	private final ContentBlockService contentBlockService;
 
-	@GetMapping("/{topicId}")
-	public ResponseEntity<ContentBlockDto> get(@PathVariable Long topicId) {
-		ContentBlockDto dto = contentBlockService.get(topicId);
+	@GetMapping("/{blockId}")
+	public ResponseEntity<ContentBlockDto> get(@PathVariable Long blockId) {
+		ContentBlockDto dto = contentBlockService.get(blockId);
 		return ResponseEntity.ok(dto);
 	}
 
