@@ -1,9 +1,9 @@
 package com.hsgg.features.subjects;
 
-import com.hsgg.features.subjects.dtos.CreateSubjectDto;
+import com.hsgg.features.subjects.dtos.CreateSubjectRequest;
 import com.hsgg.features.subjects.dtos.SubjectDto;
 import com.hsgg.features.subjects.dtos.UpdateSubjectRequest;
-import com.hsgg.features.topics.TopicSummaryDto;
+import com.hsgg.features.topics.dtos.TopicSummaryDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +33,7 @@ public class SubjectController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
-	public ResponseEntity<?> create(@RequestBody CreateSubjectDto req) {
+	public ResponseEntity<?> create(@RequestBody CreateSubjectRequest req) {
 		subjectService.create(req);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
