@@ -72,8 +72,8 @@ public class SubjectService {
 		Subject subject = subjectRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Subject not found"));
 
-		request.newName().ifPresent(subject::setName);
-		request.newDescription().ifPresent(subject::setDescription);
+		request.name().ifPresent(subject::setName);
+		request.description().ifPresent(subject::setDescription);
 		subjectRepository.save(subject);
 	}
 

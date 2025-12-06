@@ -3,8 +3,8 @@ package com.hsgg.security.user.admin;
 import com.hsgg.security.user.User;
 import com.hsgg.security.user.UserRepository;
 import com.hsgg.security.user.UserRole;
-import com.hsgg.security.user.admin.dtos.CreateUserRequestDto;
-import com.hsgg.security.user.admin.dtos.UpdateUserRoleRequestDto;
+import com.hsgg.security.user.admin.dtos.CreateUserRequest;
+import com.hsgg.security.user.admin.dtos.UpdateUserRoleRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class AdminUserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public User createUser(CreateUserRequestDto req) {
+	public User createUser(CreateUserRequest req) {
 		if (userRepository.existsByUsername(req.username())) {
 			throw new IllegalArgumentException("Username already exists");
 		}
@@ -34,7 +34,7 @@ public class AdminUserService {
 		return userRepository.save(user);
 	}
 
-	public User updateUserRole(Long userId, UpdateUserRoleRequestDto req, Long actingAdminId) {
+	public User updateUserRole(Long userId, UpdateUserRoleRequest req, Long actingAdminId) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("User not found"));
 

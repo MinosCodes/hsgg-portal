@@ -75,9 +75,9 @@ public class ContentBlockService {
 
 	public void updateText(Long blockId, UpdateTextBlockRequest req) throws BadRequestException {
 		ContentBlock block = findBlock(blockId, ContentBlockType.text);
-		req.newPosition().ifPresent(block::setPosition);
-		req.newText().ifPresent(block::setText);
-		req.newTitle().ifPresent(block::setTitle);
+		req.position().ifPresent(block::setPosition);
+		req.text().ifPresent(block::setText);
+		req.title().ifPresent(block::setTitle);
 
 		contentBlockRepository.save(block);
 	}
