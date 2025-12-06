@@ -1,8 +1,8 @@
 package com.hsgg.security.user.admin;
 
-import com.hsgg.security.user.User;
 import com.hsgg.security.user.admin.dtos.CreateUserRequest;
 import com.hsgg.security.user.admin.dtos.UpdateUserRoleRequest;
+import com.hsgg.security.user.admin.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class AdminUserController {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public List<User> getAllUsers() {
+	public List<UserDto> getAllUsers() {
 		return adminUserService.getAllUsers();
 	}
 }
