@@ -1,6 +1,13 @@
 package com.hsgg.features.contentBlock;
 
+import com.hsgg.app.exceptions.NotFoundException;
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
+import com.hsgg.features.contentBlock.dtos.textBlock.CreateTextBlockRequest;
+import com.hsgg.features.contentBlock.dtos.textBlock.UpdateTextBlockRequest;
 import com.hsgg.features.search.SearchResultDto;
+import com.hsgg.features.topics.Topic;
+import com.hsgg.features.topics.TopicRepository;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +15,11 @@ import java.util.List;
 @Service
 public class ContentBlockService {
 	private final ContentBlockRepository contentBlockRepository;
+	private final TopicRepository topicRepository;
 
-	public ContentBlockService(ContentBlockRepository contentBlockRepository) {
+	public ContentBlockService(ContentBlockRepository contentBlockRepository, TopicRepository topicRepository) {
 		this.contentBlockRepository = contentBlockRepository;
+		this.topicRepository = topicRepository;
 	}
 
 	public List<SearchResultDto> search(String query) {
@@ -25,5 +34,69 @@ public class ContentBlockService {
 						b.getId()
 				))
 				.toList();
+	}
+
+	public ContentBlockDto get(Long blockId) {
+		ContentBlock b = contentBlockRepository.findById(blockId)
+				.orElseThrow(() -> new NotFoundException("Content block not found: " + blockId));
+
+		return new ContentBlockDto(
+				b.getId(),
+				b.getType().name(),
+				b.getTitle(),
+				b.getPosition(),
+				b.getText(),
+				b.getReferenceTopic() != null ? b.getReferenceTopic().getId() : null,
+				b.getFile() != null ? "/api/files/" + b.getFile().getId() + "/download" : null
+		);
+	}
+
+	public void createText(CreateTextBlockRequest req) throws BadRequestException {
+		Topic topic = topicRepository.findById(req.topicId())
+				.orElseThrow(() -> new NotFoundException("Topic not found"));
+
+		ContentBlock block = new ContentBlock();
+		block.setTopic(topic);
+		block.setType(ContentBlockType.text);
+		block.setTitle(requireNonBlank(req.title(), "Title is required"));
+		block.setPosition(req.position());
+		block.setText(requireNonBlank(req.text(), "Text is required for TEXT block"));
+		block.setFile(null);
+		block.setReferenceTopic(null);
+
+		contentBlockRepository.save(block);
+	}
+
+	public void delete(Long blockId) {
+		ContentBlock block = contentBlockRepository.findById(blockId)
+				.orElseThrow(() -> new NotFoundException("Content block not found"));
+		contentBlockRepository.delete(block);
+	}
+
+	public void updateText(Long blockId, UpdateTextBlockRequest req) throws BadRequestException {
+		ContentBlock block = findBlock(blockId, ContentBlockType.text);
+		req.position().ifPresent(block::setPosition);
+		req.text().ifPresent(block::setText);
+		req.title().ifPresent(block::setTitle);
+
+		contentBlockRepository.save(block);
+	}
+
+	private ContentBlock findBlock(Long blockId, ContentBlockType expectedType) throws BadRequestException {
+		ContentBlock block = contentBlockRepository.findById(blockId)
+				.orElseThrow(() -> new NotFoundException("Content block not found"));
+		if (block.getType() != expectedType) {
+			throw new BadRequestException(
+					"Block type mismatch. Expected: " + expectedType + ", found: " + block.getType()
+			);
+		}
+		return block;
+	}
+
+	private String requireNonBlank(String value, String message) throws BadRequestException {
+		if (value == null || value.isBlank()) {
+			throw new BadRequestException(message);
+		}
+		return value;
 	}
 }

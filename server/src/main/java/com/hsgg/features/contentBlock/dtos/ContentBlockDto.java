@@ -1,4 +1,4 @@
-package com.hsgg.features.contentBlock;
+package com.hsgg.features.contentBlock.dtos;
 
 public record ContentBlockDto(
 		Long id,

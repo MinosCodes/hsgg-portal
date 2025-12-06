@@ -1,15 +1,18 @@
 package com.hsgg.features.subjects;
 
-import com.hsgg.features.topics.TopicSummaryDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.hsgg.features.subjects.dtos.CreateSubjectRequest;
+import com.hsgg.features.subjects.dtos.SubjectDto;
+import com.hsgg.features.subjects.dtos.UpdateSubjectRequest;
+import com.hsgg.features.topics.dtos.TopicSummaryDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/subjects")
 public class SubjectController {
 
 	private final SubjectService subjectService;
@@ -18,13 +21,34 @@ public class SubjectController {
 		this.subjectService = subjectService;
 	}
 
-	@GetMapping("/subjects")
+	@GetMapping
 	public List<SubjectDto> getSubjects() {
 		return subjectService.getAllSubjects();
 	}
 
-	@GetMapping("/subjects/{subjectId}/topics")
+	@GetMapping("/{subjectId}/topics")
 	public List<TopicSummaryDto> getTopicsBySubject(@PathVariable Long subjectId) {
 		return subjectService.getTopicsBySubjectId(subjectId);
+	}
+
+	@PostMapping
+	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	public ResponseEntity<?> create(@RequestBody CreateSubjectRequest req) {
+		subjectService.create(req);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	@PutMapping("/{subjectId}")
+	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	public ResponseEntity<?> update(@PathVariable Long subjectId, @RequestBody UpdateSubjectRequest req) {
+		subjectService.update(subjectId, req);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{subjectId}")
+	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	public ResponseEntity<?> delete(@PathVariable Long subjectId) {
+		subjectService.delete(subjectId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

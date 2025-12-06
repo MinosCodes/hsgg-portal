@@ -1,8 +1,8 @@
 package com.hsgg.security.user.admin;
 
-import com.hsgg.security.user.User;
-import com.hsgg.security.user.admin.dtos.CreateUserRequestDto;
-import com.hsgg.security.user.admin.dtos.UpdateUserRoleRequestDto;
+import com.hsgg.security.user.admin.dtos.CreateUserRequest;
+import com.hsgg.security.user.admin.dtos.UpdateUserRoleRequest;
+import com.hsgg.security.user.admin.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class AdminUserController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Void> createUser(@RequestBody CreateUserRequestDto req) {
+	public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest req) {
 		adminUserService.createUser(req);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
@@ -30,7 +30,7 @@ public class AdminUserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Void> updateUserRole(
 			@PathVariable Long userId,
-			@RequestBody UpdateUserRoleRequestDto req,
+			@RequestBody UpdateUserRoleRequest req,
 			Authentication auth
 	) {
 		Long actingAdminId = (Long) auth.getPrincipal();
@@ -40,7 +40,7 @@ public class AdminUserController {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public List<User> getAllUsers() {
+	public List<UserDto> getAllUsers() {
 		return adminUserService.getAllUsers();
 	}
 }

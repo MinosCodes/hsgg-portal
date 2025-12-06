@@ -1,9 +1,14 @@
 package com.hsgg.features.topics;
 
 import com.hsgg.app.exceptions.NotFoundException;
-import com.hsgg.features.contentBlock.ContentBlockDto;
 import com.hsgg.features.contentBlock.ContentBlockRepository;
+import com.hsgg.features.contentBlock.dtos.ContentBlockDto;
 import com.hsgg.features.search.SearchResultDto;
+import com.hsgg.features.subjects.Subject;
+import com.hsgg.features.subjects.SubjectRepository;
+import com.hsgg.features.topics.dtos.CreateTopicRequest;
+import com.hsgg.features.topics.dtos.TopicDetailDto;
+import com.hsgg.features.topics.dtos.UpdateTopicRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +16,15 @@ import java.util.List;
 @Service
 public class TopicService {
 
+	private final SubjectRepository subjectRepository;
 	private final TopicRepository topicRepository;
 	private final ContentBlockRepository contentBlockRepository;
 
-	public TopicService(TopicRepository topicRepository,
-						ContentBlockRepository contentBlockRepository) {
+	public TopicService(
+			SubjectRepository subjectRepository,
+			TopicRepository topicRepository,
+			ContentBlockRepository contentBlockRepository) {
+		this.subjectRepository = subjectRepository;
 		this.topicRepository = topicRepository;
 		this.contentBlockRepository = contentBlockRepository;
 	}
@@ -62,5 +71,29 @@ public class TopicService {
 						null
 				))
 				.toList();
+	}
+
+	public void create(CreateTopicRequest req) {
+		Subject subject = subjectRepository.findById(req.subjectId())
+				.orElseThrow(() -> new NotFoundException("Subject not found"));
+
+		Topic topic = new Topic();
+		topic.setSubject(subject);
+		topic.setTitle(req.title());
+		topic.setDescription(req.description());
+		topicRepository.save(topic);
+	}
+
+	public void update(Long id, UpdateTopicRequest req) {
+		Topic topic = topicRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Topic not found"));
+
+		req.title().ifPresent(topic::setTitle);
+		req.description().ifPresent(topic::setDescription);
+		topicRepository.save(topic);
+	}
+
+	public void delete(Long id) {
+		topicRepository.deleteCascade(id);
 	}
 }
