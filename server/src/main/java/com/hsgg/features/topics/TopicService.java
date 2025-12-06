@@ -94,9 +94,6 @@ public class TopicService {
 	}
 
 	public void delete(Long id) {
-		Topic topic = topicRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Topic not found"));
-
-		topicRepository.delete(topic);
+		topicRepository.deleteCascade(id);
 	}
 }

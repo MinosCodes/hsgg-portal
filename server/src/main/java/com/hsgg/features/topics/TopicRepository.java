@@ -1,6 +1,7 @@
 package com.hsgg.features.topics;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,4 +17,8 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 			   OR (t.description IS NOT NULL AND LOWER(t.description) LIKE LOWER(CONCAT('%', :q, '%')))
 			""")
 	List<Topic> search(@Param("q") String q);
+
+	@Modifying
+	@Query("DELETE FROM Topic t WHERE t.id = :id")
+	void deleteCascade(Long id);
 }
