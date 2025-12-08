@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HSGG - Suche</title>
+    <link href="suche.css" rel="stylesheet"/>
+    <link href="grundgeruest/grundgeruest.css" rel="stylesheet"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="api.js"></script>
+</head>
+<body>
+<div id="page">
+
+    <!-- sidebar (gleich wie homepage.html) -->
+    <aside id="sidebar" class="hidden">
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
+                <li class="year-item" data-year="5">
+                    <a href="#" class="year-link">Jahr 5</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=5&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=5&amp;fach=biologie">Biologie</a></li>
+                    </ul>
+                </li>
+
+                <li class="year-item" data-year="6">
+                    <a href="#" class="year-link">Jahr 6</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=6&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=englisch">Englisch</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=franzoesisch">Französisch</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=latein">Latein</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=biologie">Biologie</a></li>
+                        <li><a href="content.html?jahr=6&amp;fach=physik">Physik</a></li>
+                    </ul>
+                </li>
+
+                <li class="year-item" data-year="7">
+                    <a href="#" class="year-link">Jahr 7</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=7&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=franzoesisch">Französisch</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=latein">Latein</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=biologie">Biologie</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=chemie">Chemie</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=physik">Physik</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=politik">Politik</a></li>
+                        <li><a href="content.html?jahr=7&amp;fach=informatik">Informatik</a></li>
+                    </ul>
+                </li>
+
+                <li class="year-item" data-year="8">
+                    <a href="#" class="year-link">Jahr 8</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=8&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=franzoesisch">Französisch</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=latein">Latein</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=biologie">Biologie</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=chemie">Chemie</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=physik">Physik</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=politik">Politik</a></li>
+                        <li><a href="content.html?jahr=8&amp;fach=informatik">Informatik</a></li>
+                    </ul>
+                </li>
+
+                <li class="year-item" data-year="9">
+                    <a href="#" class="year-link">Jahr 9</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=9&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=franzoesisch">Französisch</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=latein">Latein</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=biologie">Biologie</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=chemie">Chemie</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=physik">Physik</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=politik">Politik</a></li>
+                        <li><a href="content.html?jahr=9&amp;fach=informatik">Informatik</a></li>
+                    </ul>
+                </li>
+
+                <li class="year-item" data-year="10">
+                    <a href="#" class="year-link">Jahr 10</a>
+                    <ul class="year-subjects hidden">
+                        <li><a href="content.html?jahr=10&amp;fach=deutsch">Deutsch</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=mathematik">Mathematik</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=franzoesisch">Französisch</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=latein">Latein</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=biologie">Biologie</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=chemie">Chemie</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=physik">Physik</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=politik">Politik</a></li>
+                        <li><a href="content.html?jahr=10&amp;fach=informatik">Informatik</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="content">
+        <header id="header-content">
+            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+        </header>
+
+        <main id="main-content" class="content-wrapper">
+            <!-- suchleiste -->
+            <section id="search-section">
+                <h1>Lernmaterial durchsuchen</h1>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Suchbegriff eingeben..." aria-label="Suchfeld">
+                    <button type="button" id="clear-search" class="clear-btn" aria-label="Suche löschen" style="display: none;">×</button>
+                    <button type="button" id="search-button" class="search-btn">Suchen</button>
+                </div>
+            </section>
+
+            <!-- ergebnis -->
+            <section id="results-section">
+                <div id="results-info"></div>
+                <div id="results-container"></div>
+            </section>
+        </main>
+
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li><a href="#">Adresse</a></li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <div id="button-overlay">
+        <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</div>
+<script src="suche.js"></script>
+</body>
+</html>
