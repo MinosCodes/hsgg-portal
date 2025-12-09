@@ -45,6 +45,10 @@
     position: relative;
 }
 
+:root {
+    --color_20: #ccc;
+}
+
 /* eingabefeld */
 #search-input {
     flex: 1;
@@ -132,8 +136,5 @@
     }
     .search-btn span {
         display: none;
-    }
-    .search-btn::before {
-        content: "🔍";
     }
 }
