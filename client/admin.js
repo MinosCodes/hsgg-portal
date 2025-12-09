@@ -58,7 +58,10 @@
               ${roleOptions.map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${roleLabels[r] || r}</option>`).join('')}
             </select>
           </td>
-          <td><button class="btn-small" data-action="save" data-userid="${u.id}">Speichern</button></td>
+          <td class="actions">
+            <button class="btn-small" data-action="save" data-userid="${u.id}">Speichern</button>
+            <button class="btn-small danger" data-action="delete" data-userid="${u.id}">Löschen</button>
+          </td>
         `;
         tableBody.appendChild(tr);
       });
@@ -105,6 +108,17 @@
     }
   };
 
+  const deleteUser = async (userId) => {
+    if (!confirm('Benutzer wirklich löschen?')) return;
+    try {
+      await api.adminDeleteUser(userId);
+      users = users.filter(u => u.id !== userId);
+      render();
+    } catch (e) {
+      alert('Fehler beim Löschen: ' + (e?.message || e));
+    }
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     if (!ensureAdmin()) return;
 
@@ -115,11 +129,16 @@
 
     tableBody?.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-action="save"]');
-      if (!btn) return;
-      const userId = Number(btn.dataset.userid);
-      const select = tableBody.querySelector(`select[data-userid="${userId}"]`);
-      if (!select) return;
-      saveRole(userId, select.value);
+      const del = e.target.closest('button[data-action="delete"]');
+      if (btn) {
+        const userId = Number(btn.dataset.userid);
+        const select = tableBody.querySelector(`select[data-userid="${userId}"]`);
+        if (!select) return;
+        saveRole(userId, select.value);
+      } else if (del) {
+        const userId = Number(del.dataset.userid);
+        deleteUser(userId);
+      }
     });
 
     createForm?.addEventListener('submit', createUser);

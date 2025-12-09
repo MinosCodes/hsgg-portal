@@ -208,6 +208,21 @@ Object.defineProperty(window, 'api', {
     },
 
     /**
+     * Admin: delete a user.
+     */
+    adminDeleteUser: async (userId) => {
+      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a positive safe integer number.");
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Deleting user failed with status code ${response.status}.`);
+    },
+
+    /**
      * Admin: create a user.
      */
     adminCreateUser: async ({ firstname, lastname, username, password, role }) => {

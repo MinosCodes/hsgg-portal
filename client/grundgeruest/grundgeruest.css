@@ -112,7 +112,8 @@ body {
 #header-content {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 1rem;
     color: var(--weiss);
     font-family: var(--font-verdana);
     font-weight: bold;
@@ -121,6 +122,51 @@ body {
     padding: 10px 30px;
     padding-left: 60px;   /* Platz für Button */
     position: relative;
+    box-sizing: border-box;
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+}
+
+.user-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.user-greeting {
+    font-weight: 700;
+}
+
+.user-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.1);
+    color: var(--weiss);
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.user-action:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.user-action.logout {
+    border-color: rgba(255,255,255,0.9);
+}
+
+.user-action.accent {
+    background: #fff;
+    color: var(--maincolor);
+    border-color: #fff;
 }
 
 p {

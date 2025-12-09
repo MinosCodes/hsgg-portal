@@ -7,6 +7,7 @@
     <link href="homepage.css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="api.js"></script>
+    <script src="auth.js"></script>
 </head>
 <body class="home-page">
 <div id="page">
@@ -104,7 +105,8 @@
     <div id="content">
         <!-- Header mit Button A (öffnet Sidebar) -->
         <header id="header-content">
-            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+            <div class="header-title">Horst-Schlaemmer-Gedaechtnis-Gymnasium</div>
+            <div id="user-controls" class="user-controls" aria-live="polite"></div>
         </header>
 
         <!-- HIER: Padding durch Klasse content-wrapper -->
@@ -125,7 +127,7 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div class="logo-card">
+                    <div class="logo-card" role="button" tabindex="0" data-scroll-target="#quicklinks" aria-label="Zu den Jahrgangsmaterialien springen">
                         <img src="Logo_A4B.jpg" alt="Schullogo">
                         <div class="stat">
                             <span class="stat-label">Materialien</span>
@@ -166,7 +168,7 @@
                 </div>
             </section>
 
-            <section class="quick-links" aria-labelledby="quicklinks-heading">
+            <section id="quicklinks" class="quick-links" aria-labelledby="quicklinks-heading">
                 <div class="section-head">
                     <p class="eyebrow">Direktzugriff</p>
                     <h2 id="quicklinks-heading">Wählen Sie einen Jahrgang</h2>

@@ -6,6 +6,8 @@
     min-height: calc(100vh - 140px); /* Höhe minus Header+Footer, bei Bedarf anpassen */
     padding-top: 2em;
     padding-bottom: 2em;
+    gap: 1em;
+    flex-wrap: wrap;
 }
 
 /* Box-Stil an dein Farbschema angepasst */
@@ -64,12 +66,30 @@
     color: #e7f4ff;
 }
 
+#signup-message {
+    margin-top: 0.8em;
+    font-size: 0.95em;
+    color: #e7f4ff;
+}
+
 #login-message.error {
     color: #ffd6d6;
 }
 
 #login-message.success {
     color: #d7ffd9;
+}
+
+#signup-message.error {
+    color: #ffd6d6;
+}
+
+#signup-message.success {
+    color: #d7ffd9;
+}
+
+.register-box {
+    background: var(--color_05);
 }
 
 /* etwas kompakter auf kleinen Screens */

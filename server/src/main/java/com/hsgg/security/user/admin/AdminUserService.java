@@ -53,6 +53,17 @@ public class AdminUserService {
 		return userRepository.findAll().stream().map(this::toDto).toList();
 	}
 
+	public void deleteUser(Long userId, Long actingAdminId) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+		if (user.getId().equals(actingAdminId)) {
+			throw new IllegalStateException("Admins cannot delete themselves");
+		}
+
+		userRepository.delete(user);
+	}
+
 	private UserDto toDto(User user) {
 		return new UserDto(
 				user.getId(),

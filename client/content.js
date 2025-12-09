@@ -13,6 +13,7 @@ const url = new URL(location.href);
 const selectedYear = url.searchParams.get('jahr');
 const selectedSubject = url.searchParams.get('fach');
 const currentFile = url.searchParams.get('file');
+const isLoggedIn = !!sessionStorage.getItem('token');
 
 const subjectLabels = {
     deutsch: 'Deutsch',
@@ -124,6 +125,10 @@ const updateUrl = (fileName) => {
 };
 
 const showFile = (material) => {
+    if (!isLoggedIn) {
+        showLoginGate();
+        return;
+    }
     if (!material) {
         contentContainer.classList.remove('hidden-block');
         emptyState.classList.remove('hidden-block');
@@ -139,6 +144,7 @@ const showFile = (material) => {
     const filePath = 'content/' + material.file;
     downloadLink.href = filePath;
     downloadLink.download = material.file;
+    downloadLink.classList.remove('disabled');
     fileViewer.src = filePath;
     contentContainer.classList.remove('hidden-block');
     updateUrl(material.file);
@@ -177,6 +183,10 @@ const renderList = (filterText = '') => {
         `;
         link.addEventListener('click', (evt) => {
             evt.preventDefault();
+            if (!isLoggedIn) {
+                showLoginGate();
+                return;
+            }
             showFile(item);
         });
         li.append(link);
@@ -216,21 +226,45 @@ closeButton?.addEventListener('click', () => {
 });
 
 // --- Init ---
+const showLoginGate = () => {
+    dateiName.textContent = 'Bitte zuerst anmelden';
+    downloadLink.href = 'login.html';
+    downloadLink.removeAttribute('download');
+    downloadLink.classList.add('disabled');
+    emptyState.classList.remove('hidden-block');
+    if (emptyState) {
+        const info = emptyState.querySelector('p');
+        if (info) info.textContent = 'Melden Sie sich an, um Materialien anzusehen und herunterzuladen.';
+    }
+    fileViewer.src = '';
+    contentContainer.classList.remove('hidden-block');
+    updateUrl(null);
+};
 
-attachYearToggles();
-openSelectedYear();
-setHeading();
-renderList();
+const init = () => {
+    attachYearToggles();
+    openSelectedYear();
+    setHeading();
+    renderList();
 
-if (filterInput) {
-    filterInput.addEventListener('input', (event) => {
-        renderList(event.target.value);
-    });
-}
+    if (filterInput) {
+        filterInput.addEventListener('input', (event) => {
+            renderList(event.target.value);
+        });
+    }
 
-if (currentFile) {
-    const current = materials.find(m => m.file === currentFile);
-    showFile(current || null);
-} else {
-    showFile(null);
-}
+    if (!isLoggedIn) {
+        showLoginGate();
+    } else if (currentFile) {
+        const current = materials.find(m => m.file === currentFile);
+        showFile(current || null);
+    } else {
+        showFile(null);
+    }
+
+    if (typeof renderUserControls === 'function') {
+        renderUserControls();
+    }
+};
+
+init();

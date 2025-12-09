@@ -7,6 +7,7 @@
     <link href="login.css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="api.js"></script>
+    <script src="auth.js"></script>
 </head>
 <body>
 <div id="page">
@@ -38,7 +39,8 @@
                     <span></span>
                 </button>
             </div>
-            Horst-Schlaemmer-Gedaechtnis-Gymnasium
+            <div class="header-title">Horst-Schlaemmer-Gedaechtnis-Gymnasium</div>
+            <div id="user-controls" class="user-controls" aria-live="polite"></div>
         </header>
 
         <!-- Inhalt mit Wrapper wie auf der Homepage -->
@@ -57,6 +59,25 @@
                         <p id="login-message" aria-live="polite"></p>
                     </form>
                 </div>
+                <div class="login-box register-box" id="signup">
+                    <h2>Registrieren</h2>
+                    <form id="signup-form">
+                        <label for="signup-firstname">Vorname</label>
+                        <input id="signup-firstname" name="firstname" type="text" autocomplete="given-name" required>
+
+                        <label for="signup-lastname">Nachname</label>
+                        <input id="signup-lastname" name="lastname" type="text" autocomplete="family-name" required>
+
+                        <label for="signup-username">Benutzername</label>
+                        <input id="signup-username" name="username" type="text" autocomplete="username" required>
+
+                        <label for="signup-password">Passwort</label>
+                        <input id="signup-password" name="password" type="password" autocomplete="new-password" required>
+
+                        <button id="signup-button" type="submit" class="main-btn">Signup</button>
+                        <p id="signup-message" aria-live="polite"></p>
+                    </form>
+                </div>
             </section>
         </main>
 
@@ -73,32 +94,64 @@
 
 <script src="homepage.js"></script>
 <script>
-    // Simple login handler using existing API helper
+    // Simple login and signup handlers using existing API helper
     document.addEventListener('DOMContentLoaded', () => {
+        if (typeof renderUserControls === 'function') {
+            renderUserControls();
+        }
+
         const form = document.getElementById('login-form');
         const userInput = document.getElementById('user');
         const passwordInput = document.getElementById('password');
         const button = document.getElementById('login-button');
         const message = document.getElementById('login-message');
 
-        const setMessage = (text, type = '') => {
-            message.textContent = text;
-            message.className = type ? type : '';
+        const signupForm = document.getElementById('signup-form');
+        const firstnameInput = document.getElementById('signup-firstname');
+        const lastnameInput = document.getElementById('signup-lastname');
+        const signupUserInput = document.getElementById('signup-username');
+        const signupPasswordInput = document.getElementById('signup-password');
+        const signupButton = document.getElementById('signup-button');
+        const signupMessage = document.getElementById('signup-message');
+
+        const setMessage = (element, text, type = '') => {
+            element.textContent = text;
+            element.className = type ? type : '';
         };
 
         form?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            setMessage('Anmeldung läuft...', '');
+            setMessage(message, 'Anmeldung läuft...', '');
             button.disabled = true;
             try {
                 await api.login(userInput.value.trim(), passwordInput.value);
-                setMessage('Erfolgreich angemeldet.', 'success');
+                setMessage(message, 'Erfolgreich angemeldet.', 'success');
                 // Redirect after short delay to main page
                 setTimeout(() => window.location.href = 'homepage.html', 400);
             } catch (err) {
-                setMessage('Login fehlgeschlagen: ' + (err?.message || 'Unbekannter Fehler'), 'error');
+                setMessage(message, 'Login fehlgeschlagen: ' + (err?.message || 'Unbekannter Fehler'), 'error');
             } finally {
                 button.disabled = false;
+            }
+        });
+
+        signupForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            setMessage(signupMessage, 'Registrierung läuft...', '');
+            signupButton.disabled = true;
+            try {
+                await api.register(
+                    signupUserInput.value.trim(),
+                    signupPasswordInput.value,
+                    firstnameInput.value.trim(),
+                    lastnameInput.value.trim()
+                );
+                setMessage(signupMessage, 'Registrierung erfolgreich. Bitte einloggen.', 'success');
+                signupForm.reset();
+            } catch (err) {
+                setMessage(signupMessage, 'Registrierung fehlgeschlagen: ' + (err?.message || 'Unbekannter Fehler'), 'error');
+            } finally {
+                signupButton.disabled = false;
             }
         });
     });

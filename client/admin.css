@@ -143,6 +143,21 @@
     transform: scale(0.97);
 }
 
+.btn-small.danger {
+    background-color: #c62828;
+    border-color: #c62828;
+}
+
+.btn-small.danger:hover {
+    background-color: #a91f1f;
+}
+
+.admin-table td.actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
 #create-user-message {
     font-size: var(--Text-groß);
     color: var(--schwarz);

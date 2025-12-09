@@ -93,4 +93,31 @@ const showRolePanels = () => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', showRolePanels);
+const initLogoCardShortcut = () => {
+    const logoCard = document.querySelector('.logo-card[data-scroll-target]');
+    if (!logoCard) return;
+
+    const targetSelector = logoCard.getAttribute('data-scroll-target');
+    if (!targetSelector) return;
+
+    const targetSection = document.querySelector(targetSelector);
+    if (!targetSection) return;
+
+    const scrollToTarget = () => targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    logoCard.addEventListener('click', scrollToTarget);
+    logoCard.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            scrollToTarget();
+        }
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    showRolePanels();
+    initLogoCardShortcut();
+    if (typeof renderUserControls === 'function') {
+        renderUserControls();
+    }
+});
