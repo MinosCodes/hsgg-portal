@@ -3,9 +3,13 @@ app:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/hsgg
+    url: jdbc:mariadb://localhost:3307/hsgg
     username: hsgguser
     password: secret
+
+  web:
+    resources:
+      static-locations: file:../client/
 
   jpa:
     hibernate:

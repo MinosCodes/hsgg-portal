@@ -14,6 +14,13 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		Path clientPath = Path.of("").toAbsolutePath().resolve("../client");
+		Path contentPath = clientPath.resolve("content");
+		
+		// Serve content files (PDFs, docs, etc.)
+		registry.addResourceHandler("/content/**")
+				.addResourceLocations("file:" + contentPath + "/");
+		
+		// Serve all other static files (HTML, CSS, JS)
 		registry.addResourceHandler("/**")
 				.addResourceLocations("file:" + clientPath + "/");
 	}

@@ -1,0 +1,38 @@
+Biologie: Zellaufbau – Jahr 7
+
+Einführung in die Zellbiologie
+Die Zelle ist die kleinste strukturelle und funktionelle Einheit aller Lebewesen. Es gibt zwei Haupttypen: Prokaryoten und Eukaryoten.
+
+Aufbau einer tierischen Zelle:
+
+1. Zellmembran (Plasmamembran)
+   - Funktion: Grenze der Zelle, reguliert Stoffaustausch
+   - Struktur: Lipid-Doppelschicht mit Proteinen
+
+2. Zellkern (Nucleus)
+   - Funktion: Trägt genetische Information (DNA)
+   - Enthält: Chromatin und Nukleolus
+
+3. Mitochondrien
+   - Funktion: Energieproduktion (Kraftwerk der Zelle)
+   - Produkt: ATP (Adenosintriphosphat)
+
+4. Endoplasmatisches Retikulum (ER)
+   - Raues ER: Mit Ribosomen, Proteinherstellung
+   - Glattes ER: Ohne Ribosomen, Fettstoffwechsel
+
+5. Golgi-Apparat
+   - Funktion: Verpackung und Transport von Proteinen
+   - Struktur: Stapel von flachen Membransäckchen
+
+6. Ribosomen
+   - Funktion: Proteinherstellung
+   - Größe: Klein, bestehen aus RNA und Proteinen
+
+7. Lysosomen
+   - Funktion: Abbau von Abfallstoffen
+   - Inhalt: Abbauenzyme
+
+Aufgabe: Zeichnen Sie eine Zelle und beschriften Sie alle Organellen mit ihrer Funktion.
+
+Diese Kenntnisse bilden die Grundlage für das Verständnis der Lebensbiologie.

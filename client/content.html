@@ -8,11 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="api.js"></script>
 </head>
-<body>
+<body class="content-page">
 <div id="page">
 
     <!-- Sidebar mit Close-Button wie auf der Homepage -->
     <aside id="sidebar" class="show">
+        <div id="sidebar-close-overlay">
+            <button id="sidebar-close-button" aria-label="Navigation schließen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li class="year-item home-item">
@@ -108,23 +115,62 @@
             Horst-Schlaemmer-Gedaechtnis-Gymnasium
         </header>
 
-        <main id="main-content" class="content-wrapper">
-            <h2 id="context-heading"></h2>
+        <main id="main-content" class="content-wrapper content-shell">
+            <section class="content-hero" aria-labelledby="context-heading">
+                <div>
+                    <p class="eyebrow">Lernmaterialien</p>
+                    <h1 id="context-heading">Materialübersicht</h1>
+                    <p class="lead">Wählen Sie Jahrgang und Fach aus der Navigation oder filtern Sie direkt in der Liste. Dokumente können Sie inline ansehen oder herunterladen.</p>
+                    <div class="chip-row" aria-label="Auswahl">
+                        <span class="pill" id="chip-year">Jahrgang</span>
+                        <span class="pill" id="chip-subject">Fach</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a class="btn primary" href="#materialien">Zu den Materialien</a>
+                    <a class="btn ghost" href="homepage.html">Zur Startseite</a>
+                </div>
+            </section>
 
-            <ol id="content-list"></ol>
+            <section class="content-panels" id="materialien">
+                <div class="panel list-panel">
+                    <div class="panel-head">
+                        <div>
+                            <p class="eyebrow">Übersicht</p>
+                            <h2>Materialien</h2>
+                        </div>
+                        <label class="filter-field" for="material-filter">
+                            <span class="visually-hidden">Material filtern</span>
+                            <input id="material-filter" type="search" placeholder="Titel oder Dateiname suchen" aria-label="Material filtern" />
+                        </label>
+                    </div>
+                    <ol id="content-list" class="material-list"></ol>
+                </div>
 
-            <div id="content-container" class="invisible">
-                <h3 id="datei-name"></h3>
-                <a id="download-link" href="" download="">Download</a>
-                <iframe id="file-viewer" src=""></iframe>
-            </div>
+                <div class="panel detail-panel" id="content-container">
+                    <div class="detail-header">
+                        <div>
+                            <p class="eyebrow">Ausgewähltes Material</p>
+                            <h3 id="datei-name">Bitte wählen Sie eine Datei</h3>
+                        </div>
+                        <a id="download-link" class="btn primary btn-small" href="" download="">Download</a>
+                    </div>
+                    <div class="detail-body">
+                        <iframe id="file-viewer" src="" title="Materialvorschau"></iframe>
+                        <div id="empty-state" class="empty-state">
+                            <h4>Noch nichts ausgewählt</h4>
+                            <p>Wählen Sie links ein Material aus, um Vorschau und Download zu sehen.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <footer id="footer-content" class="border-separation">
             <ul>
                 <li><a href="#">Adresse </a></li>
-                <li><a href="tel:">Telefon</a></li>
-                <li><a href="mailto:">Email</a></li>
+                <li><a href="tel:+49-000-000000">Telefon</a></li>
+                <li><a href="mailto:info@hsgg.example">Email</a></li>
             </ul>
         </footer>
     </div>
