@@ -143,6 +143,19 @@
     transform: scale(0.97);
 }
 
+#create-user-message {
+    font-size: var(--Text-groß);
+    color: var(--schwarz);
+}
+
+#create-user-message.success {
+    color: #1c9c5a;
+}
+
+#create-user-message.error {
+    color: #d33;
+}
+
 /* Hinweis-Box */
 .admin-info {
     margin-top: 18px;

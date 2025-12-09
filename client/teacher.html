@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Lehrkraft – Material verwalten</title>
+    <link rel="stylesheet" href="grundgeruest/grundgeruest.css">
+    <link rel="stylesheet" href="teacher.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="api.js"></script>
+</head>
+<body>
+<div id="page">
+    <div id="sidebar" class="show">
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="content.html">Materialien</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="content">
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            <div id="sidebar-close-overlay">
+                <button id="sidebar-close-button" aria-label="Navigation schließen">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            Lehrkraft – Materialpflege
+        </header>
+
+        <main id="main-content" class="content-wrapper">
+            <section class="panel">
+                <h2>Neues Fach anlegen</h2>
+                <form id="form-subject" class="form-grid">
+                    <input id="subject-name" type="text" placeholder="Name" required>
+                    <input id="subject-desc" type="text" placeholder="Beschreibung (optional)">
+                    <button type="submit" class="btn">Fach anlegen</button>
+                    <p id="msg-subject" class="msg"></p>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Neues Thema anlegen</h2>
+                <form id="form-topic" class="form-grid">
+                    <select id="topic-subject" required></select>
+                    <input id="topic-title" type="text" placeholder="Titel" required>
+                    <input id="topic-desc" type="text" placeholder="Beschreibung (optional)">
+                    <button type="submit" class="btn">Thema anlegen</button>
+                    <p id="msg-topic" class="msg"></p>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Text-Baustein anlegen</h2>
+                <form id="form-content" class="form-grid">
+                    <input id="content-topic" type="number" min="1" placeholder="Topic-ID" required>
+                    <input id="content-title" type="text" placeholder="Titel" required>
+                    <input id="content-pos" type="number" min="1" placeholder="Position (Standard 1)">
+                    <textarea id="content-text" rows="5" placeholder="Inhalt"></textarea>
+                    <button type="submit" class="btn">Speichern</button>
+                    <p id="msg-content" class="msg"></p>
+                </form>
+                <p class="hint">Tipp: Topic-IDs findest du über die API oder bestehende Inhalte. (GET /api/subjects &rarr; /topics)</p>
+            </section>
+        </main>
+
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li><a href="#">Adresse</a></li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
+</div>
+
+<script src="teacher.js"></script>
+</body>
+</html>

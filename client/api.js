@@ -170,6 +170,109 @@ Object.defineProperty(window, 'api', {
 
       return await response.json();
     },
+
+    /**
+     * Admin: list all users with their roles.
+     */
+    adminGetUsers: async () => {
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+
+      const response = await fetch('/api/admin/users', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Request for users failed with status code ${response.status}.`);
+
+      return await response.json();
+    },
+
+    /**
+     * Admin: update a user's role.
+     */
+    adminUpdateUserRole: async (userId, role) => {
+      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a positive safe integer number.");
+      if (typeof role !== 'string') throw new Error("Role must be a string.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+
+      const response = await fetch(`/api/admin/users/${userId}/role`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ role })
+      });
+      if (!response.ok) throw new Error(`Updating user role failed with status code ${response.status}.`);
+    },
+
+    /**
+     * Admin: create a user.
+     */
+    adminCreateUser: async ({ firstname, lastname, username, password, role }) => {
+      if (!firstname || !lastname || !username || !password || !role) throw new Error('All fields are required');
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ firstname, lastname, username, password, role })
+      });
+      if (!response.ok) throw new Error(`Creating user failed with status code ${response.status}.`);
+    },
+
+    /**
+     * Teacher/Admin: create subject.
+     */
+    createSubject: async (name, description) => {
+      if (!name) throw new Error('Name required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      const response = await fetch('/api/subjects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ name, description: description || '' })
+      });
+      if (!response.ok) throw new Error(`Create subject failed with status code ${response.status}.`);
+    },
+
+    /**
+     * Teacher/Admin: create topic.
+     */
+    createTopic: async (subjectId, title, description) => {
+      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error('Valid subject required');
+      if (!title) throw new Error('Title required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      const response = await fetch('/api/topics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ subjectId, title, description: description || '' })
+      });
+      if (!response.ok) throw new Error(`Create topic failed with status code ${response.status}.`);
+    },
+
+    /**
+     * Teacher/Admin: create text content block.
+     */
+    createTextBlock: async (topicId, title, position, text) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error('Valid topic required');
+      if (!title) throw new Error('Title required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      const response = await fetch('/api/content/text', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ topicId, title, position: position ?? 1, text: text || '' })
+      });
+      if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
+    },
     /**
      * Downloads the specified file and makes it accessible via an object URL, which can, for example, be used in an iframes src to show the file on the webpage.
      * 
