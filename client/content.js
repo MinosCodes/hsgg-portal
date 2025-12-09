@@ -1,11 +1,19 @@
 const contentList = document.querySelector('#content-list');
 const contentContainer = document.querySelector('#content-container');
 const contextHeading = document.querySelector('#context-heading');
+const chipYear = document.querySelector('#chip-year');
+const chipSubject = document.querySelector('#chip-subject');
+const dateiName = document.querySelector('#datei-name');
+const downloadLink = document.querySelector('#download-link');
+const fileViewer = document.querySelector('#file-viewer');
+const emptyState = document.querySelector('#empty-state');
+const filterInput = document.querySelector('#material-filter');
 
 const url = new URL(location.href);
 const selectedYear = url.searchParams.get('jahr');
 const selectedSubject = url.searchParams.get('fach');
 const currentFile = url.searchParams.get('file');
+const isLoggedIn = !!sessionStorage.getItem('token');
 
 const subjectLabels = {
     deutsch: 'Deutsch',
@@ -20,20 +28,31 @@ const subjectLabels = {
     informatik: 'Informatik'
 };
 
+const materials = [
+    { name: 'Arbeitsblatt Grammatik', file: 'bspl1.pdf', year: '5', subject: 'deutsch', type: 'PDF' },
+    { name: 'Lektüre-Auszug', file: 'bspl2.pdf', year: '6', subject: 'deutsch', type: 'PDF' },
+    { name: 'Mathe Übungsset Brüche', file: 'bspl3.pdf', year: '6', subject: 'mathematik', type: 'PDF' },
+    { name: 'Biologie: Zellaufbau', file: 'bspl4.pdf', year: '7', subject: 'biologie', type: 'PDF' },
+    { name: 'Physik Versuchsanleitung', file: 'bspl5.pdf', year: '8', subject: 'physik', type: 'PDF' },
+    { name: 'Chemie Reaktionsgleichungen', file: 'bspl6.pdf', year: '9', subject: 'chemie', type: 'PDF' },
+    { name: 'Politik: Demokratietheorie', file: 'bspl7.pdf', year: '9', subject: 'politik', type: 'PDF' },
+    { name: 'Informatik: Algorithmen Basics', file: 'bspl8.pdf', year: '10', subject: 'informatik', type: 'PDF' },
+];
+
 const formatSubjectLabel = (value) => {
     if (!value) return '';
     const normalized = value.toLowerCase();
-    if (subjectLabels[normalized]) {
-        return subjectLabels[normalized];
-    }
-    return value.charAt(0).toUpperCase() + value.slice(1);
+    return subjectLabels[normalized] || value.charAt(0).toUpperCase() + value.slice(1);
 };
 
-// Überschrift Jahr/Fach setzen
-if (selectedYear && selectedSubject && contextHeading) {
-    const subjectLabel = formatSubjectLabel(selectedSubject);
-    contextHeading.innerText = 'Jahr ' + selectedYear + ' – ' + subjectLabel;
-}
+const setHeading = () => {
+    const subjectLabel = formatSubjectLabel(selectedSubject) || 'Alle Fächer';
+    const yearLabel = selectedYear ? `Jahr ${selectedYear}` : 'Alle Jahrgänge';
+    const heading = selectedYear || selectedSubject ? `${yearLabel} – ${subjectLabel}` : 'Materialübersicht';
+    contextHeading.textContent = heading;
+    chipYear.textContent = yearLabel;
+    chipSubject.textContent = subjectLabel;
+};
 
 // --- Sidebar: Jahrgangs-Accordion ---
 
@@ -46,7 +65,6 @@ const closeAllYearSubjects = () => {
 const attachYearToggles = () => {
     document.querySelectorAll('#sidebar-menu .year-link').forEach(link => {
         link.addEventListener('click', (event) => {
-            // Home-Link NICHT abfangen, normale Navigation erlauben
             if (link.closest('.home-item')) {
                 return;
             }
@@ -68,30 +86,24 @@ const attachYearToggles = () => {
     });
 };
 
-attachYearToggles();
-
-if (selectedYear) {
-    closeAllYearSubjects();
-    const targetItem = document.querySelector(`#sidebar-menu .year-item[data-year="${selectedYear}"]`);
-    if (targetItem) {
-        const subjects = targetItem.querySelector('.year-subjects');
-        if (subjects) {
-            subjects.classList.remove('hidden');
-        }
-        if (selectedSubject) {
-            document.querySelectorAll('#sidebar-menu .year-subjects a')
-                .forEach(link => link.classList.remove('active'));
-            const activeLink = targetItem.querySelector(`.year-subjects a[href*="fach=${selectedSubject}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
+const openSelectedYear = () => {
+    if (selectedYear) {
+        closeAllYearSubjects();
+        const targetItem = document.querySelector(`#sidebar-menu .year-item[data-year="${selectedYear}"]`);
+        if (targetItem) {
+            const subjects = targetItem.querySelector('.year-subjects');
+            if (subjects) subjects.classList.remove('hidden');
+            if (selectedSubject) {
+                document.querySelectorAll('#sidebar-menu .year-subjects a').forEach(link => link.classList.remove('active'));
+                const activeLink = targetItem.querySelector(`.year-subjects a[href*="fach=${selectedSubject}"]`);
+                if (activeLink) activeLink.classList.add('active');
             }
         }
+    } else {
+        closeAllYearSubjects();
     }
-} else {
-    closeAllYearSubjects();
-}
+};
 
-// Klick außerhalb der Jahrgangsliste schließt Unterlisten
 document.addEventListener('click', (event) => {
     const clickedInsideYearList = event.target.closest('#sidebar .year-item');
     if (!clickedInsideYearList) {
@@ -99,59 +111,100 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// --- Beispiel-Content generieren ---
+// --- Materialliste & Detailansicht ---
 
-const listOfContent = [];
-for (let i = 1; i <= 10; i++) {
-    listOfContent.push({
-        name: 'Beispiel ' + i,
-        file: 'bspl' + i + '.pdf'
-    });
-}
-
-for (const fileData of listOfContent) {
-    const elem = document.createElement('li');
-    const link = document.createElement('a');
-    link.innerText = fileData.name;
-
+const updateUrl = (fileName) => {
     const linkUrl = new URL(location.href);
-    if (selectedYear) {
-        linkUrl.searchParams.set('jahr', selectedYear);
+    if (selectedYear) linkUrl.searchParams.set('jahr', selectedYear);
+    else linkUrl.searchParams.delete('jahr');
+    if (selectedSubject) linkUrl.searchParams.set('fach', selectedSubject);
+    else linkUrl.searchParams.delete('fach');
+    if (fileName) linkUrl.searchParams.set('file', fileName);
+    else linkUrl.searchParams.delete('file');
+    history.replaceState({}, '', linkUrl);
+};
+
+const showFile = (material) => {
+    if (!isLoggedIn) {
+        showLoginGate();
+        return;
     }
-    if (selectedSubject) {
-        linkUrl.searchParams.set('fach', selectedSubject);
+    if (!material) {
+        contentContainer.classList.remove('hidden-block');
+        emptyState.classList.remove('hidden-block');
+        fileViewer.src = '';
+        downloadLink.href = '';
+        dateiName.textContent = 'Bitte wählen Sie eine Datei';
+        updateUrl(null);
+        return;
     }
-    linkUrl.searchParams.set('file', fileData.file);
-    link.href = linkUrl.href;
 
-    elem.append(link);
-    contentList.append(elem);
-}
+    emptyState.classList.add('hidden-block');
+    dateiName.textContent = material.name;
+    const filePath = 'content/' + material.file;
+    downloadLink.href = filePath;
+    downloadLink.download = material.file;
+    downloadLink.classList.remove('disabled');
+    fileViewer.src = filePath;
+    contentContainer.classList.remove('hidden-block');
+    updateUrl(material.file);
+};
 
-// Ausgewählte Datei anzeigen
-if (currentFile) {
-    const currentFileData = listOfContent.filter(v => v.file === currentFile)[0];
-    const dateiName = document.querySelector('#datei-name');
-    dateiName.innerText = currentFileData ? currentFileData.name : currentFile;
 
-    document.querySelector('#download-link').href = 'content/' + currentFile;
-    document.querySelector('#file-viewer').src = 'content/' + currentFile;
+const renderList = (filterText = '') => {
+    contentList.innerHTML = '';
+    const query = filterText.trim().toLowerCase();
+    const filtered = materials.filter(item => {
+        const matchesYear = selectedYear ? item.year === selectedYear : true;
+        const matchesSubject = selectedSubject ? item.subject === selectedSubject : true;
+        const matchesQuery = query ? (item.name.toLowerCase().includes(query) || item.file.toLowerCase().includes(query)) : true;
+        return matchesYear && matchesSubject && matchesQuery;
+    });
 
-    document.querySelector('#content-container').classList.remove('invisible');
-}
+    if (!filtered.length) {
+        const empty = document.createElement('li');
+        empty.textContent = 'Keine Materialien gefunden.';
+        contentList.append(empty);
+        showFile(null);
+        return;
+    }
 
-// --- Sidebar + Buttons wie auf der Homepage ---
+    filtered.forEach(item => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#';
+        link.className = 'material-item';
+        link.setAttribute('data-file', item.file);
+        link.innerHTML = `
+            <div>
+                <div class="material-title">${item.name}</div>
+                <div class="material-meta">${item.type} · Jahr ${item.year} · ${formatSubjectLabel(item.subject)}</div>
+            </div>
+        `;
+        link.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            if (!isLoggedIn) {
+                showLoginGate();
+                return;
+            }
+            showFile(item);
+        });
+        li.append(link);
+        contentList.append(li);
+    });
+};
 
-const toggleButton    = document.getElementById('sidebar-toggle-button');   // Header-Button
+// --- Sidebar-Toggle ---
+
+const toggleButton    = document.getElementById('sidebar-toggle-button');
 const sidebar         = document.getElementById('sidebar');
+const closeButton     = document.getElementById('sidebar-close-button');
 
 const setInitialSidebarState = () => {
     if (window.innerWidth <= 768) {
-        // Mobil: Sidebar standardmäßig eingeklappt (Overlay)
         sidebar.classList.add('hidden');
         sidebar.classList.remove('show');
     } else {
-        // Desktop: Sidebar standardmäßig ausgeklappt und schiebt Inhalt
         sidebar.classList.add('show');
         sidebar.classList.remove('hidden');
     }
@@ -160,23 +213,58 @@ const setInitialSidebarState = () => {
 setInitialSidebarState();
 window.addEventListener('resize', setInitialSidebarState);
 
-// Button im Overlay
-toggleButton.addEventListener('click', () => {
-    if(sidebar.classList.contains('show')){
-        toggleButton.classList.toggle('active');
-        sidebar.classList.add('hidden');
-        sidebar.classList.remove('show');
-    } else {
-        toggleButton.classList.toggle('active');
-        sidebar.classList.add('show');
-        sidebar.classList.remove('hidden');
-    }
+toggleButton?.addEventListener('click', () => {
+    toggleButton.classList.toggle('active');
+    sidebar.classList.toggle('hidden');
+    sidebar.classList.toggle('show');
 });
 
-// Navbar-Button: Sidebar schließen
-closeButton.addEventListener('click', () => {
+closeButton?.addEventListener('click', () => {
     sidebar.classList.add('hidden');
     sidebar.classList.remove('show');
-    toggleButton.style.display = 'block';
-    closeOverlay.style.display = 'none';
+    toggleButton?.classList.remove('active');
 });
+
+// --- Init ---
+const showLoginGate = () => {
+    dateiName.textContent = 'Bitte zuerst anmelden';
+    downloadLink.href = 'login.html';
+    downloadLink.removeAttribute('download');
+    downloadLink.classList.add('disabled');
+    emptyState.classList.remove('hidden-block');
+    if (emptyState) {
+        const info = emptyState.querySelector('p');
+        if (info) info.textContent = 'Melden Sie sich an, um Materialien anzusehen und herunterzuladen.';
+    }
+    fileViewer.src = '';
+    contentContainer.classList.remove('hidden-block');
+    updateUrl(null);
+};
+
+const init = () => {
+    attachYearToggles();
+    openSelectedYear();
+    setHeading();
+    renderList();
+
+    if (filterInput) {
+        filterInput.addEventListener('input', (event) => {
+            renderList(event.target.value);
+        });
+    }
+
+    if (!isLoggedIn) {
+        showLoginGate();
+    } else if (currentFile) {
+        const current = materials.find(m => m.file === currentFile);
+        showFile(current || null);
+    } else {
+        showFile(null);
+    }
+
+    if (typeof renderUserControls === 'function') {
+        renderUserControls();
+    }
+};
+
+init();

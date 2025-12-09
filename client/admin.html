@@ -46,79 +46,53 @@
         <main id="main-content" class="content-wrapper">
             <section class="admin-section">
                 <h1>Benutzerverwaltung</h1>
-                <p>Hier können Administratoren Rollen und Rechte der Benutzer verwalten.</p>
+                <p>Rollen verwalten, neue Benutzer anlegen.</p>
 
-                <!-- Filter / Suche (rudimentär, später per JS angebunden) -->
                 <div class="admin-filters">
                     <label for="role-filter">Rolle filtern:</label>
                     <select id="role-filter">
                         <option value="all">Alle</option>
-                        <option value="user">User</option>
-                        <option value="editor">Editor</option>
-                        <option value="admin">Admin</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="TEACHER">Lehrkraft</option>
+                        <option value="STUDENT">Schüler/in</option>
                     </select>
 
-                    <label for="user-search">Benutzer suchen:</label>
-                    <input type="text" id="user-search" placeholder="Name oder E-Mail">
+                    <label for="user-search">Suche:</label>
+                    <input type="text" id="user-search" placeholder="Name oder Benutzername">
                 </div>
 
-                <!-- einfache Tabelle für Benutzerverwaltung -->
                 <div class="admin-table-wrapper">
                     <table class="admin-table">
                         <thead>
                         <tr>
-                            <th>Benutzer-ID</th>
+                            <th>ID</th>
                             <th>Name</th>
-                            <th>E-Mail</th>
+                            <th>Benutzername</th>
                             <th>Aktuelle Rolle</th>
                             <th>Neue Rolle</th>
                             <th>Aktion</th>
                         </tr>
                         </thead>
                         <tbody id="admin-user-table-body">
-                        <!-- Platzhalterdaten, werden später durch JS ersetzt -->
-                        <tr>
-                            <td>1</td>
-                            <td>Max Mustermann</td>
-                            <td>max@example.com</td>
-                            <td><span class="role-badge role-user">user</span></td>
-                            <td>
-                                <select>
-                                    <option value="user" selected>user</option>
-                                    <option value="editor">editor</option>
-                                    <option value="admin">admin</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button type="button" class="btn-small">Speichern</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Erika Admin</td>
-                            <td>erika@example.com</td>
-                            <td><span class="role-badge role-admin">admin</span></td>
-                            <td>
-                                <select>
-                                    <option value="user">user</option>
-                                    <option value="editor">editor</option>
-                                    <option value="admin" selected>admin</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button type="button" class="btn-small">Speichern</button>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <section class="admin-info">
-                    <h2>Hinweis</h2>
-                    <p>
-                        Diese Seite ist nur für Administratoren gedacht.
-                        Vor dem Zugriff sollte geprüft werden, ob der aktuell eingeloggte Benutzer Admin-Rechte besitzt.
-                    </p>
+                    <h2>Neuen Benutzer anlegen</h2>
+                    <form id="create-user-form" class="admin-filters">
+                        <input id="create-firstname" type="text" placeholder="Vorname" required>
+                        <input id="create-lastname" type="text" placeholder="Nachname" required>
+                        <input id="create-username" type="text" placeholder="Benutzername" required>
+                        <input id="create-password" type="password" placeholder="Passwort" required>
+                        <select id="create-role" required>
+                            <option value="TEACHER">Lehrkraft</option>
+                            <option value="STUDENT">Schüler/in</option>
+                            <option value="ADMIN">Admin</option>
+                        </select>
+                        <button type="submit" class="btn-small">Anlegen</button>
+                        <span id="create-user-message"></span>
+                    </form>
                 </section>
             </section>
         </main>

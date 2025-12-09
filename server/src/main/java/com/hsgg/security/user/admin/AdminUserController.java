@@ -43,4 +43,12 @@ public class AdminUserController {
 	public List<UserDto> getAllUsers() {
 		return adminUserService.getAllUsers();
 	}
+
+	@DeleteMapping("/{userId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long userId, Authentication auth) {
+		Long actingAdminId = (Long) auth.getPrincipal();
+		adminUserService.deleteUser(userId, actingAdminId);
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -2,70 +2,131 @@
 #login-section {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: calc(100vh - 140px); /* Höhe minus Header+Footer, bei Bedarf anpassen */
-    padding-top: 2em;
-    padding-bottom: 2em;
+    align-items: center;
+    /* Vertikal zentrieren */
+    min-height: calc(100vh - 140px);
+    padding: 2em;
+    background: transparent;
+    /* Hintergrund durchlässig für Main-Background */
 }
 
-/* Box-Stil an dein Farbschema angepasst */
+/* Modernisierte Box */
 .login-box {
     background: var(--color_01);
-    padding: 2em;
-    max-width: 340px;
+    /* Bestehender Hintergrund */
+    padding: 2.5em;
+    /* Mehr Padding */
+    max-width: 380px;
+    /* Etwas breiter */
     width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(35,108,147,0.2);
+    border-radius: 12px;
+    /* Rundere Ecken */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /* Tieferer Schatten */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
 }
 
 .login-box h1 {
     color: #ffffff;
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.8em;
     margin-top: 0;
-    margin-bottom: 1em;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+}
+
+/* Form Groups für Abstände */
+.form-group {
+    margin-bottom: 1.2rem;
 }
 
 .login-box label {
     display: block;
-    margin-top: 1em;
-    color: #ffffff;
-    font-weight: bold;
+    margin-bottom: 0.5em;
+    /* Abstand zum Input */
+    color: #e0f2fe;
+    /* Helleres Blau/Weiß für bessere Lesbarkeit */
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .login-box input {
     width: 100%;
-    padding: 0.5em;
-    border: 1px solid var(--color_05);
-    border-radius: 4px;
-    margin-top: 0.3em;
-    font-size: 1em;
+    padding: 0.8em;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    /* Leicht transparent */
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #fff;
+    /* Weißer Fokus-Rahmen */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .login-box .main-btn {
-    margin-top: 1.5em;
     width: 100%;
-    background: var(--maincolor);
+    margin-top: 1rem;
+    background: linear-gradient(135deg, var(--maincolor), var(--color_03));
+    /* Verlauf */
     color: #fff;
     border: none;
-    border-radius: 4px;
-    padding: 0.7em;
-    font-size: 1em;
+    border-radius: 6px;
+    padding: 0.9em;
+    font-size: 1.05rem;
+    font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.login-box .main-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
 }
 
 .login-box .main-btn:hover {
-    background: var(--color_03);
+    opacity: 0.95;
 }
 
-/* etwas kompakter auf kleinen Screens */
-@media (max-width: 768px) {
-    #login-section {
-        padding-top: 1.5em;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
+#login-message,
+#signup-message {
+    margin-top: 1em;
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    /* Platzhalter um Springen zu vermeiden */
+}
 
+#login-message.error,
+#signup-message.error {
+    color: #ff8a80;
+    /* Weicheres Rot */
+    background: rgba(255, 0, 0, 0.1);
+    padding: 0.5em;
+    border-radius: 4px;
+}
+
+#login-message.success,
+#signup-message.success {
+    color: #b9f6ca;
+    /* Weicheres Grün */
+    background: rgba(0, 255, 0, 0.1);
+    padding: 0.5em;
+    border-radius: 4px;
+}
+
+@media (max-width: 480px) {
     .login-box {
         padding: 1.5em;
     }

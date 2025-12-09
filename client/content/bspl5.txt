@@ -1,0 +1,43 @@
+Physik Versuchsanleitung – Jahr 8
+
+Experiment: Bestimmung der Erdbeschleunigung mit einem Fadenpendel
+
+Ziel: 
+Messung der Fallbeschleunigung g durch Schwingungsmessungen an einem einfachen Fadenpendel.
+
+Material:
+- Stahlkugel oder Gewicht
+- Dünner Faden (ca. 1-2 Meter)
+- Stativstab mit Klemme
+- Messlatte (Stahlmaßstab)
+- Stoppuhr
+- Evtl. Ständer für Aufhängung
+
+Durchführung:
+
+1. Aufbau:
+   - Den Faden an der Klemme befestigen
+   - Die Kugel am unteren Ende des Fadens befestigen
+   - Messlänge von ca. 1 Meter wählen und markieren
+
+2. Messung der Schwingungsdauer:
+   - Das Pendel etwa 10-15 cm aus der Ruhelage auslenken
+   - Mit der Stoppuhr die Zeit für 10 vollständige Schwingungen messen
+   - Mindestens 3 Messreihen durchführen
+
+3. Berechnung:
+   Schwingungsdauer T = gemessene Zeit / 10
+   
+   Formel: g = 4π²L / T²
+   
+   Mit: L = Fadenlänge (in Metern)
+        T = Schwingungsdauer (in Sekunden)
+
+Erwarteter Wert: g ≈ 9,81 m/s²
+
+Fehlerquellen:
+- Luftwiderstand
+- Reibung im Aufhängungspunkt
+- Ungenaue Zeitmessung
+
+Diese Anleitung ermöglicht praktisches Verständnis der Gravitationsphysik.

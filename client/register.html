@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HSGG - Registrieren</title>
+    <link href="grundgeruest/grundgeruest.css" rel="stylesheet"/>
+    <link href="login.css" rel="stylesheet"/>
+    <link href="register.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body>
+<div id="page">
+
+    <aside id="sidebar" class="hidden">
+        <div id="sidebar-close-overlay">
+            <button id="sidebar-close-button" aria-label="Navigation schließen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <nav id="sidebar-menu">
+            <ul class="sidebar top">
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="content">
+        <header id="header-content">
+            <div id="button-overlay">
+                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="header-title">Horst-Schlaemmer-Gedaechtnis-Gymnasium</div>
+            <div id="user-controls" class="user-controls" aria-live="polite"></div>
+        </header>
+
+        <main id="main-content" class="content-wrapper">
+            <section id="login-section">
+                <div class="login-box register-box">
+                    <h1>Registrieren</h1>
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="signup-firstname">Vorname</label>
+                            <input id="signup-firstname" name="firstname" type="text" autocomplete="given-name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-lastname">Nachname</label>
+                            <input id="signup-lastname" name="lastname" type="text" autocomplete="family-name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-username">Benutzername</label>
+                            <input id="signup-username" name="username" type="text" autocomplete="username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-password">Passwort</label>
+                            <input id="signup-password" name="password" type="password" autocomplete="new-password" required>
+                        </div>
+
+                        <button id="signup-button" type="submit" class="main-btn">Account erstellen</button>
+                        <p id="signup-message" aria-live="polite"></p>
+                        
+                        <div class="auth-switch">
+                            Bereits einen Account? <a href="login.html">Hier anmelden</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer-content" class="border-separation">
+            <ul>
+                <li><a href="#">Adresse</a></li>
+                <li><a href="tel:">Telefon</a></li>
+                <li><a href="mailto:">Email</a></li>
+            </ul>
+        </footer>
+    </div>
+</div>
+
+<script src="homepage.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof renderUserControls === 'function') {
+            renderUserControls();
+        }
+
+        const signupForm = document.getElementById('signup-form');
+        const firstnameInput = document.getElementById('signup-firstname');
+        const lastnameInput = document.getElementById('signup-lastname');
+        const signupUserInput = document.getElementById('signup-username');
+        const signupPasswordInput = document.getElementById('signup-password');
+        const signupButton = document.getElementById('signup-button');
+        const signupMessage = document.getElementById('signup-message');
+
+        const setMessage = (element, text, type = '') => {
+            element.textContent = text;
+            element.className = type ? type : '';
+        };
+
+        signupForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            setMessage(signupMessage, 'Registrierung läuft...', '');
+            signupButton.disabled = true;
+            try {
+                await api.register(
+                    signupUserInput.value.trim(),
+                    signupPasswordInput.value,
+                    firstnameInput.value.trim(),
+                    lastnameInput.value.trim()
+                );
+                setMessage(signupMessage, 'Registrierung erfolgreich. Weiterleitung zum Login...', 'success');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+            } catch (err) {
+                setMessage(signupMessage, 'Registrierung fehlgeschlagen: ' + (err?.message || 'Unbekannter Fehler'), 'error');
+                signupButton.disabled = false;
+            }
+        });
+    });
+</script>
+</body>
+</html>

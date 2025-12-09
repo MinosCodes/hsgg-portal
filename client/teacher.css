@@ -1,0 +1,73 @@
+.panel {
+    background: var(--weiss);
+    border: 1px solid var(--shat_02);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 20px rgba(35,108,147,0.08);
+}
+
+.panel h2 {
+    margin: 0 0 10px;
+    color: var(--maincolor);
+    font-size: var(--Überschrift-02);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    align-items: start;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    font-family: var(--font-verdana);
+    font-size: var(--Text-groß);
+    padding: 8px 10px;
+    border: 1px solid var(--shat_02);
+    border-radius: 6px;
+    background: var(--shat_05);
+    color: var(--schwarz);
+}
+
+.form-grid textarea {
+    grid-column: span 2;
+    min-height: 120px;
+}
+
+.btn {
+    background: var(--maincolor);
+    color: #fff;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: var(--Text-groß);
+    transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn:hover { background: var(--color_03); }
+.btn:active { transform: scale(0.98); }
+
+.msg {
+    margin: 0;
+    font-size: var(--Text-groß);
+    color: var(--schwarz);
+}
+
+.msg.success { color: #1c9c5a; }
+.msg.error { color: #d33; }
+
+.hint {
+    font-size: var(--Text-klein);
+    color: var(--color_06);
+    margin-top: 8px;
+}
+
+@media (max-width: 720px) {
+    .form-grid textarea {
+        grid-column: span 1;
+    }
+}

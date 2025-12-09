@@ -1,0 +1,49 @@
+Chemie: Reaktionsgleichungen – Jahr 9
+
+Einführung in chemische Reaktionen
+Eine chemische Reaktion ist eine Umwandlung von Stoffen, bei der Atombindungen aufgebrochen und neue Bindungen gebildet werden.
+
+Aufbau einer Reaktionsgleichung:
+Edukte (Ausgangsstoffe) → Produkte (Endstoffe)
+
+Beispiel: H₂ + O₂ → H₂O (unausgeglichen)
+Ausgeglichen: 2H₂ + O₂ → 2H₂O
+
+Wichtige Reaktionstypen:
+
+1. Synthesereaktion (Verbindung)
+   2H₂ + O₂ → 2H₂O
+   (Zwei einfache Stoffe bilden einen komplexeren Stoff)
+
+2. Analyse (Zerlegung)
+   2H₂O → 2H₂ + O₂
+   (Ein komplexer Stoff wird in einfachere Stoffe zerlegt)
+
+3. Einfache Austauschreaktion
+   Zn + CuSO₄ → ZnSO₄ + Cu
+   (Ein Element verdrängt ein anderes)
+
+4. Doppelte Austauschreaktion
+   HCl + NaOH → NaCl + H₂O
+   (Ionen werden ausgetauscht)
+
+Übungsaufgaben - Gleichen Sie die Reaktionsgleichungen aus:
+
+1. C + O₂ → CO₂
+   Lösung: C + O₂ → CO₂ (bereits ausgeglichen)
+
+2. Fe + O₂ → Fe₂O₃
+   Lösung: 4Fe + 3O₂ → 2Fe₂O₃
+
+3. H₂ + Cl₂ → HCl
+   Lösung: H₂ + Cl₂ → 2HCl
+
+4. CH₄ + O₂ → CO₂ + H₂O
+   Lösung: CH₄ + 2O₂ → CO₂ + 2H₂O
+
+Tipps zum Ausgleichen:
+- Zähle die Atome jedes Elements auf beiden Seiten
+- Verwende nur Koeffizienten, keine Indizes ändern
+- Arbeite systematisch von links nach rechts
+
+Diese Grundlagen sind essentiell für das Verständnis der Chemie.

@@ -1,75 +1,129 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>HSGG - Login</title>
-    <link href="grundgeruest/grundgeruest.css" rel="stylesheet"/>
-    <link href="login.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="grundgeruest/grundgeruest.css" rel="stylesheet" />
+    <link href="login.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="api.js"></script>
+    <script src="auth.js"></script>
 </head>
+
 <body>
-<div id="page">
+    <div id="page">
 
-    <!-- Sidebar wie auf der Homepage (kannst du bei Bedarf füllen oder leer lassen) -->
-    <aside id="sidebar" class="hidden">
-        <div id="sidebar-close-overlay">
-            <button id="sidebar-close-button" aria-label="Navigation schließen">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-
-        <nav id="sidebar-menu">
-            <ul class="sidebar top">
-                <!-- Wenn du beim Login keine Jahrgänge brauchst, kannst du diese Liste auch leer lassen -->
-            </ul>
-        </nav>
-    </aside>
-
-    <div id="content">
-        <!-- Header 1:1 aus homepage.html übernommen -->
-        <header id="header-content">
-            <div id="button-overlay">
-                <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+        <!-- Sidebar wie auf der Homepage (kannst du bei Bedarf füllen oder leer lassen) -->
+        <aside id="sidebar" class="hidden">
+            <div id="sidebar-close-overlay">
+                <button id="sidebar-close-button" aria-label="Navigation schließen">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
             </div>
-            Horst-Schlaemmer-Gedaechtnis-Gymnasium
-        </header>
 
-        <!-- Inhalt mit Wrapper wie auf der Homepage -->
-        <main id="main-content" class="content-wrapper">
-            <section id="login-section">
-                <div class="login-box">
-                    <h1>Anmelden</h1>
-                    <form>
-                        <label for="user">Benutzername</label>
-                        <input id="user" name="user" type="text" required>
+            <nav id="sidebar-menu">
+                <ul class="sidebar top">
+                    <!-- Wenn du beim Login keine Jahrgänge brauchst, kannst du diese Liste auch leer lassen -->
+                </ul>
+            </nav>
+        </aside>
 
-                        <label for="password">Passwort</label>
-                        <input id="password" name="password" type="password" required>
-
-                        <button type="submit" class="main-btn">Login</button>
-                    </form>
+        <div id="content">
+            <!-- Header 1:1 aus homepage.html übernommen -->
+            <header id="header-content">
+                <div id="button-overlay">
+                    <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
-            </section>
-        </main>
+                <div class="header-title">Horst-Schlaemmer-Gedaechtnis-Gymnasium</div>
+                <div id="user-controls" class="user-controls" aria-live="polite"></div>
+            </header>
 
-        <!-- Footer 1:1 wie auf der Homepage -->
-        <footer id="footer-content" class="border-separation">
-            <ul>
-                <li><a href="#">Adresse</a></li>
-                <li><a href="tel:">Telefon</a></li>
-                <li><a href="mailto:">Email</a></li>
-            </ul>
-        </footer>
+            <!-- Inhalt mit Wrapper wie auf der Homepage -->
+            <main id="main-content" class="content-wrapper">
+                <section id="login-section">
+                    <div class="login-box">
+                        <h1>Anmelden</h1>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="user">Benutzername</label>
+                                <input id="user" name="user" type="text" autocomplete="username" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Passwort</label>
+                                <input id="password" name="password" type="password" autocomplete="current-password"
+                                    required>
+                            </div>
+
+                            <button id="login-button" type="submit" class="main-btn">Login</button>
+                            <p id="login-message" aria-live="polite"></p>
+
+                            <div class="auth-switch">
+                                Noch kein Account? <a href="register.html">Hier registrieren</a>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer 1:1 wie auf der Homepage -->
+            <footer id="footer-content" class="border-separation">
+                <ul>
+                    <li><a href="#">Adresse</a></li>
+                    <li><a href="tel:">Telefon</a></li>
+                    <li><a href="mailto:">Email</a></li>
+                </ul>
+            </footer>
+        </div>
     </div>
-</div>
 
-<script src="homepage.js"></script>
+    <script src="homepage.js"></script>
+    <script>
+        // Simple login and signup handlers using existing API helper
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof renderUserControls === 'function') {
+                renderUserControls();
+            }
+
+            const form = document.getElementById('login-form');
+            const userInput = document.getElementById('user');
+            const passwordInput = document.getElementById('password');
+            const button = document.getElementById('login-button');
+            const message = document.getElementById('login-message');
+
+
+
+            const setMessage = (element, text, type = '') => {
+                element.textContent = text;
+                element.className = type ? type : '';
+            };
+
+            form?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                setMessage(message, 'Anmeldung läuft...', '');
+                button.disabled = true;
+                try {
+                    await api.login(userInput.value.trim(), passwordInput.value);
+                    setMessage(message, 'Erfolgreich angemeldet.', 'success');
+                    // Redirect after short delay to main page
+                    setTimeout(() => window.location.href = 'homepage.html', 400);
+                } catch (err) {
+                    setMessage(message, 'Login fehlgeschlagen: ' + (err?.message || 'Unbekannter Fehler'), 'error');
+                } finally {
+                    button.disabled = false;
+                }
+            });
+
+
+        });
+    </script>
 </body>
+
 </html>

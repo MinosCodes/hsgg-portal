@@ -81,16 +81,17 @@ body {
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
+}
 
-    &.show {
-        transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
-    }
-    &.hidden {
-        max-width: 0;
-        min-width: 0;
-        border-right-width: 0;
-        transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
-    }
+#sidebar.show {
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
+}
+
+#sidebar.hidden {
+    max-width: 0;
+    min-width: 0;
+    border-right-width: 0;
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, end);
 }
 
 /* Inhalt rechts füllt Rest (global für alle Seiten) */
@@ -111,7 +112,8 @@ body {
 #header-content {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 1rem;
     color: var(--weiss);
     font-family: var(--font-verdana);
     font-weight: bold;
@@ -120,6 +122,51 @@ body {
     padding: 10px 30px;
     padding-left: 60px;   /* Platz für Button */
     position: relative;
+    box-sizing: border-box;
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+}
+
+.user-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.user-greeting {
+    font-weight: 700;
+}
+
+.user-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.1);
+    color: var(--weiss);
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.user-action:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.user-action.logout {
+    border-color: rgba(255,255,255,0.9);
+}
+
+.user-action.accent {
+    background: #fff;
+    color: var(--maincolor);
+    border-color: #fff;
 }
 
 p {
@@ -134,26 +181,28 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
 
-    & > ul {
-        padding-left: 0px;
-        padding-right: 20px;
-    }
-    & li {
-        list-style: none;
-    }
-    & a {
-        color: var(--color_06);
-        font-family: var(--font-aptos);
-        font-size: var(--Überschrift-02);
-        line-height: 2;
-        text-decoration: none;
+#sidebar-menu > ul {
+    padding-left: 0px;
+    padding-right: 20px;
+}
 
-        &:hover {
-            color: var(--color_01);
-            text-decoration: underline;
-        }
-    }
+#sidebar-menu li {
+    list-style: none;
+}
+
+#sidebar-menu a {
+    color: var(--color_06);
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-02);
+    line-height: 2;
+    text-decoration: none;
+}
+
+#sidebar-menu a:hover {
+    color: var(--color_01);
+    text-decoration: underline;
 }
 
 /* Fächerlisten pro Jahr (Desktop-Basis) */
@@ -161,38 +210,39 @@ p {
     padding: 0;
     width: 100%;
     align-items: stretch;
-    &:first-child {
-        margin-top: 60px;
-    }
+}
 
-    & > li > a:hover {
-        color: var(--weiss) !important;
-        background-color: var(--color_11);
-    }
-    & > .year-item {
-        &:has(.year-subjects:not(.hidden)):not(.year-link:hover) > .year-link{
-            background-color: var(--maincolor);
-            color: var(--weiss) !important;
-        }
-        & .year-link:hover {
-            color: var(--weiss) !important;
-            background-color: var(--color_11);
-        }
-    }
+.sidebar:first-child {
+    margin-top: 60px;
+}
 
-    & > li {
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
+.sidebar > li > a:hover {
+    color: var(--weiss) !important;
+    background-color: var(--color_11);
+}
 
-        & > a {
-            padding: 4px 100%;
-            margin: 0 -100%;
-            display: block;
-        }
-    }
+.sidebar > .year-item:has(.year-subjects:not(.hidden)):not(.year-link:hover) > .year-link {
+    background-color: var(--maincolor);
+    color: var(--weiss) !important;
+}
+
+.sidebar > .year-item .year-link:hover {
+    color: var(--weiss) !important;
+    background-color: var(--color_11);
+}
+
+.sidebar > li {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.sidebar > li > a {
+    padding: 4px 100%;
+    margin: 0 -100%;
+    display: block;
 }
 
 .year-subjects {
@@ -200,40 +250,40 @@ p {
     padding: 10px 100%;
     margin: 0 -100%;
     background-color: var(--shat_02);
+}
 
-    & li {
-        text-align: center;
-        list-style: none;
-        margin: 0.15em 0;
-        padding: 0.2em 0.4em;
-        border-radius: 999px;
-        background-color: var(--shat_02);
+.year-subjects li {
+    text-align: center;
+    list-style: none;
+    margin: 0.15em 0;
+    padding: 0.2em 0.4em;
+    border-radius: 999px;
+    background-color: var(--shat_02);
+}
 
-        &:hover {
-            background-color: var(--shat_01);
-        }
-    }
+.year-subjects li:hover {
+    background-color: var(--shat_01);
+}
 
-    & a {
-        display: block;
-        font-family: var(--font-aptos);
-        font-size: var(--Überschrift-01);
-        color: var(--color_06);
-        text-decoration: none;
+.year-subjects a {
+    display: block;
+    font-family: var(--font-aptos);
+    font-size: var(--Überschrift-01);
+    color: var(--color_06);
+    text-decoration: none;
+}
 
-        &:hover {
-            color: var(--weiss) !important;
-        }
+.year-subjects a:hover {
+    color: var(--weiss) !important;
+}
 
-        &.active {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-    }
+.year-subjects a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
-    &.hidden {
-        display: none;
-    }
+.year-subjects.hidden {
+    display: none;
 }
 
 /* Footer and separators */
@@ -301,11 +351,11 @@ p {
     cursor: pointer;
 
     transition: background-color 0.3s ease;
+}
 
-    &.active {
-       background-color: var(--maincolor);
-       transition: background-color 0.3s ease;
-   }
+#sidebar-toggle-button.active {
+    background-color: var(--maincolor);
+    transition: background-color 0.3s ease;
 }
 
 #sidebar-toggle-button span {

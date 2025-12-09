@@ -1,5 +1,8 @@
 const toggleButton    = document.getElementById('sidebar-toggle-button');   // Header-Button
 const sidebar         = document.getElementById('sidebar');
+const rolePanels      = document.getElementById('role-panels');
+const adminCard       = document.getElementById('admin-card');
+const teacherCard     = document.getElementById('teacher-card');
 
 
 const setInitialSidebarState = () => {
@@ -63,5 +66,58 @@ document.addEventListener('click', (event) => {
     const clickedInsideYearList = event.target.closest('#sidebar .year-item');
     if (!clickedInsideYearList) {
         closeAllYearSubjects();
+    }
+});
+
+// --- Role-based quick links ---
+const showRolePanels = () => {
+    const role = sessionStorage.getItem('role');
+    let anyVisible = false;
+    if (role === 'ADMIN') {
+        adminCard?.removeAttribute('hidden');
+        teacherCard?.setAttribute('hidden', '');
+        anyVisible = true;
+    } else if (role === 'TEACHER') {
+        teacherCard?.removeAttribute('hidden');
+        adminCard?.setAttribute('hidden', '');
+        anyVisible = true;
+    } else {
+        adminCard?.setAttribute('hidden', '');
+        teacherCard?.setAttribute('hidden', '');
+    }
+
+    if (anyVisible) {
+        rolePanels?.removeAttribute('hidden');
+    } else {
+        rolePanels?.setAttribute('hidden', '');
+    }
+};
+
+const initLogoCardShortcut = () => {
+    const logoCard = document.querySelector('.logo-card[data-scroll-target]');
+    if (!logoCard) return;
+
+    const targetSelector = logoCard.getAttribute('data-scroll-target');
+    if (!targetSelector) return;
+
+    const targetSection = document.querySelector(targetSelector);
+    if (!targetSection) return;
+
+    const scrollToTarget = () => targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    logoCard.addEventListener('click', scrollToTarget);
+    logoCard.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            scrollToTarget();
+        }
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    showRolePanels();
+    initLogoCardShortcut();
+    if (typeof renderUserControls === 'function') {
+        renderUserControls();
     }
 });
