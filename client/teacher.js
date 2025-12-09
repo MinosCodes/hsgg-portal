@@ -9,6 +9,14 @@
     return true;
   };
 
+  const hideAdminLinkForTeachers = () => {
+    const role = sessionStorage.getItem('role');
+    const adminLink = document.querySelector('a[href="admin.html"]');
+    if (role !== 'ADMIN' && adminLink) {
+      adminLink.closest('li')?.remove();
+    }
+  };
+
   const subjectSelect = document.getElementById('topic-subject');
   const msgSubject = document.getElementById('msg-subject');
   const msgTopic = document.getElementById('msg-topic');
@@ -76,6 +84,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!ensureTeacher()) return;
+    hideAdminLinkForTeachers();
     loadSubjects();
 
     document.getElementById('form-subject')?.addEventListener('submit', handleSubject);
