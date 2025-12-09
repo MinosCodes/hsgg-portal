@@ -1,4 +1,4 @@
-(function() {
+(function () {
     const buildButton = (label, className) => {
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -40,7 +40,7 @@
             container.append(greeting, logoutBtn);
         } else {
             const loginLink = buildLink('Login', 'login.html', 'user-action');
-            const signupLink = buildLink('Signup', 'login.html#signup', 'user-action accent');
+            const signupLink = buildLink('Signup', 'register.html', 'user-action accent');
             container.append(loginLink, signupLink);
         }
     };
