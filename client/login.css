@@ -58,6 +58,20 @@
     background: var(--color_03);
 }
 
+#login-message {
+    margin-top: 0.8em;
+    font-size: 0.95em;
+    color: #e7f4ff;
+}
+
+#login-message.error {
+    color: #ffd6d6;
+}
+
+#login-message.success {
+    color: #d7ffd9;
+}
+
 /* etwas kompakter auf kleinen Screens */
 @media (max-width: 768px) {
     #login-section {
