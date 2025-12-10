@@ -1,3 +1,12 @@
+#login-form {
+    color: var(--weiss);
+    a {
+        font-size: var(--Überschrift-01);
+        font-weight: bold;
+        color: #aaddff;
+    }
+}
+
 /* Loginbereich in der Mitte des Inhaltsbereichs platzieren */
 #login-section {
     display: flex;
@@ -12,7 +21,7 @@
 
 /* Modernisierte Box */
 .login-box {
-    background: var(--color_01);
+    background: var(--mainshatt);
     /* Bestehender Hintergrund */
     padding: 2.5em;
     /* Mehr Padding */
@@ -32,7 +41,7 @@
 }
 
 .login-box h1 {
-    color: #ffffff;
+    color: var(--weiss);
     text-align: center;
     font-size: 1.8em;
     margin-top: 0;
@@ -49,8 +58,8 @@
     display: block;
     margin-bottom: 0.5em;
     /* Abstand zum Input */
-    color: #e0f2fe;
-    /* Helleres Blau/Weiß für bessere Lesbarkeit */
+    color: var(--weiss);
+    /* Weiß für bessere Lesbarkeit */
     font-weight: 500;
     font-size: 0.95rem;
 }
@@ -59,7 +68,7 @@
     width: 100%;
     padding: 0.8em;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.25);
     /* Leicht transparent */
     border-radius: 6px;
     color: #fff;
@@ -71,13 +80,13 @@
     outline: none;
     border-color: #fff;
     /* Weißer Fokus-Rahmen */
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .login-box .main-btn {
     width: 100%;
     margin-top: 1rem;
-    background: linear-gradient(135deg, var(--maincolor), var(--color_03));
+    background: linear-gradient(135deg, var(--shat_01), var(--shat_04));
     /* Verlauf */
     color: #fff;
     border: none;

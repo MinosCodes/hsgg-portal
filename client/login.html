@@ -15,18 +15,10 @@
     <div id="page">
 
         <!-- Sidebar wie auf der Homepage (kannst du bei Bedarf füllen oder leer lassen) -->
-        <aside id="sidebar" class="hidden">
-            <div id="sidebar-close-overlay">
-                <button id="sidebar-close-button" aria-label="Navigation schließen">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-
+        <aside id="sidebar" class="">
             <nav id="sidebar-menu">
                 <ul class="sidebar top">
-                    <!-- Wenn du beim Login keine Jahrgänge brauchst, kannst du diese Liste auch leer lassen -->
+                    <li><a href="./homepage.html">Home</a></li>
                 </ul>
             </nav>
         </aside>
@@ -34,13 +26,6 @@
         <div id="content">
             <!-- Header 1:1 aus homepage.html übernommen -->
             <header id="header-content">
-                <div id="button-overlay">
-                    <button id="sidebar-toggle-button" aria-label="Navigation öffnen">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
                 <div class="header-title">Horst-Schlaemmer-Gedaechtnis-Gymnasium</div>
                 <div id="user-controls" class="user-controls" aria-live="polite"></div>
             </header>
@@ -81,6 +66,13 @@
                     <li><a href="mailto:">Email</a></li>
                 </ul>
             </footer>
+        </div>
+        <div id="button-overlay">
+            <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </div>
 
