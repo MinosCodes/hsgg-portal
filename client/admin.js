@@ -11,8 +11,8 @@
     const role = sessionStorage.getItem('role');
     if (role !== 'ADMIN') {
       alert('Nur für Administratoren. Bitte als Admin einloggen.');
-      //window.location.href = 'login.html';
-      //return false;
+      window.location.href = 'login.html';
+      return false;
     }
     return true;
   };
