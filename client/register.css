@@ -14,6 +14,7 @@
 .auth-switch a {
     color: #aaddff; /* Helleres Blau für guten Kontrast auf dunklem Grund */
     text-decoration: none;
+    font-size: var(--Überschrift-01);
     font-weight: bold;
 }
 
