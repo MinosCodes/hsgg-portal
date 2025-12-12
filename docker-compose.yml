@@ -17,5 +17,20 @@ services:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
 
+  app:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: hsgg
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/hsgg
+      SPRING_DATASOURCE_USERNAME: hsgguser
+      SPRING_DATASOURCE_PASSWORD: secret
+    depends_on:
+      - mariadb
+
 volumes:
   mariadb_data:
