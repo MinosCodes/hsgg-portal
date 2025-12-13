@@ -34,7 +34,7 @@ public class FileEntity {
 	private Long size;
 
 	@ManyToOne
-	@JoinColumn(name = "topic_id")
+	@JoinColumn(name = "topic_id", nullable = false)
 	private Topic topic;
 
 	@CreatedDate

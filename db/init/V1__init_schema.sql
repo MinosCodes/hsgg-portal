@@ -31,7 +31,7 @@ CREATE TABLE files
     stored_name   VARCHAR(255) NOT NULL UNIQUE,
     mime_type     VARCHAR(255) NOT NULL,
     size          BIGINT       NOT NULL,
-    topic_id      BIGINT       NULL,
+    topic_id      BIGINT       NOT NULL,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
