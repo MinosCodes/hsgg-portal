@@ -38,7 +38,7 @@ CREATE TABLE files
     CONSTRAINT fk_files_topic
         FOREIGN KEY (topic_id)
             REFERENCES topics (id)
-            ON DELETE SET NULL
+            ON DELETE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
