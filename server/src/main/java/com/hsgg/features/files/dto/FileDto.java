@@ -15,7 +15,7 @@ public record FileDto(
 				file.getOriginalName(),
 				file.getMimeType(),
 				file.getSize(),
-				file.getTopic() != null ? file.getTopic().getId() : null
+				file.getTopic().getId()
 		);
 	}
 }
