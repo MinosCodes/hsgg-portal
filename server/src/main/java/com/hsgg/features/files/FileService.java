@@ -2,6 +2,7 @@ package com.hsgg.features.files;
 
 import com.hsgg.app.exceptions.NotFoundException;
 import com.hsgg.features.files.dto.FileDto;
+import com.hsgg.features.topics.TopicRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -14,16 +15,30 @@ import java.util.List;
 public class FileService {
 
 	private final FileRepository fileRepository;
+	private final TopicRepository topicRepository;
 
 	@Value("${learning-materials-dir:data}")
 	private String baseDir;
 
-	public FileService(FileRepository fileRepository) {
+	public FileService(FileRepository fileRepository, TopicRepository topicRepository) {
 		this.fileRepository = fileRepository;
+		this.topicRepository = topicRepository;
+
 	}
 
 	public List<FileDto> getAllFiles() {
 		return fileRepository.findAll()
+				.stream()
+				.map(FileDto::fromEntity)
+				.toList();
+	}
+
+	public List<FileDto> getFilesByTopic(Long topicId) {
+		if (!topicRepository.existsById(topicId)) {
+			throw new NotFoundException("Topic not found: " + topicId);
+		}
+
+		return fileRepository.findByTopicId(topicId)
 				.stream()
 				.map(FileDto::fromEntity)
 				.toList();
