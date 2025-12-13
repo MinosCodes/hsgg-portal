@@ -3,15 +3,18 @@ package com.hsgg.features.files;
 import com.hsgg.app.exceptions.NotFoundException;
 import com.hsgg.features.files.dto.FileDownload;
 import com.hsgg.features.files.dto.FileDto;
+import com.hsgg.features.topics.Topic;
 import com.hsgg.features.topics.TopicRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FileService {
@@ -64,7 +67,7 @@ public class FileService {
 		);
 	}
 
-	public void deleteFile(Long id) {
+	public void delete(Long id) {
 		FileEntity file = fileRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("File not found: " + id));
 
@@ -78,6 +81,39 @@ public class FileService {
 		}
 
 		fileRepository.delete(file);
+	}
+
+	public FileDto upload(MultipartFile file, Long topicId) {
+		if (file.isEmpty()) {
+			throw new IllegalArgumentException("File must not be empty");
+		}
+
+		Topic topic = topicRepository.findById(topicId)
+				.orElseThrow(() -> new NotFoundException("Topic not found: " + topicId));
+
+		String originalName = file.getOriginalFilename();
+		String storedName = UUID.randomUUID() + "_" + originalName;
+
+		Path uploadDir = Path.of("../", baseDir);
+		Path targetPath = uploadDir.resolve(storedName);
+
+		try {
+			Files.createDirectories(uploadDir);
+			file.transferTo(targetPath);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+
+		FileEntity entity = new FileEntity();
+		entity.setOriginalName(originalName);
+		entity.setStoredName(storedName);
+		entity.setMimeType(file.getContentType());
+		entity.setSize(file.getSize());
+		entity.setTopic(topic);
+
+		FileEntity saved = fileRepository.save(entity);
+
+		return FileDto.fromEntity(saved);
 	}
 
 	private Path getFilePath(String storedName) {
