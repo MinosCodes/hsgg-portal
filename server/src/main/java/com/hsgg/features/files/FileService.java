@@ -1,12 +1,14 @@
 package com.hsgg.features.files;
 
 import com.hsgg.app.exceptions.NotFoundException;
+import com.hsgg.features.files.dto.FileDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -18,6 +20,13 @@ public class FileService {
 
 	public FileService(FileRepository fileRepository) {
 		this.fileRepository = fileRepository;
+	}
+
+	public List<FileDto> getAllFiles() {
+		return fileRepository.findAll()
+				.stream()
+				.map(FileDto::fromEntity)
+				.toList();
 	}
 
 	public FileDownload loadForDownload(Long id) {

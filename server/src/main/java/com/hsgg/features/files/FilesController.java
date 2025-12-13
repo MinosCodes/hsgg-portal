@@ -1,5 +1,6 @@
 package com.hsgg.features.files;
 
+import com.hsgg.features.files.dto.FileDto;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/files")
 public class FilesController {
 
 	private final FileService fileService;
@@ -19,7 +22,12 @@ public class FilesController {
 		this.fileService = fileService;
 	}
 
-	@GetMapping("/files/{id}/download")
+	@GetMapping
+	public ResponseEntity<List<FileDto>> getAllFiles() {
+		return ResponseEntity.ok(fileService.getAllFiles());
+	}
+
+	@GetMapping("/{id}/download")
 	public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
 		FileService.FileDownload fileDownload = fileService.loadForDownload(id);
 
