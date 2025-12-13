@@ -1,13 +1,15 @@
 package com.hsgg.features.files;
 
 import com.hsgg.app.exceptions.NotFoundException;
+import com.hsgg.features.files.dto.FileDownload;
 import com.hsgg.features.files.dto.FileDto;
 import com.hsgg.features.topics.TopicRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class FileService {
 		FileEntity file = fileRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("File not found: " + id));
 
-		Path filePath = Path.of("../", baseDir, file.getStoredName());
+		Path filePath = this.getFilePath(file.getStoredName());
 		FileSystemResource resource = new FileSystemResource(filePath.toFile());
 
 		if (!resource.exists()) {
@@ -62,6 +64,23 @@ public class FileService {
 		);
 	}
 
-	public record FileDownload(String filename, String contentType, Resource resource) {
+	public void deleteFile(Long id) {
+		FileEntity file = fileRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("File not found: " + id));
+
+		Path filePath = this.getFilePath(file.getStoredName());
+
+		try {
+			Files.deleteIfExists(filePath);
+		} catch (IOException e) {
+			fileRepository.delete(file);
+			throw new RuntimeException("File not found: " + id);
+		}
+
+		fileRepository.delete(file);
+	}
+
+	private Path getFilePath(String storedName) {
+		return Path.of("../", baseDir, storedName);
 	}
 }
