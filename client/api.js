@@ -288,6 +288,31 @@ Object.defineProperty(window, 'api', {
       });
       if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
     },
+
+    /**
+     * Teacher/Admin: upload a file for a topic.
+     */
+    uploadFile: async (topicId, file) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error('Valid topic required');
+      if (!(file instanceof File)) throw new Error('A file must be selected.');
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const formData = new FormData();
+      formData.append('topicId', topicId);
+      formData.append('file', file);
+
+      const response = await fetch('/api/files', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`File upload failed with status code ${response.status}.`);
+
+      return await response.json();
+    },
     /**
      * Downloads the specified file and makes it accessible via an object URL, which can, for example, be used in an iframes src to show the file on the webpage.
      * 

@@ -14,6 +14,8 @@ const selectedYear = url.searchParams.get('jahr');
 const selectedSubject = url.searchParams.get('fach');
 const currentFile = url.searchParams.get('file');
 const isLoggedIn = !!sessionStorage.getItem('token');
+const userRole = sessionStorage.getItem('role');
+const canManageContent = isLoggedIn && (userRole === 'ADMIN' || userRole === 'TEACHER');
 
 const subjectLabels = {
     deutsch: 'Deutsch',
@@ -29,15 +31,25 @@ const subjectLabels = {
 };
 
 const materials = [
-    { name: 'Arbeitsblatt Grammatik', file: 'bspl1.pdf', year: '5', subject: 'deutsch', type: 'PDF' },
-    { name: 'Lektüre-Auszug', file: 'bspl2.pdf', year: '6', subject: 'deutsch', type: 'PDF' },
-    { name: 'Mathe Übungsset Brüche', file: 'bspl3.pdf', year: '6', subject: 'mathematik', type: 'PDF' },
-    { name: 'Biologie: Zellaufbau', file: 'bspl4.pdf', year: '7', subject: 'biologie', type: 'PDF' },
-    { name: 'Physik Versuchsanleitung', file: 'bspl5.pdf', year: '8', subject: 'physik', type: 'PDF' },
-    { name: 'Chemie Reaktionsgleichungen', file: 'bspl6.pdf', year: '9', subject: 'chemie', type: 'PDF' },
-    { name: 'Politik: Demokratietheorie', file: 'bspl7.pdf', year: '9', subject: 'politik', type: 'PDF' },
-    { name: 'Informatik: Algorithmen Basics', file: 'bspl8.pdf', year: '10', subject: 'informatik', type: 'PDF' },
+    { name: 'Mathe Übungsset Brüche', file: 'bspl3.pdf', year: '5', subject: 'mathematik', type: 'PDF' }
 ];
+
+const uploadPanel = document.getElementById('upload-panel');
+const fileUploadForm = document.getElementById('file-upload-form');
+const textBlockForm = document.getElementById('text-block-form');
+const fileSubjectSelect = document.getElementById('file-subject-select');
+const fileTopicSelect = document.getElementById('file-topic-select');
+const textSubjectSelect = document.getElementById('text-subject-select');
+const textTopicSelect = document.getElementById('text-topic-select');
+const materialFileInput = document.getElementById('material-file');
+const textBlockTitle = document.getElementById('text-block-title');
+const textBlockPosition = document.getElementById('text-block-position');
+const textBlockContent = document.getElementById('text-block-content');
+const fileUploadMessage = document.getElementById('file-upload-message');
+const textBlockMessage = document.getElementById('text-block-message');
+const subjectSelects = document.querySelectorAll('[data-subject-select]');
+const fileUploadButton = fileUploadForm?.querySelector('button[type="submit"]');
+const textBlockButton = textBlockForm?.querySelector('button[type="submit"]');
 
 const formatSubjectLabel = (value) => {
     if (!value) return '';
@@ -241,6 +253,173 @@ const showLoginGate = () => {
     updateUrl(null);
 };
 
+// --- Upload Panel (Teachers/Admins) ---
+
+const topicCache = new Map();
+let cachedSubjects = [];
+
+const setStatusMessage = (element, message = '', type = '') => {
+    if (!element) return;
+    element.textContent = message;
+    element.classList.remove('success', 'error');
+    if (type) {
+        element.classList.add(type);
+    }
+};
+
+const resetTopicSelect = (select) => {
+    if (!select) return;
+    select.innerHTML = '<option value="">Bitte zuerst ein Fach wählen</option>';
+    select.disabled = true;
+};
+
+const populateSubjectSelects = (subjects) => {
+    subjectSelects.forEach((select) => {
+        if (!select) return;
+        select.innerHTML = '<option value="">Fach auswählen</option>';
+        subjects.forEach((subject) => {
+            const option = document.createElement('option');
+            option.value = subject.id;
+            option.textContent = subject.name;
+            select.append(option);
+        });
+        select.disabled = false;
+        const topicTarget = document.getElementById(select.dataset.topicTarget || '');
+        resetTopicSelect(topicTarget);
+    });
+};
+
+const loadSubjects = async () => {
+    if (cachedSubjects.length) return cachedSubjects;
+    cachedSubjects = await window.api.getSubjects();
+    return cachedSubjects;
+};
+
+const loadTopicsForSubject = async (subjectId) => {
+    if (!subjectId) return [];
+    if (topicCache.has(subjectId)) return topicCache.get(subjectId);
+    const topics = await window.api.getTopicsForSubject(subjectId);
+    topicCache.set(subjectId, topics);
+    return topics;
+};
+
+const handleSubjectChange = async (select) => {
+    const topicTarget = document.getElementById(select?.dataset.topicTarget || '');
+    if (!topicTarget) return;
+
+    const subjectId = Number(select.value);
+    if (!subjectId) {
+        resetTopicSelect(topicTarget);
+        return;
+    }
+
+    topicTarget.disabled = true;
+    topicTarget.innerHTML = '<option value="">Themen werden geladen...</option>';
+
+    try {
+        const topics = await loadTopicsForSubject(subjectId);
+        topicTarget.innerHTML = '<option value="">Thema auswählen</option>';
+        topics.forEach((topic) => {
+            const option = document.createElement('option');
+            option.value = topic.id;
+            option.textContent = topic.title;
+            topicTarget.append(option);
+        });
+        topicTarget.disabled = false;
+    } catch (error) {
+        console.error('Konnte Themen nicht laden:', error);
+        topicTarget.innerHTML = '<option value="">Fehler beim Laden</option>';
+    }
+};
+
+const setButtonLoading = (button, isLoading) => {
+    if (!button) return;
+    button.disabled = isLoading;
+};
+
+const handleFileUpload = async (event) => {
+    event.preventDefault();
+    const topicId = Number(fileTopicSelect?.value);
+    const file = materialFileInput?.files?.[0];
+
+    setStatusMessage(fileUploadMessage);
+
+    if (!topicId) {
+        setStatusMessage(fileUploadMessage, 'Bitte zuerst ein Thema auswählen.', 'error');
+        return;
+    }
+    if (!file) {
+        setStatusMessage(fileUploadMessage, 'Bitte eine Datei auswählen.', 'error');
+        return;
+    }
+
+    setButtonLoading(fileUploadButton, true);
+    try {
+        await window.api.uploadFile(topicId, file);
+        setStatusMessage(fileUploadMessage, 'Datei erfolgreich hochgeladen.', 'success');
+        fileUploadForm?.reset();
+        resetTopicSelect(fileTopicSelect);
+    } catch (error) {
+        console.error('Upload fehlgeschlagen:', error);
+        setStatusMessage(fileUploadMessage, 'Fehler: ' + (error?.message || error), 'error');
+    } finally {
+        setButtonLoading(fileUploadButton, false);
+    }
+};
+
+const handleTextBlockSubmit = async (event) => {
+    event.preventDefault();
+    const topicId = Number(textTopicSelect?.value);
+    const title = textBlockTitle?.value?.trim();
+    const text = textBlockContent?.value?.trim();
+    const position = Number(textBlockPosition?.value) || 1;
+
+    setStatusMessage(textBlockMessage);
+
+    if (!topicId) {
+        setStatusMessage(textBlockMessage, 'Bitte zuerst ein Thema auswählen.', 'error');
+        return;
+    }
+    if (!title || !text) {
+        setStatusMessage(textBlockMessage, 'Titel und Text dürfen nicht leer sein.', 'error');
+        return;
+    }
+
+    setButtonLoading(textBlockButton, true);
+    try {
+        await window.api.createTextBlock(topicId, title, position, text);
+        setStatusMessage(textBlockMessage, 'Textblock gespeichert.', 'success');
+        textBlockForm?.reset();
+        resetTopicSelect(textTopicSelect);
+    } catch (error) {
+        console.error('Textblock konnte nicht erstellt werden:', error);
+        setStatusMessage(textBlockMessage, 'Fehler: ' + (error?.message || error), 'error');
+    } finally {
+        setButtonLoading(textBlockButton, false);
+    }
+};
+
+const initUploadPanel = async () => {
+    if (!uploadPanel) return;
+    uploadPanel.classList.remove('hidden-block');
+
+    try {
+        const subjects = await loadSubjects();
+        populateSubjectSelects(subjects);
+
+        subjectSelects.forEach((select) => {
+            select.addEventListener('change', (event) => handleSubjectChange(event.target));
+        });
+
+        fileUploadForm?.addEventListener('submit', handleFileUpload);
+        textBlockForm?.addEventListener('submit', handleTextBlockSubmit);
+    } catch (error) {
+        uploadPanel.classList.add('hidden-block');
+        console.error('Upload-Bereich konnte nicht initialisiert werden:', error);
+        alert('Upload-Bereich konnte nicht geladen werden: ' + (error?.message || error));
+    }
+};
+
 const init = () => {
     attachYearToggles();
     openSelectedYear();
@@ -260,6 +439,12 @@ const init = () => {
         showFile(current || null);
     } else {
         showFile(null);
+    }
+
+    if (canManageContent) {
+        initUploadPanel();
+    } else if (uploadPanel) {
+        uploadPanel.classList.add('hidden-block');
     }
 
     if (typeof renderUserControls === 'function') {
