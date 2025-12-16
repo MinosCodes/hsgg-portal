@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const queryParam = urlParams.get('q');
     if (queryParam) {
         searchInput.value = queryParam;
+        clearButton.style.display = 'flex';
         performSearch(queryParam);
     }
 
@@ -92,89 +93,39 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsInfo.innerHTML = '';
 
         try {
-            // API-Aufruf zum Abrufen aller Materialien
-            const materials = await searchMaterials(query);
+            // Prüfen ob User eingeloggt ist
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                displayLoginPrompt(query);
+                return;
+            }
 
-            if (materials.length === 0) {
+            // API-Aufruf über window.api.search()
+            const searchResults = await window.api.search(query);
+
+            console.log('Suchergebnisse:', searchResults); // Zum Debuggen
+
+            if (!searchResults || searchResults.length === 0) {
                 displayNoResults(query);
             } else {
-                displayResults(materials, query);
+                displayResults(searchResults, query);
             }
         } catch (error) {
             console.error('Fehler bei der Suche:', error);
-            resultsContainer.innerHTML = '<div class="no-results"><h2>Fehler</h2><p>Bei der Suche ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p></div>';
-        }
-    }
 
-    // Suchlogik - durchsucht alle Materialien
-    async function searchMaterials(query) {
-        const results = [];
-        const queryLower = query.toLowerCase();
-
-        // Alle möglichen Jahr/Fach-Kombinationen durchsuchen
-        const years = [5, 6, 7, 8, 9, 10];
-        const subjects = {
-            5: ['deutsch', 'mathematik', 'englisch', 'biologie'],
-            6: ['deutsch', 'mathematik', 'englisch', 'franzoesisch', 'latein', 'biologie', 'physik'],
-            7: ['deutsch', 'mathematik', 'franzoesisch', 'latein', 'biologie', 'chemie', 'physik', 'politik', 'informatik'],
-            8: ['deutsch', 'mathematik', 'franzoesisch', 'latein', 'biologie', 'chemie', 'physik', 'politik', 'informatik'],
-            9: ['deutsch', 'mathematik', 'franzoesisch', 'latein', 'biologie', 'chemie', 'physik', 'politik', 'informatik'],
-            10: ['deutsch', 'mathematik', 'franzoesisch', 'latein', 'biologie', 'chemie', 'physik', 'politik', 'informatik']
-        };
-
-        // Fach-Namen-Mapping für bessere Anzeige
-        const subjectNames = {
-            'deutsch': 'Deutsch',
-            'mathematik': 'Mathematik',
-            'englisch': 'Englisch',
-            'franzoesisch': 'Französisch',
-            'latein': 'Latein',
-            'biologie': 'Biologie',
-            'chemie': 'Chemie',
-            'physik': 'Physik',
-            'politik': 'Politik',
-            'informatik': 'Informatik'
-        };
-
-        for (const year of years) {
-            for (const subject of subjects[year]) {
-                try {
-                    // API-Aufruf für jede Kombination
-                    const response = await fetch(`/api/material?jahr=${year}&fach=${subject}`);
-                    if (response.ok) {
-                        const data = await response.json();
-
-                        // Jedes Material prüfen
-                        if (data.materials && Array.isArray(data.materials)) {
-                            data.materials.forEach(material => {
-                                // Suche in: Titel, Beschreibung, Fach, Inhalt
-                                const titleMatch = material.title?.toLowerCase().includes(queryLower);
-                                const descMatch = material.description?.toLowerCase().includes(queryLower);
-                                const subjectMatch = subject.toLowerCase().includes(queryLower) ||
-                                    subjectNames[subject].toLowerCase().includes(queryLower);
-                                const contentMatch = material.content?.toLowerCase().includes(queryLower);
-
-                                if (titleMatch || descMatch || subjectMatch || contentMatch) {
-                                    results.push({
-                                        id: material.id,
-                                        title: material.title || 'Ohne Titel',
-                                        description: material.description || 'Keine Beschreibung verfügbar',
-                                        year: year,
-                                        subject: subject,
-                                        subjectName: subjectNames[subject],
-                                        url: `content.html?jahr=${year}&fach=${subject}#material-${material.id}`
-                                    });
-                                }
-                            });
-                        }
-                    }
-                } catch (error) {
-                    console.error(`Fehler beim Abrufen von Jahr ${year}, Fach ${subject}:`, error);
-                }
+            // Prüfen ob es ein Authentifizierungsfehler ist
+            if (error.message.includes('Not Logged In') || error.message.includes('401')) {
+                displayLoginPrompt(query);
+            } else {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <h2>Fehler bei der Suche</h2>
+                        <p>${escapeHtml(error.message)}</p>
+                        <p>Bitte versuchen Sie es später erneut.</p>
+                    </div>
+                `;
             }
         }
-
-        return results;
     }
 
     // Ergebnisse anzeigen
@@ -186,17 +137,38 @@ document.addEventListener('DOMContentLoaded', () => {
         results.forEach(result => {
             const resultItem = document.createElement('div');
             resultItem.className = 'search-result-item';
+
+            // URL für das Ergebnis generieren
+            const resultUrl = generateResultUrl(result);
+
             resultItem.onclick = () => {
-                window.location.href = result.url;
+                window.location.href = resultUrl;
             };
 
+            // Titel extrahieren
+            const title = result.title || result.name || 'Ohne Titel';
+
+            // Beschreibung extrahieren
+            const description = result.description || result.text || result.content || 'Keine Beschreibung verfügbar';
+
+            // Fach und Jahr extrahieren
+            const subjectInfo = extractSubjectInfo(result);
+            const yearInfo = extractYearInfo(result);
+
+            // HTML für das Ergebnis erstellen
+            let metaHtml = '<div class="search-result-meta">';
+            if (yearInfo) {
+                metaHtml += `<span class="meta-badge meta-year">${escapeHtml(yearInfo)}</span>`;
+            }
+            if (subjectInfo) {
+                metaHtml += `<span class="meta-badge meta-subject">${escapeHtml(subjectInfo)}</span>`;
+            }
+            metaHtml += '</div>';
+
             resultItem.innerHTML = `
-                <h3>${escapeHtml(result.title)}</h3>
-                <div class="search-result-meta">
-                    <span class="meta-badge meta-year">Jahr ${result.year}</span>
-                    <span class="meta-badge meta-subject">${escapeHtml(result.subjectName)}</span>
-                </div>
-                <p class="search-result-description">${escapeHtml(result.description)}</p>
+                <h3>${escapeHtml(title)}</h3>
+                ${metaHtml}
+                <p class="search-result-description">${escapeHtml(truncate(description, 200))}</p>
             `;
 
             resultsContainer.appendChild(resultItem);
@@ -215,10 +187,104 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    // Login-Prompt anzeigen
+    function displayLoginPrompt(query) {
+        resultsInfo.innerHTML = `Suche nach "<strong>${escapeHtml(query)}</strong>"`;
+        resultsContainer.innerHTML = `
+            <div class="no-results">
+                <h2>Anmeldung erforderlich</h2>
+                <p>Um die Suchfunktion nutzen zu können, müssen Sie angemeldet sein.</p>
+                <p style="margin-top: 1.5em;">
+                    <a href="login.html" class="search-btn">Zum Login</a>
+                </p>
+            </div>
+        `;
+    }
+
+    // Hilfsfunktionen
+
+    // URL für Ergebnis generieren
+    function generateResultUrl(result) {
+        // Wenn das Ergebnis eine URL hat, diese verwenden
+        if (result.url) return result.url;
+        if (result.link) return result.link;
+
+        // Wenn es eine topicId gibt, zur Topic-Seite verlinken
+        if (result.topicId) {
+            return `content.html?topicId=${result.topicId}`;
+        }
+
+        // Wenn es eine subjectId gibt
+        if (result.subjectId) {
+            return `content.html?subjectId=${result.subjectId}`;
+        }
+
+        // Fallback zur allgemeinen Content-Seite
+        return 'content.html';
+    }
+
+    // Fach-Information extrahieren
+    function extractSubjectInfo(result) {
+        if (result.subject) return result.subject;
+        if (result.subjectName) return result.subjectName;
+        if (result.subject_name) return result.subject_name;
+
+        // Fach-Namen-Mapping
+        const subjectMap = {
+            'deutsch': 'Deutsch',
+            'mathematik': 'Mathematik',
+            'mathe': 'Mathematik',
+            'englisch': 'Englisch',
+            'französisch': 'Französisch',
+            'franzoesisch': 'Französisch',
+            'latein': 'Latein',
+            'biologie': 'Biologie',
+            'bio': 'Biologie',
+            'chemie': 'Chemie',
+            'physik': 'Physik',
+            'politik': 'Politik',
+            'informatik': 'Informatik'
+        };
+
+        // Versuchen, Fach aus Titel oder Beschreibung zu extrahieren
+        const text = ((result.title || '') + ' ' + (result.description || '')).toLowerCase();
+        for (const [key, value] of Object.entries(subjectMap)) {
+            if (text.includes(key)) return value;
+        }
+
+        return null;
+    }
+
+    // Jahr-Information extrahieren
+    function extractYearInfo(result) {
+        if (result.year) return `Jahr ${result.year}`;
+        if (result.grade) return `Jahr ${result.grade}`;
+        if (result.class) return `Klasse ${result.class}`;
+
+        // Versuchen, Jahr aus Titel oder Beschreibung zu extrahieren
+        const text = (result.title || '') + ' ' + (result.description || '');
+        const yearMatch = text.match(/Jahr\s*(\d+)/i);
+        if (yearMatch) return `Jahr ${yearMatch[1]}`;
+
+        const gradeMatch = text.match(/Klasse\s*(\d+)/i);
+        if (gradeMatch) return `Klasse ${gradeMatch[1]}`;
+
+        return null;
+    }
+
+    // Text kürzen
+    function truncate(text, maxLength) {
+        if (!text) return '';
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength) + '...';
+    }
+
     // HTML escapen für Sicherheit
     function escapeHtml(text) {
+        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 });
+
