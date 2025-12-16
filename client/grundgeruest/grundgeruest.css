@@ -269,6 +269,11 @@ p {
     font-family: var(--font-aptos);
     font-size: var(--Überschrift-01);
     color: var(--color_06);
+.nav-placeholder {
+    color: var(--color_17, #4f5b66);
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+}
     text-decoration: none;
 }
 

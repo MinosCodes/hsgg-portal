@@ -12,10 +12,13 @@ const filterInput = document.querySelector('#material-filter');
 const url = new URL(location.href);
 const selectedYear = url.searchParams.get('jahr');
 const selectedSubject = url.searchParams.get('fach');
+const selectedSubjectId = url.searchParams.get('subjectId');
+const selectedSubjectName = url.searchParams.get('subjectName');
 const currentFile = url.searchParams.get('file');
 const isLoggedIn = !!sessionStorage.getItem('token');
 const userRole = sessionStorage.getItem('role');
 const canManageContent = isLoggedIn && (userRole === 'ADMIN' || userRole === 'TEACHER');
+const subjectListContainer = document.querySelector('[data-subject-list]');
 
 const subjectLabels = {
     deutsch: 'Deutsch',
@@ -57,8 +60,14 @@ const formatSubjectLabel = (value) => {
     return subjectLabels[normalized] || value.charAt(0).toUpperCase() + value.slice(1);
 };
 
+const subjectHeadingLabel = () => {
+    if (selectedSubjectName) return selectedSubjectName;
+    if (selectedSubject) return formatSubjectLabel(selectedSubject);
+    return 'Alle Fächer';
+};
+
 const setHeading = () => {
-    const subjectLabel = formatSubjectLabel(selectedSubject) || 'Alle Fächer';
+    const subjectLabel = subjectHeadingLabel();
     const yearLabel = selectedYear ? `Jahr ${selectedYear}` : 'Alle Jahrgänge';
     const heading = selectedYear || selectedSubject ? `${yearLabel} – ${subjectLabel}` : 'Materialübersicht';
     contextHeading.textContent = heading;
@@ -122,6 +131,61 @@ document.addEventListener('click', (event) => {
         closeAllYearSubjects();
     }
 });
+
+// --- Dynamic subject navigation ---
+
+const subjectNavMessage = (message) => {
+    if (!subjectListContainer) return;
+    subjectListContainer.innerHTML = `<li class="nav-placeholder">${message}</li>`;
+};
+
+const buildSubjectLink = (subject) => {
+    const params = new URLSearchParams();
+    params.set('jahr', selectedYear || '5');
+    params.set('subjectId', subject.id);
+    params.set('subjectName', subject.name);
+    params.set('fach', subject.name);
+    return `content.html?${params.toString()}`;
+};
+
+const renderSidebarSubjects = (subjects) => {
+    if (!subjectListContainer) return;
+    if (!subjects.length) {
+        subjectNavMessage('Noch keine Fächer verfügbar.');
+        return;
+    }
+
+    subjectListContainer.innerHTML = '';
+    const activeSubjectId = selectedSubjectId ? Number(selectedSubjectId) : null;
+
+    subjects.forEach((subject) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = buildSubjectLink(subject);
+        link.textContent = subject.name;
+        if (activeSubjectId && subject.id === activeSubjectId) {
+            link.classList.add('active');
+        }
+        li.append(link);
+        subjectListContainer.append(li);
+    });
+};
+
+const initSidebarSubjects = async () => {
+    if (!subjectListContainer) return;
+    if (!isLoggedIn) {
+        subjectNavMessage('Bitte zuerst anmelden.');
+        return;
+    }
+
+    try {
+        const subjects = await loadSubjects();
+        renderSidebarSubjects(subjects);
+    } catch (error) {
+        console.error('Fächer konnten nicht geladen werden:', error);
+        subjectNavMessage('Fächer konnten nicht geladen werden.');
+    }
+};
 
 // --- Materialliste & Detailansicht ---
 
@@ -424,6 +488,7 @@ const init = () => {
     attachYearToggles();
     openSelectedYear();
     setHeading();
+    initSidebarSubjects();
     renderList();
 
     if (filterInput) {
