@@ -257,6 +257,18 @@ Object.defineProperty(window, 'api', {
       if (!response.ok) throw new Error(`Create subject failed with status code ${response.status}.`);
     },
 
+    deleteSubject: async (subjectId) => {
+      if (!Number.isSafeInteger(subjectId) || subjectId < 1) throw new Error('Valid subject required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const response = await fetch(`/api/subjects/${subjectId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete subject failed with status code ${response.status}.`);
+    },
+
     /**
      * Teacher/Admin: create topic.
      */
@@ -287,6 +299,73 @@ Object.defineProperty(window, 'api', {
         body: JSON.stringify({ topicId, title, position: position ?? 1, text: text || '' })
       });
       if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
+    },
+
+    deleteContentBlock: async (blockId) => {
+      if (!Number.isSafeInteger(blockId) || blockId < 1) throw new Error('Valid content block required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const response = await fetch(`/api/content/${blockId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete content block failed with status code ${response.status}.`);
+    },
+
+    /**
+     * Teacher/Admin: upload a file for a topic.
+     */
+    uploadFile: async (topicId, file) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error('Valid topic required');
+      if (!(file instanceof File)) throw new Error('A file must be selected.');
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const formData = new FormData();
+      formData.append('topicId', topicId);
+      formData.append('file', file);
+
+      const response = await fetch('/api/files', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`File upload failed with status code ${response.status}.`);
+
+      return await response.json();
+    },
+
+    getFiles: async (topicId) => {
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      let endpoint = '/api/files';
+      if (topicId != null) {
+        if (!Number.isSafeInteger(topicId) || topicId < 1) throw new Error('Valid topic required');
+        endpoint += `?topicId=${topicId}`;
+      }
+
+      const response = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Request for files failed with status code ${response.status}.`);
+
+      return await response.json();
+    },
+
+    deleteFile: async (fileId) => {
+      if (!Number.isSafeInteger(fileId) || fileId < 1) throw new Error('Valid file required');
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const response = await fetch(`/api/files/${fileId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete file failed with status code ${response.status}.`);
     },
     /**
      * Downloads the specified file and makes it accessible via an object URL, which can, for example, be used in an iframes src to show the file on the webpage.

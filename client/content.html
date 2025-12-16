@@ -31,79 +31,8 @@
             <ul class="sidebar top">
                 <li class="year-item" data-year="5">
                     <a href="#" class="year-link">Jahr 5</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=5&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=5&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=5&amp;fach=englisch">Englisch</a></li>
-                        <li><a href="?jahr=5&amp;fach=biologie">Biologie</a></li>
-                    </ul>
-                </li>
-                <li class="year-item" data-year="6">
-                    <a href="#" class="year-link">Jahr 6</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=6&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=6&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=6&amp;fach=englisch">Englisch</a></li>
-                        <li><a href="?jahr=6&amp;fach=franzoesisch">Französisch</a></li>
-                        <li><a href="?jahr=6&amp;fach=latein">Latein</a></li>
-                        <li><a href="?jahr=6&amp;fach=biologie">Biologie</a></li>
-                        <li><a href="?jahr=6&amp;fach=physik">Physik</a></li>
-                    </ul>
-                </li>
-                <li class="year-item" data-year="7">
-                    <a href="#" class="year-link">Jahr 7</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=7&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=7&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=7&amp;fach=franzoesisch">Französisch</a></li>
-                        <li><a href="?jahr=7&amp;fach=latein">Latein</a></li>
-                        <li><a href="?jahr=7&amp;fach=biologie">Biologie</a></li>
-                        <li><a href="?jahr=7&amp;fach=chemie">Chemie</a></li>
-                        <li><a href="?jahr=7&amp;fach=physik">Physik</a></li>
-                        <li><a href="?jahr=7&amp;fach=politik">Politik</a></li>
-                        <li><a href="?jahr=7&amp;fach=informatik">Informatik</a></li>
-                    </ul>
-                </li>
-                <li class="year-item" data-year="8">
-                    <a href="#" class="year-link">Jahr 8</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=8&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=8&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=8&amp;fach=franzoesisch">Französisch</a></li>
-                        <li><a href="?jahr=8&amp;fach=latein">Latein</a></li>
-                        <li><a href="?jahr=8&amp;fach=biologie">Biologie</a></li>
-                        <li><a href="?jahr=8&amp;fach=chemie">Chemie</a></li>
-                        <li><a href="?jahr=8&amp;fach=physik">Physik</a></li>
-                        <li><a href="?jahr=8&amp;fach=politik">Politik</a></li>
-                        <li><a href="?jahr=8&amp;fach=informatik">Informatik</a></li>
-                    </ul>
-                </li>
-                <li class="year-item" data-year="9">
-                    <a href="#" class="year-link">Jahr 9</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=9&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=9&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=9&amp;fach=franzoesisch">Französisch</a></li>
-                        <li><a href="?jahr=9&amp;fach=latein">Latein</a></li>
-                        <li><a href="?jahr=9&amp;fach=biologie">Biologie</a></li>
-                        <li><a href="?jahr=9&amp;fach=chemie">Chemie</a></li>
-                        <li><a href="?jahr=9&amp;fach=physik">Physik</a></li>
-                        <li><a href="?jahr=9&amp;fach=politik">Politik</a></li>
-                        <li><a href="?jahr=9&amp;fach=informatik">Informatik</a></li>
-                    </ul>
-                </li>
-                <li class="year-item" data-year="10">
-                    <a href="#" class="year-link">Jahr 10</a>
-                    <ul class="year-subjects hidden">
-                        <li><a href="?jahr=10&amp;fach=deutsch">Deutsch</a></li>
-                        <li><a href="?jahr=10&amp;fach=mathematik">Mathematik</a></li>
-                        <li><a href="?jahr=10&amp;fach=franzoesisch">Französisch</a></li>
-                        <li><a href="?jahr=10&amp;fach=latein">Latein</a></li>
-                        <li><a href="?jahr=10&amp;fach=biologie">Biologie</a></li>
-                        <li><a href="?jahr=10&amp;fach=chemie">Chemie</a></li>
-                        <li><a href="?jahr=10&amp;fach=physik">Physik</a></li>
-                        <li><a href="?jahr=10&amp;fach=politik">Politik</a></li>
-                        <li><a href="?jahr=10&amp;fach=informatik">Informatik</a></li>
+                    <ul class="year-subjects hidden" data-subject-list>
+                        <li class="nav-placeholder">Bitte anmelden, um Fächer zu sehen.</li>
                     </ul>
                 </li>
             </ul>
@@ -164,6 +93,70 @@
                             <p>Wählen Sie links ein Material aus, um Vorschau und Download zu sehen.</p>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel upload-panel hidden-block" id="upload-panel" aria-labelledby="upload-panel-heading">
+                <div class="panel-head">
+                    <div>
+                        <p class="eyebrow">Lehrkräfte &amp; Admins</p>
+                        <h2 id="upload-panel-heading">Material hinzufügen</h2>
+                    </div>
+                </div>
+                <p class="lead">Laden Sie neue Dateien hoch oder ergänzen Sie Themen direkt mit Textbausteinen. Die Auswahl erfolgt pro Fach und Thema.</p>
+
+                <div class="upload-grid">
+                    <form id="file-upload-form" class="upload-card" enctype="multipart/form-data">
+                        <h3>Datei hochladen</h3>
+                        <label>
+                            <span>Fach</span>
+                            <select id="file-subject-select" data-subject-select data-topic-target="file-topic-select" required>
+                                <option value="">Fach auswählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Thema</span>
+                            <select id="file-topic-select" required disabled>
+                                <option value="">Bitte zuerst ein Fach wählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Datei</span>
+                            <input type="file" id="material-file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg" required>
+                        </label>
+                        <button type="submit" class="btn primary btn-small">Datei hochladen</button>
+                        <p id="file-upload-message" class="form-message" aria-live="polite"></p>
+                    </form>
+
+                    <form id="text-block-form" class="upload-card">
+                        <h3>Textblock anlegen</h3>
+                        <label>
+                            <span>Fach</span>
+                            <select id="text-subject-select" data-subject-select data-topic-target="text-topic-select" required>
+                                <option value="">Fach auswählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Thema</span>
+                            <select id="text-topic-select" required disabled>
+                                <option value="">Bitte zuerst ein Fach wählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Titel</span>
+                            <input type="text" id="text-block-title" maxlength="255" required>
+                        </label>
+                        <label>
+                            <span>Position</span>
+                            <input type="number" id="text-block-position" min="1" value="1" required>
+                        </label>
+                        <label>
+                            <span>Text</span>
+                            <textarea id="text-block-content" rows="4" required></textarea>
+                        </label>
+                        <button type="submit" class="btn primary btn-small">Text speichern</button>
+                        <p id="text-block-message" class="form-message" aria-live="polite"></p>
+                    </form>
                 </div>
             </section>
         </main>

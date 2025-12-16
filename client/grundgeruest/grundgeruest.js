@@ -1,5 +1,6 @@
 const toggleButton = document.getElementById('sidebar-toggle-button');
 const sidebar = document.getElementById('sidebar');
+const subjectList = document.querySelector('[data-subject-list]');
 
 // Ensure sensible initial state depending on viewport width
 const setInitialSidebarState = () => {
@@ -51,3 +52,53 @@ document.addEventListener('click', (event) => {
         closeAllYearSubjects();
     }
 });
+
+const setSidebarMessage = (message) => {
+    if (!subjectList) return;
+    subjectList.innerHTML = `<li class="nav-placeholder">${message}</li>`;
+};
+
+const buildContentLink = (subject) => {
+    const params = new URLSearchParams();
+    params.set('jahr', '5');
+    params.set('subjectId', subject.id);
+    params.set('subjectName', subject.name);
+    params.set('fach', subject.name);
+    return `../content.html?${params.toString()}`;
+};
+
+const renderSidebarSubjects = (subjects) => {
+    if (!subjectList) return;
+    if (!subjects.length) {
+        setSidebarMessage('Noch keine Fächer verfügbar.');
+        return;
+    }
+
+    subjectList.innerHTML = '';
+    subjects.forEach((subject) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = buildContentLink(subject);
+        link.textContent = subject.name;
+        li.append(link);
+        subjectList.append(li);
+    });
+};
+
+const initSubjects = async () => {
+    if (!subjectList) return;
+    if (!sessionStorage.getItem('token')) {
+        setSidebarMessage('Bitte zuerst anmelden.');
+        return;
+    }
+
+    try {
+        const subjects = await window.api.getSubjects();
+        renderSidebarSubjects(subjects);
+    } catch (error) {
+        console.error('Fächer konnten nicht geladen werden:', error);
+        setSidebarMessage('Fächer konnten nicht geladen werden.');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', initSubjects);

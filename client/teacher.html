@@ -46,6 +46,15 @@
                 </form>
             </section>
 
+            <section class="panel" aria-labelledby="subject-management-heading">
+                <h2 id="subject-management-heading">Fächer verwalten</h2>
+                <p class="hint">Entfernen Sie nicht mehr benötigte Fächer. Bereits verknüpfte Themen bleiben bestehen.</p>
+                <p id="msg-subject-list" class="msg" aria-live="polite"></p>
+                <ul id="subject-list" class="manage-list" aria-live="polite">
+                    <li class="nav-placeholder">Fächer werden geladen...</li>
+                </ul>
+            </section>
+
             <section class="panel">
                 <h2>Neues Thema anlegen</h2>
                 <form id="form-topic" class="form-grid">
@@ -68,6 +77,42 @@
                     <p id="msg-content" class="msg"></p>
                 </form>
                 <p class="hint">Tipp: Topic-IDs findest du über die API oder bestehende Inhalte. (GET /api/subjects &rarr; /topics)</p>
+            </section>
+
+            <section class="panel" aria-labelledby="material-management-heading">
+                <h2 id="material-management-heading">Material entfernen</h2>
+                <p class="hint">Wähle Fach und Thema, um hochgeladene Dateien oder Textblöcke zu löschen.</p>
+
+                <div class="manage-filter-grid">
+                    <label>
+                        <span>Fach</span>
+                        <select id="manage-subject-select" data-placeholder="Fach wählen">
+                            <option value="">Fach wählen</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Thema</span>
+                        <select id="manage-topic-select" disabled>
+                            <option value="">Bitte zuerst ein Fach wählen</option>
+                        </select>
+                    </label>
+                </div>
+                <p id="msg-material" class="msg" aria-live="polite"></p>
+
+                <div class="manage-columns">
+                    <div class="manage-column">
+                        <h3>Dateien</h3>
+                        <ul id="file-management-list" class="manage-items" aria-live="polite">
+                            <li class="nav-placeholder">Bitte ein Thema wählen.</li>
+                        </ul>
+                    </div>
+                    <div class="manage-column">
+                        <h3>Textblöcke</h3>
+                        <ul id="textblock-management-list" class="manage-items" aria-live="polite">
+                            <li class="nav-placeholder">Bitte ein Thema wählen.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         </main>
 

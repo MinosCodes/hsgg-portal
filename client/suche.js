@@ -1,3 +1,54 @@
+const subjectListContainer = document.querySelector('[data-subject-list]');
+
+const subjectNavMessage = (message) => {
+    if (!subjectListContainer) return;
+    subjectListContainer.innerHTML = `<li class="nav-placeholder">${message}</li>`;
+};
+
+const buildSubjectLink = (subject) => {
+    const params = new URLSearchParams();
+    params.set('jahr', '5');
+    params.set('subjectId', subject.id);
+    params.set('subjectName', subject.name);
+    params.set('fach', subject.name);
+    return `content.html?${params.toString()}`;
+};
+
+const renderSidebarSubjects = (subjects) => {
+    if (!subjectListContainer) return;
+    if (!subjects || subjects.length === 0) {
+        subjectNavMessage('Noch keine Fächer verfügbar.');
+        return;
+    }
+
+    subjectListContainer.innerHTML = '';
+    subjects.forEach((subject) => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = buildSubjectLink(subject);
+        link.textContent = subject.name;
+        listItem.appendChild(link);
+        subjectListContainer.appendChild(listItem);
+    });
+};
+
+const initSidebarSubjects = async () => {
+    if (!subjectListContainer) return;
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+        subjectNavMessage('Bitte zuerst anmelden.');
+        return;
+    }
+
+    try {
+        const subjects = await window.api.getSubjects();
+        renderSidebarSubjects(subjects);
+    } catch (error) {
+        console.error('Fächer konnten nicht geladen werden:', error);
+        subjectNavMessage('Fächer konnten nicht geladen werden.');
+    }
+};
+
 // Sidebar-Toggle-Funktionalität (wie auf anderen Seiten)
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
@@ -7,6 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clear-search');
     const resultsContainer = document.getElementById('results-container');
     const resultsInfo = document.getElementById('results-info');
+
+    initSidebarSubjects();
 
     // Sidebar Toggle
     if (toggleBtn) {
@@ -18,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Year-Items Toggle (Dropdown in Sidebar)
     document.querySelectorAll('.year-link').forEach(link => {
+        const parent = link.closest('.year-item');
+        if (parent && parent.classList.contains('home-item')) {
+            return;
+        }
         link.addEventListener('click', (e) => {
             if (link.getAttribute('href') === '#') {
                 e.preventDefault();
@@ -287,4 +344,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return div.innerHTML;
     }
 });
+
 
