@@ -487,6 +487,30 @@ p {
     #sidebar-toggle-button.active {
         background-color: var(--weiss) !important;
     }
+
+    #sidebar-toggle-button span:nth-child(1) {
+        transform: rotate(0) translate(0);
+        background-color: var(--weiss);
+    }
+    #sidebar-toggle-button span:nth-child(2) {
+        opacity: 100;
+    }
+    #sidebar-toggle-button span:nth-child(3) {
+        transform: rotate(0) translate(0);
+        background-color: var(--weiss);
+    }
+
+    #sidebar-toggle-button.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+    }
+    #sidebar-toggle-button.active span:nth-child(2) {
+        opacity: 0;
+        background-color: var(--weiss);
+    }
+    #sidebar-toggle-button.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+
+    }
 }
 
 @media (max-width: 500px) {
