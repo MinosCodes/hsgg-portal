@@ -81,6 +81,7 @@ body {
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
 }
 
 #sidebar.show {

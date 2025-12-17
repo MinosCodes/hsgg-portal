@@ -51,8 +51,6 @@ const initSidebarSubjects = async () => {
 
 // Sidebar-Toggle-Funktionalität (wie auf anderen Seiten)
 document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle-button');
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
     const clearButton = document.getElementById('clear-search');
@@ -61,13 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initSidebarSubjects();
 
+    const toggleButton = document.getElementById('sidebar-toggle-button');
+    const sidebar = document.getElementById('sidebar');
+
     // Sidebar Toggle
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            sidebar.classList.toggle('show');
-        });
-    }
+    toggleButton.addEventListener('click', () => {
+        toggleButton.classList.toggle('active');
+        sidebar.classList.toggle('hidden');
+    });
 
     // Year-Items Toggle (Dropdown in Sidebar)
     document.querySelectorAll('.year-link').forEach(link => {
