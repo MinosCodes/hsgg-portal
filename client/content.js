@@ -355,14 +355,14 @@ const populateSubjectSelects = (subjects) => {
 
 const loadSubjects = async () => {
     if (cachedSubjects.length) return cachedSubjects;
-    cachedSubjects = await window.api.getSubjects();
+    cachedSubjects = await api.getSubjects();
     return cachedSubjects;
 };
 
 const loadTopicsForSubject = async (subjectId) => {
     if (!subjectId) return [];
     if (topicCache.has(subjectId)) return topicCache.get(subjectId);
-    const topics = await window.api.getTopicsForSubject(subjectId);
+    const topics = await api.getTopicsForSubject(subjectId);
     topicCache.set(subjectId, topics);
     return topics;
 };
@@ -419,7 +419,7 @@ const handleFileUpload = async (event) => {
 
     setButtonLoading(fileUploadButton, true);
     try {
-        await window.api.uploadFile(topicId, file);
+        await api.uploadFile(topicId, file);
         setStatusMessage(fileUploadMessage, 'Datei erfolgreich hochgeladen.', 'success');
         fileUploadForm?.reset();
         resetTopicSelect(fileTopicSelect);
@@ -451,7 +451,7 @@ const handleTextBlockSubmit = async (event) => {
 
     setButtonLoading(textBlockButton, true);
     try {
-        await window.api.createTextBlock(topicId, title, position, text);
+        await api.createTextBlock(topicId, title, position, text);
         setStatusMessage(textBlockMessage, 'Textblock gespeichert.', 'success');
         textBlockForm?.reset();
         resetTopicSelect(textTopicSelect);

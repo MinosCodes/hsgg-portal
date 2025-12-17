@@ -142,7 +142,7 @@ const initSubjects = async () => {
     }
 
     try {
-        const subjects = await window.api.getSubjects();
+        const subjects = await api.getSubjects();
         renderSidebarSubjects(subjects);
         renderQuickLinks(subjects);
     } catch (error) {
