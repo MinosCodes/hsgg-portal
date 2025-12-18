@@ -81,6 +81,7 @@ body {
     border-right: 2px solid var(--schwarz);
     font-weight: bold;
     background-color: var(--weiss);
+    transition: max-width 0.3s ease, min-width 0.3s ease, border-right-width 0.3s steps(1, start);
 }
 
 #sidebar.show {
@@ -485,6 +486,30 @@ p {
     }
     #sidebar-toggle-button.active {
         background-color: var(--weiss) !important;
+    }
+
+    #sidebar-toggle-button span:nth-child(1) {
+        transform: rotate(0) translate(0);
+        background-color: var(--weiss);
+    }
+    #sidebar-toggle-button span:nth-child(2) {
+        opacity: 100;
+    }
+    #sidebar-toggle-button span:nth-child(3) {
+        transform: rotate(0) translate(0);
+        background-color: var(--weiss);
+    }
+
+    #sidebar-toggle-button.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+    }
+    #sidebar-toggle-button.active span:nth-child(2) {
+        opacity: 0;
+        background-color: var(--weiss);
+    }
+    #sidebar-toggle-button.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+
     }
 }
 
