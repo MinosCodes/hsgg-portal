@@ -94,7 +94,7 @@
 
   const loadSubjects = async () => {
     try {
-      const subjects = await api.getSubjects();
+      const subjects = await api.getAllSubjects();
       cachedSubjects = subjects;
       populateSubjectSelect(subjectSelect, subjects);
       populateSubjectSelect(manageSubjectSelect, subjects, manageSubjectSelect?.dataset.placeholder || 'Fach wählen');

@@ -102,7 +102,7 @@ Object.defineProperty(window, 'api', {
      * 
      * @returns A List of all subjects
      */
-    getSubjects: async () => {
+    getAllSubjects: async () => {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       

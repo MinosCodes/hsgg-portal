@@ -93,7 +93,7 @@ const initSubjects = async () => {
     }
 
     try {
-        const subjects = await api.getSubjects();
+        const subjects = await api.getAllSubjects();
         renderSidebarSubjects(subjects);
     } catch (error) {
         console.error('Fächer konnten nicht geladen werden:', error);

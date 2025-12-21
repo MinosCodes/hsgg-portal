@@ -355,7 +355,7 @@ const populateSubjectSelects = (subjects) => {
 
 const loadSubjects = async () => {
     if (cachedSubjects.length) return cachedSubjects;
-    cachedSubjects = await api.getSubjects();
+    cachedSubjects = await api.getAllSubjects();
     return cachedSubjects;
 };
 
