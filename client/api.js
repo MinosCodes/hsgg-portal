@@ -116,11 +116,11 @@ Object.defineProperty(window, 'api', {
     /**
      * Requests a list of all topics for the specified subject.
      * 
-     * @param {number} subjectId The subject id. Should be a positive safe integer.
+     * @param {number} subjectId The subject id. Must be a non negative safe integer number.
      * @returns The list of topics for the specified subject.
      */
     getTopicsForSubject: async (subjectId) => {
-      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a positive safe integer number.");
+      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
@@ -135,11 +135,11 @@ Object.defineProperty(window, 'api', {
     /**
      * Requests details about the specified topic.
      * 
-     * @param {number} topicId The topic id. Should be a positive safe integer.
+     * @param {number} topicId The topic id. Must be a non negative safe integer number.
      * @returns The requested topic.
      */
     getTopic: async (topicId) => {
-      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a positive safe integer number.");
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
@@ -154,11 +154,11 @@ Object.defineProperty(window, 'api', {
     /**
      * Requests a list of all content for the specified topic.
      * 
-     * @param {number} topicId The topic id. Should be a positive safe integer.
+     * @param {number} topicId The topic id. Must be a non negative safe integer number.
      * @returns A list of content.
      */
     getTopicContent: async (topicId) => {
-      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a positive safe integer number.");
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
@@ -373,11 +373,11 @@ Object.defineProperty(window, 'api', {
      * Does NOT download it in the sense that the user now has a file in his downloads folder!
      * To do that additional work is necessary but the Object URL returned by this function can and should be used for that.
      * 
-     * @param {number} fileId The file id. Should be a positive safe integer.
+     * @param {number} fileId The file id. Must be a non negative safe integer number.
      * @returns An Object URL ("blob:...") to the downloaded file.
      */
     getObjectUrlForFile: async (fileId) => {
-      if (!Number.isSafeInteger(fileId) || fileId < 0) throw new Error("The file id must be a positive safe integer number.");
+      if (!Number.isSafeInteger(fileId) || fileId < 0) throw new Error("The file id must be a non negative safe integer number.");
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
@@ -464,13 +464,11 @@ Object.defineProperty(window, 'api', {
      * 
      * Admin only!
      * 
-     * Broken until fixed in Backend
-     * 
-     * @param {numer} userId The file id. Should be a positive safe integer.
+     * @param {numer} userId The user id. Must be a non negative safe integer number.
      * @param {string} role The new role of the user.
      */
     changeRole: async (userId, role) => {
-      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a positive safe integer number.");
+      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a non negative safe integer number.");
       if (typeof role !== 'string') throw new Error("The role must be a string.");
 
       const token = sessionStorage.getItem('token');
