@@ -29,8 +29,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/hsgg
       SPRING_DATASOURCE_USERNAME: hsgguser
       SPRING_DATASOURCE_PASSWORD: secret
+    volumes:
+      - file_uploads:/data
     depends_on:
       - mariadb
 
 volumes:
   mariadb_data:
+  file_uploads:
