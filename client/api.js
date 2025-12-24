@@ -170,202 +170,29 @@ Object.defineProperty(window, 'api', {
 
       return await response.json();
     },
-
     /**
-     * Admin: list all users with their roles.
+     * Returns a list of all Files.
+     * If given a Topic id, only Files of that Topic will be listed.
+     * 
+     * @param {number?} topicId The Topic id. If present, must be a non negative safe integer number.
+     * @returns List of files.
      */
-    adminGetUsers: async () => {
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-
-      const response = await fetch('/api/admin/users', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!response.ok) throw new Error(`Request for users failed with status code ${response.status}.`);
-
-      return await response.json();
-    },
-
-    /**
-     * Admin: update a user's role.
-     */
-    adminUpdateUserRole: async (userId, role) => {
-      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a positive safe integer number.");
-      if (typeof role !== 'string') throw new Error("Role must be a string.");
-
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-
-      const response = await fetch(`/api/admin/users/${userId}/role`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ role })
-      });
-      if (!response.ok) throw new Error(`Updating user role failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Admin: delete a user.
-     */
-    adminDeleteUser: async (userId) => {
-      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a positive safe integer number.");
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!response.ok) throw new Error(`Deleting user failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Admin: create a user.
-     */
-    adminCreateUser: async ({ firstname, lastname, username, password, role }) => {
-      if (!firstname || !lastname || !username || !password || !role) throw new Error('All fields are required');
-
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-
-      const response = await fetch('/api/admin/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ firstname, lastname, username, password, role })
-      });
-      if (!response.ok) throw new Error(`Creating user failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Teacher/Admin: create subject.
-     */
-    createSubject: async (name, description) => {
-      if (!name) throw new Error('Name required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-      const response = await fetch('/api/subjects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ name, description: description || '' })
-      });
-      if (!response.ok) throw new Error(`Create subject failed with status code ${response.status}.`);
-    },
-
-    deleteSubject: async (subjectId) => {
-      if (!Number.isSafeInteger(subjectId) || subjectId < 1) throw new Error('Valid subject required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error('Not Logged In');
-
-      const response = await fetch(`/api/subjects/${subjectId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!response.ok) throw new Error(`Delete subject failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Teacher/Admin: create topic.
-     */
-    createTopic: async (subjectId, title, description) => {
-      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error('Valid subject required');
-      if (!title) throw new Error('Title required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-      const response = await fetch('/api/topics', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ subjectId, title, description: description || '' })
-      });
-      if (!response.ok) throw new Error(`Create topic failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Teacher/Admin: create text content block.
-     */
-    createTextBlock: async (topicId, title, position, text) => {
-      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error('Valid topic required');
-      if (!title) throw new Error('Title required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error("Not Logged In");
-      const response = await fetch('/api/content/text', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ topicId, title, position: position ?? 1, text: text || '' })
-      });
-      if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
-    },
-
-    deleteContentBlock: async (blockId) => {
-      if (!Number.isSafeInteger(blockId) || blockId < 1) throw new Error('Valid content block required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error('Not Logged In');
-
-      const response = await fetch(`/api/content/${blockId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!response.ok) throw new Error(`Delete content block failed with status code ${response.status}.`);
-    },
-
-    /**
-     * Teacher/Admin: upload a file for a topic.
-     */
-    uploadFile: async (topicId, file) => {
-      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error('Valid topic required');
-      if (!(file instanceof File)) throw new Error('A file must be selected.');
-
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error('Not Logged In');
-
-      const formData = new FormData();
-      formData.append('topicId', topicId);
-      formData.append('file', file);
-
-      const response = await fetch('/api/files', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData
-      });
-
-      if (!response.ok) throw new Error(`File upload failed with status code ${response.status}.`);
-
-      return await response.json();
-    },
-
     getFiles: async (topicId) => {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
 
-      let endpoint = '/api/files';
+      let params = new URLSearchParams();
       if (topicId != null) {
-        if (!Number.isSafeInteger(topicId) || topicId < 1) throw new Error('Valid topic required');
-        endpoint += `?topicId=${topicId}`;
+        if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("If specified, the topic id must be a non negative safe integer number.");
+        params.append('topicId', topicId);
       }
 
-      const response = await fetch(endpoint, {
+      const response = await fetch('/api/files?' + params, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!response.ok) throw new Error(`Request for files failed with status code ${response.status}.`);
 
       return await response.json();
-    },
-
-    deleteFile: async (fileId) => {
-      if (!Number.isSafeInteger(fileId) || fileId < 1) throw new Error('Valid file required');
-      const token = sessionStorage.getItem('token');
-      if (!token) throw new Error('Not Logged In');
-
-      const response = await fetch(`/api/files/${fileId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!response.ok) throw new Error(`Delete file failed with status code ${response.status}.`);
     },
     /**
      * Downloads the specified file and makes it accessible via an object URL, which can, for example, be used in an iframes src to show the file on the webpage.
@@ -407,6 +234,326 @@ Object.defineProperty(window, 'api', {
       if (!response.ok) throw new Error(`Request for search ("${searchQuery}") failed with status code ${response.status}.`);
 
       return await response.json();
+    },
+    /**
+     * Creates a new Subject with the specified Name and Description.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {string} name The Name of the new Subject.
+     * @param {string} description The Description of the new Subject.
+     */
+    createSubject: async (name, description) => {
+      if (typeof name !== 'string') throw new Error("The name must be a string.");
+      if (typeof description !== 'string') throw new Error("The description must be a string.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch('/api/subjects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          name,
+          description
+        })
+      });
+      if (!response.ok) throw new Error(`Create subject failed with status code ${response.status}.`);
+    },
+    /**
+     * Changes the Name and/or Description of the specified Subject.
+     *
+     * Teacher and Admin only!
+     * 
+     * @param {number} subjectId 
+     * @param {{ name?: string, description?: string }} info An object containing the new name (optional string) and description (optional string) of the subject.
+     */
+    updateSubject: async (subjectId, { name, description }) => {
+      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
+      
+      const newSubjectInfo = {};
+      if (name != null) {
+        if (typeof name !== 'string') throw new Error("If specified, the name must be a string.");
+        newSubjectInfo.name = name;
+      }
+      if (description != null) {
+        if (typeof description !== 'string') throw new Error("If specified, the description must be a string.");
+        newSubjectInfo.description = description;
+      }
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/subjects/${subjectId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(newSubjectInfo)
+      });
+      if (!response.ok) throw new Error(`Update Subject failed with status code ${response.status}.`);
+    },
+    /**
+     * Deletes the specified Subject.
+     * 
+     * @param {number} subjectId The Subject id. Must be a non negative safe integer number.
+     */
+    deleteSubject: async (subjectId) => {
+      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/subjects/${subjectId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete subject failed with status code ${response.status}.`);
+    },
+    /**
+     * Creates a new Topic with the specified Title and Description.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} subjectId The Subject id of the Subject the topic is on. Must be a non negative safe integer number.
+     * @param {string} title The Title of the new Topic.
+     * @param {string} description The Description of the new Topic.
+     */
+    createTopic: async (subjectId, title, description) => {
+      if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
+      if (typeof title !== 'string') throw new Error("The title must be a string.");
+      if (typeof description !== 'string') throw new Error("The description must be a string.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch('/api/topics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          subjectId,
+          title,
+          description
+        })
+      });
+      if (!response.ok) throw new Error(`Create topic failed with status code ${response.status}.`);
+    },
+    /**
+     * Changes the Title and/or Description of the specified Topic.
+     *
+     * Teacher and Admin only!
+     * 
+     * @param {number} topicId The Topic id. Must be a non negative safe integer number.
+     * @param {{ title?: string, description?: string }} info An object containing the new title and/or description of the topic.
+     */
+    updateTopic: async (topicId, { name: title, description }) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The subject id must be a non negative safe integer number.");
+      
+      const newTopicInfo = {};
+      if (title != null) {
+        if (typeof title !== 'string') throw new Error("If specified, the name must be a string.");
+        newTopicInfo.title = title;
+      }
+      if (description != null) {
+        if (typeof description !== 'string') throw new Error("If specified, the description must be a string.");
+        newTopicInfo.description = description;
+      }
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/topics/${topicId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(newTopicInfo)
+      });
+      if (!response.ok) throw new Error(`Update Topic failed with status code ${response.status}.`);
+    },
+    /**
+     * Deletes the specified Topic.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} topicId The Topic id. Must be a non negative safe integer number.
+     */
+    deleteTopic: async (topicId) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/topics/${topicId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete Topic failed with status code ${response.status}.`);
+    },
+    /**
+     * Creates a new Content Block with Text content.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} topicId The Topic id of the Topic the Content Block should be on. Must be a non negative safe integer number.
+     * @param {string} title The Title of the Content Block.
+     * @param {number} position The Position inside the Topic. Must be a non negative safe integer number.
+     * @param {string} text The Text Content of the Content Block.
+     */
+    createTextBlock: async (topicId, title, position, text) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
+      if (typeof title !== 'string') throw new Error("The title must be a string.");
+      if (!Number.isSafeInteger(position) || position < 0) throw new Error("The position must be a non negative safe integer number.");
+      if (typeof text !== 'string') throw new Error("The text must be a string.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch('/api/content/text', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          topicId,
+          title,
+          position,
+          text
+        })
+      });
+      if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
+    },
+    /**
+     * Changes the Title, Position and/or Text Content of the specified Content Block.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} blockId The Block id. Must be a non negative safe integer number.
+     * @param {{ title?: string, position?: number, text?: string }} info An object containing the new Title, Position and/or Text Content of the Content Block.
+     */
+    updateTextBlock: async (blockId, { title, position, text }) => {
+      if (!Number.isSafeInteger(blockId) || blockId < 0) throw new Error("The topic id must be a non negative safe integer number.");
+
+      const newBlockData = {};
+      if (title != null) {
+        if (typeof title !== 'string') throw new Error("If specified, the name must be a string.");
+        newBlockData.title = title;
+      }
+      if (title != null) {
+        if (!Number.isSafeInteger(position) || position < 0) throw new Error("If specified, the position must be a non negative safe integer number.");
+        newBlockData.position = position;
+      }
+      if (text != null) {
+        if (typeof text !== 'string') throw new Error("If specified, the description must be a string.");
+        newBlockData.description = text;
+      }
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/content/${blockId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(newBlockData)
+      });
+      if (!response.ok) throw new Error(`Create content failed with status code ${response.status}.`);
+    },
+    /**
+     * Deletes the specified Content Block.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} blockId The Block id. Must be a non negative safe integer number.
+     */
+    deleteContentBlock: async (blockId) => {
+      if (!Number.isSafeInteger(blockId) || blockId < 0) throw new Error("The block id must be a non negative safe integer number.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+      if (
+        sessionStorage.getItem('role') !== 'TEACHER' &&
+        sessionStorage.getItem('role') !== 'ADMIN'
+      ) throw new Error("Not a teacher or admin.");
+
+      const response = await fetch(`/api/content/${blockId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete content block failed with status code ${response.status}.`);
+    },
+    /**
+     * Uploads a file to the backend.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} topicId The Topic id of the Topic the File should be on. Must be a non negative safe integer number.
+     * @param {File} file The file to upload.
+     * @returns TODO
+     */
+    uploadFile: async (topicId, file) => {
+      if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The Topic id must be a non negative safe integer number.");
+      if (!(file instanceof File)) throw new Error("The File must be an instance of the File class.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const body = new FormData();
+      body.append('topicId', topicId);
+      body.append('file', file);
+
+      const response = await fetch('/api/files', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body
+      });
+
+      if (!response.ok) throw new Error(`File upload failed with status code ${response.status}.`);
+
+      return await response.json();
+    },
+    /**
+     * Deletes the specified File.
+     * 
+     * Teacher and Admin only!
+     * 
+     * @param {number} fileId The File id. Must be a non negative safe integer number.
+     */
+    deleteFile: async (fileId) => {
+      if (!Number.isSafeInteger(fileId) || fileId < 0) throw new Error("The File id must be a non negative safe integer number.");
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error('Not Logged In');
+
+      const response = await fetch(`/api/files/${fileId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Delete file failed with status code ${response.status}.`);
     },
     /**
      * Requests a list of all users and their info.
@@ -484,6 +631,26 @@ Object.defineProperty(window, 'api', {
         body: JSON.stringify({ role })
       });
       if (!response.ok) throw new Error(`Request for user (${userId}) role change failed with status code ${response.status}.`);
-    }
+    },
+    /**
+     * Deletes the specified user.
+     * 
+     * Admin only!
+     * 
+     * @param {numer} userId The user id. Must be a non negative safe integer number.
+     */
+    deleteUser: async (userId) => {
+      if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a non negative safe integer number.");
+
+      const token = sessionStorage.getItem('token');
+      if (!token) throw new Error("Not Logged In");
+      if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
+      
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Deleting user (${userId}) failed with status code ${response.status}.`);
+    },
   })
 });

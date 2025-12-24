@@ -69,7 +69,7 @@
 
   const load = async () => {
     try {
-      users = await api.adminGetUsers();
+      users = await api.getAllUsers();
       render();
     } catch (e) {
       alert('Konnte Benutzer nicht laden: ' + (e?.message || e));
@@ -78,7 +78,7 @@
 
   const saveRole = async (userId, role) => {
     try {
-      await api.adminUpdateUserRole(userId, role);
+      await api.changeRole(userId, role);
       const u = users.find(x => x.id === userId);
       if (u) u.role = role;
       render();
@@ -97,7 +97,7 @@
     const password = document.getElementById('create-password').value;
     const role = document.getElementById('create-role').value;
     try {
-      await api.adminCreateUser({ firstname, lastname, username, password, role });
+      await api.createUser(username, password, firstname, lastname, role);
       createMsg.textContent = 'Benutzer angelegt';
       createMsg.className = 'success';
       await load();
@@ -111,7 +111,7 @@
   const deleteUser = async (userId) => {
     if (!confirm('Benutzer wirklich löschen?')) return;
     try {
-      await api.adminDeleteUser(userId);
+      await api.deleteUser(userId);
       users = users.filter(u => u.id !== userId);
       render();
     } catch (e) {
