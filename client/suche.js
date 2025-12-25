@@ -41,7 +41,7 @@ const initSidebarSubjects = async () => {
     }
 
     try {
-        const subjects = await window.api.getSubjects();
+        const subjects = await api.getAllSubjects();
         renderSidebarSubjects(subjects);
     } catch (error) {
         console.error('Fächer konnten nicht geladen werden:', error);
@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // API-Aufruf über window.api.search()
-            const searchResults = await window.api.search(query);
+            // API-Aufruf über api.search()
+            const searchResults = await api.search(query);
 
             console.log('Suchergebnisse:', searchResults); // Zum Debuggen
 
