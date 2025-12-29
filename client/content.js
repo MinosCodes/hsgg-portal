@@ -136,7 +136,8 @@ document.addEventListener('click', (event) => {
 
 const subjectNavMessage = (message) => {
     if (!subjectListContainer) return;
-    subjectListContainer.innerHTML = `<li class="nav-placeholder">${message}</li>`;
+    subjectListContainer.innerHTML = `<li class="nav-placeholder"></li>`;
+    subjectListContainer.firstElementChild.innerText = message;
 };
 
 const buildSubjectLink = (subject) => {
