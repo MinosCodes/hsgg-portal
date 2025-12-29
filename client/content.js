@@ -251,12 +251,19 @@ const renderList = (filterText = '') => {
         link.href = '#';
         link.className = 'material-item';
         link.setAttribute('data-file', item.file);
-        link.innerHTML = `
-            <div>
-                <div class="material-title">${item.name}</div>
-                <div class="material-meta">${item.type} · Jahr ${item.year} · ${formatSubjectLabel(item.subject)}</div>
-            </div>
-        `;
+
+        const linkTitle = document.createElement('div');
+        linkTitle.classList.add('material-title');
+        linkTitle.innerText = item.name;
+
+        const linkMeta = document.createElement('div');
+        linkMeta.classList.add('material-meta')
+        linkMeta.innerText = `${item.type} · Jahr ${item.year} · ${formatSubjectLabel(item.subject)}`;
+
+        const linkSubContainer = document.createElement('div');
+        linkSubContainer.append(linkTitle, linkMeta);
+
+        link.append(linkSubContainer);
         link.addEventListener('click', (evt) => {
             evt.preventDefault();
             if (!isLoggedIn) {
