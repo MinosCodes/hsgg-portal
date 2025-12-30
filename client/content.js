@@ -1,75 +1,57 @@
+(async () => {
 const contentList = document.querySelector('#content-list');
 const contentContainer = document.querySelector('#content-container');
 const contextHeading = document.querySelector('#context-heading');
 const chipYear = document.querySelector('#chip-year');
 const chipSubject = document.querySelector('#chip-subject');
 const dateiName = document.querySelector('#datei-name');
-const downloadLink = document.querySelector('#download-link');
+const downloadButton = document.querySelector('#download-button');
 const fileViewer = document.querySelector('#file-viewer');
 const emptyState = document.querySelector('#empty-state');
 const filterInput = document.querySelector('#material-filter');
 
 const url = new URL(location.href);
-const selectedYear = url.searchParams.get('jahr');
-const selectedSubject = url.searchParams.get('fach');
-const selectedSubjectId = url.searchParams.get('subjectId');
-const selectedSubjectName = url.searchParams.get('subjectName');
-const currentFile = url.searchParams.get('file');
+const selectedSubjectId = Number(url.searchParams.get('subjectId'));
+const currentFile = Number(url.searchParams.get('file'));
 const isLoggedIn = !!sessionStorage.getItem('token');
 const userRole = sessionStorage.getItem('role');
 const canManageContent = isLoggedIn && (userRole === 'ADMIN' || userRole === 'TEACHER');
 const subjectListContainer = document.querySelector('[data-subject-list]');
 
-const subjectLabels = {
-    deutsch: 'Deutsch',
-    mathematik: 'Mathematik',
-    englisch: 'Englisch',
-    biologie: 'Biologie',
-    franzoesisch: 'Französisch',
-    latein: 'Latein',
-    chemie: 'Chemie',
-    physik: 'Physik',
-    politik: 'Politik',
-    informatik: 'Informatik'
-};
+const selectedSubject = await (async () => {
+    const subjects = await api.getAllSubjects();
+    return subjects.filter(s=>s.id === selectedSubjectId)[0];
+})();
+const selectedSubjectTopics = selectedSubject === undefined ? undefined : await Promise.all((await api.getTopicsForSubject(selectedSubject.id)).map(async topic => {
+    const content = await api.getTopicContent(topic.id);
+    topic.content = content;
 
-const materials = [
-    { name: 'Mathe Übungsset Brüche', file: 'bspl3.pdf', year: '5', subject: 'mathematik', type: 'PDF' }
-];
+    const files = await api.getFiles(topic.id);
+    topic.files = files.map(f => {
+        f.name = f.originalName;
+        return f;
+    });
+
+    return topic;
+}));
 
 const uploadPanel = document.getElementById('upload-panel');
 const fileUploadForm = document.getElementById('file-upload-form');
-const textBlockForm = document.getElementById('text-block-form');
-const fileSubjectSelect = document.getElementById('file-subject-select');
 const fileTopicSelect = document.getElementById('file-topic-select');
-const textSubjectSelect = document.getElementById('text-subject-select');
-const textTopicSelect = document.getElementById('text-topic-select');
 const materialFileInput = document.getElementById('material-file');
-const textBlockTitle = document.getElementById('text-block-title');
-const textBlockPosition = document.getElementById('text-block-position');
-const textBlockContent = document.getElementById('text-block-content');
 const fileUploadMessage = document.getElementById('file-upload-message');
-const textBlockMessage = document.getElementById('text-block-message');
 const subjectSelects = document.querySelectorAll('[data-subject-select]');
 const fileUploadButton = fileUploadForm?.querySelector('button[type="submit"]');
-const textBlockButton = textBlockForm?.querySelector('button[type="submit"]');
-
-const formatSubjectLabel = (value) => {
-    if (!value) return '';
-    const normalized = value.toLowerCase();
-    return subjectLabels[normalized] || value.charAt(0).toUpperCase() + value.slice(1);
-};
 
 const subjectHeadingLabel = () => {
-    if (selectedSubjectName) return selectedSubjectName;
-    if (selectedSubject) return formatSubjectLabel(selectedSubject);
+    if (selectedSubject) return selectedSubject.name;
     return 'Alle Fächer';
 };
 
 const setHeading = () => {
     const subjectLabel = subjectHeadingLabel();
-    const yearLabel = selectedYear ? `Jahr ${selectedYear}` : 'Alle Jahrgänge';
-    const heading = selectedYear || selectedSubject ? `${yearLabel} – ${subjectLabel}` : 'Materialübersicht';
+    const yearLabel = 'Jahr 5';
+    const heading = selectedSubject ? `${yearLabel} - ${subjectLabel}` : 'Materialübersicht';
     contextHeading.textContent = heading;
     chipYear.textContent = yearLabel;
     chipSubject.textContent = subjectLabel;
@@ -108,20 +90,16 @@ const attachYearToggles = () => {
 };
 
 const openSelectedYear = () => {
-    if (selectedYear) {
-        closeAllYearSubjects();
-        const targetItem = document.querySelector(`#sidebar-menu .year-item[data-year="${selectedYear}"]`);
-        if (targetItem) {
-            const subjects = targetItem.querySelector('.year-subjects');
-            if (subjects) subjects.classList.remove('hidden');
-            if (selectedSubject) {
-                document.querySelectorAll('#sidebar-menu .year-subjects a').forEach(link => link.classList.remove('active'));
-                const activeLink = targetItem.querySelector(`.year-subjects a[href*="fach=${selectedSubject}"]`);
-                if (activeLink) activeLink.classList.add('active');
-            }
+    closeAllYearSubjects();
+    const targetItem = document.querySelector(`#sidebar-menu .year-item[data-year="5"]`);
+    if (targetItem) {
+        const subjects = targetItem.querySelector('.year-subjects');
+        if (subjects) subjects.classList.remove('hidden');
+        if (selectedSubject) {
+            document.querySelectorAll('#sidebar-menu .year-subjects a').forEach(link => link.classList.remove('active'));
+            const activeLink = targetItem.querySelector(`.year-subjects a[href*="fach=${selectedSubject}"]`);
+            if (activeLink) activeLink.classList.add('active');
         }
-    } else {
-        closeAllYearSubjects();
     }
 };
 
@@ -136,12 +114,12 @@ document.addEventListener('click', (event) => {
 
 const subjectNavMessage = (message) => {
     if (!subjectListContainer) return;
-    subjectListContainer.innerHTML = `<li class="nav-placeholder">${message}</li>`;
+    subjectListContainer.innerHTML = `<li class="nav-placeholder"></li>`;
+    subjectListContainer.firstElementChild.innerText = message;
 };
 
 const buildSubjectLink = (subject) => {
     const params = new URLSearchParams();
-    params.set('jahr', selectedYear || '5');
     params.set('subjectId', subject.id);
     params.set('subjectName', subject.name);
     params.set('fach', subject.name);
@@ -189,13 +167,9 @@ const initSidebarSubjects = async () => {
 
 // --- Materialliste & Detailansicht ---
 
-const updateUrl = (fileName) => {
+const updateUrl = (fileId) => {
     const linkUrl = new URL(location.href);
-    if (selectedYear) linkUrl.searchParams.set('jahr', selectedYear);
-    else linkUrl.searchParams.delete('jahr');
-    if (selectedSubject) linkUrl.searchParams.set('fach', selectedSubject);
-    else linkUrl.searchParams.delete('fach');
-    if (fileName) linkUrl.searchParams.set('file', fileName);
+    if (fileId) linkUrl.searchParams.set('file', fileId);
     else linkUrl.searchParams.delete('file');
     history.replaceState({}, '', linkUrl);
 };
@@ -208,8 +182,7 @@ const showFile = (material) => {
     if (!material) {
         contentContainer.classList.remove('hidden-block');
         emptyState.classList.remove('hidden-block');
-        fileViewer.src = '';
-        downloadLink.href = '';
+        fileViewer.src = 'about:blank';
         dateiName.textContent = 'Bitte wählen Sie eine Datei';
         updateUrl(null);
         return;
@@ -217,25 +190,24 @@ const showFile = (material) => {
 
     emptyState.classList.add('hidden-block');
     dateiName.textContent = material.name;
-    const filePath = 'content/' + material.file;
-    downloadLink.href = filePath;
-    downloadLink.download = material.file;
-    downloadLink.classList.remove('disabled');
-    fileViewer.src = filePath;
+    api.getObjectUrlForFile(material.id).then(url => fileViewer.src = url);
     contentContainer.classList.remove('hidden-block');
-    updateUrl(material.file);
+    updateUrl(material.id);
 };
 
+const downloadFile = () => {
+    if (!['http', 'https', 'blob'].includes(fileViewer.src.split(':')[0])) return;
+    const dlLink = document.createElement('a');
+    dlLink.href = fileViewer.src;
+    dlLink.download = dateiName.textContent;
+    dlLink.click();
+}
+downloadButton.addEventListener('click', downloadFile);
 
 const renderList = (filterText = '') => {
     contentList.innerHTML = '';
     const query = filterText.trim().toLowerCase();
-    const filtered = materials.filter(item => {
-        const matchesYear = selectedYear ? item.year === selectedYear : true;
-        const matchesSubject = selectedSubject ? item.subject === selectedSubject : true;
-        const matchesQuery = query ? (item.name.toLowerCase().includes(query) || item.file.toLowerCase().includes(query)) : true;
-        return matchesYear && matchesSubject && matchesQuery;
-    });
+    const filtered = selectedSubjectTopics?.map(t => t.files).flat().filter(item => query ? item.name.toLowerCase().includes(query) : true) ?? [];
 
     if (!filtered.length) {
         const empty = document.createElement('li');
@@ -250,13 +222,19 @@ const renderList = (filterText = '') => {
         const link = document.createElement('a');
         link.href = '#';
         link.className = 'material-item';
-        link.setAttribute('data-file', item.file);
-        link.innerHTML = `
-            <div>
-                <div class="material-title">${item.name}</div>
-                <div class="material-meta">${item.type} · Jahr ${item.year} · ${formatSubjectLabel(item.subject)}</div>
-            </div>
-        `;
+
+        const linkTitle = document.createElement('div');
+        linkTitle.classList.add('material-title');
+        linkTitle.innerText = item.name;
+
+        const linkMeta = document.createElement('div');
+        linkMeta.classList.add('material-meta')
+        linkMeta.innerText = selectedSubjectTopics.find(t => t.id === item.topicId).title;
+
+        const linkSubContainer = document.createElement('div');
+        linkSubContainer.append(linkTitle, linkMeta);
+
+        link.append(linkSubContainer);
         link.addEventListener('click', (evt) => {
             evt.preventDefault();
             if (!isLoggedIn) {
@@ -304,9 +282,6 @@ closeButton?.addEventListener('click', () => {
 // --- Init ---
 const showLoginGate = () => {
     dateiName.textContent = 'Bitte zuerst anmelden';
-    downloadLink.href = 'login.html';
-    downloadLink.removeAttribute('download');
-    downloadLink.classList.add('disabled');
     emptyState.classList.remove('hidden-block');
     if (emptyState) {
         const info = emptyState.querySelector('p');
@@ -431,38 +406,6 @@ const handleFileUpload = async (event) => {
     }
 };
 
-const handleTextBlockSubmit = async (event) => {
-    event.preventDefault();
-    const topicId = Number(textTopicSelect?.value);
-    const title = textBlockTitle?.value?.trim();
-    const text = textBlockContent?.value?.trim();
-    const position = Number(textBlockPosition?.value) || 1;
-
-    setStatusMessage(textBlockMessage);
-
-    if (!topicId) {
-        setStatusMessage(textBlockMessage, 'Bitte zuerst ein Thema auswählen.', 'error');
-        return;
-    }
-    if (!title || !text) {
-        setStatusMessage(textBlockMessage, 'Titel und Text dürfen nicht leer sein.', 'error');
-        return;
-    }
-
-    setButtonLoading(textBlockButton, true);
-    try {
-        await api.createTextBlock(topicId, title, position, text);
-        setStatusMessage(textBlockMessage, 'Textblock gespeichert.', 'success');
-        textBlockForm?.reset();
-        resetTopicSelect(textTopicSelect);
-    } catch (error) {
-        console.error('Textblock konnte nicht erstellt werden:', error);
-        setStatusMessage(textBlockMessage, 'Fehler: ' + (error?.message || error), 'error');
-    } finally {
-        setButtonLoading(textBlockButton, false);
-    }
-};
-
 const initUploadPanel = async () => {
     if (!uploadPanel) return;
     uploadPanel.classList.remove('hidden-block');
@@ -476,7 +419,6 @@ const initUploadPanel = async () => {
         });
 
         fileUploadForm?.addEventListener('submit', handleFileUpload);
-        textBlockForm?.addEventListener('submit', handleTextBlockSubmit);
     } catch (error) {
         uploadPanel.classList.add('hidden-block');
         console.error('Upload-Bereich konnte nicht initialisiert werden:', error);
@@ -500,7 +442,7 @@ const init = () => {
     if (!isLoggedIn) {
         showLoginGate();
     } else if (currentFile) {
-        const current = materials.find(m => m.file === currentFile);
+        const current = selectedSubjectTopics?.flatMap(t => t.files).find(f => f.id === currentFile);
         showFile(current || null);
     } else {
         showFile(null);
@@ -518,3 +460,4 @@ const init = () => {
 };
 
 init();
+})()

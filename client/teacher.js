@@ -21,14 +21,12 @@
   const msgSubject = document.getElementById('msg-subject');
   const msgSubjectList = document.getElementById('msg-subject-list');
   const msgTopic = document.getElementById('msg-topic');
-  const msgContent = document.getElementById('msg-content');
   const msgMaterial = document.getElementById('msg-material');
 
   const subjectListEl = document.getElementById('subject-list');
   const manageSubjectSelect = document.getElementById('manage-subject-select');
   const manageTopicSelect = document.getElementById('manage-topic-select');
   const fileListEl = document.getElementById('file-management-list');
-  const textBlockListEl = document.getElementById('textblock-management-list');
 
   let cachedSubjects = [];
   const topicsBySubject = new Map();
@@ -64,7 +62,6 @@
     manageTopicSelect.disabled = true;
     currentManageTopicId = null;
     if (fileListEl) fileListEl.innerHTML = '<li class="nav-placeholder">Bitte ein Thema wählen.</li>';
-    if (textBlockListEl) textBlockListEl.innerHTML = '<li class="nav-placeholder">Bitte ein Thema wählen.</li>';
   };
 
   const renderSubjectList = () => {
@@ -148,22 +145,6 @@
     }
   };
 
-  const handleContent = async (e) => {
-    e.preventDefault();
-    try {
-      const topicId = Number(document.getElementById('content-topic').value);
-      const title = document.getElementById('content-title').value.trim();
-      const posInput = document.getElementById('content-pos').value;
-      const position = posInput ? Number(posInput) : 1;
-      const text = document.getElementById('content-text').value;
-      await api.createTextBlock(topicId, title, position, text);
-      setMsg(msgContent, 'Text-Baustein gespeichert.', 'success');
-      e.target.reset();
-    } catch (err) {
-      setMsg(msgContent, 'Fehler: ' + (err?.message || err), 'error');
-    }
-  };
-
   const loadTopicsForSubject = async (subjectId) => {
     if (!subjectId) return [];
     if (topicsBySubject.has(subjectId)) {
@@ -236,35 +217,6 @@
     });
   };
 
-  const renderTextBlocks = (blocks) => {
-    if (!textBlockListEl) return;
-    if (!blocks.length) {
-      textBlockListEl.innerHTML = '<li class="nav-placeholder">Keine Textblöcke vorhanden.</li>';
-      return;
-    }
-    textBlockListEl.innerHTML = '';
-    blocks.forEach((block) => {
-      const li = document.createElement('li');
-      li.className = 'manage-item';
-
-      const info = document.createElement('div');
-      info.innerHTML = `<strong>${block.title || 'Ohne Titel'}</strong><span class="manage-meta">Block #${block.id} · Pos ${block.position}</span>`;
-
-      const actions = document.createElement('div');
-      actions.className = 'manage-actions';
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn btn-danger';
-      btn.textContent = 'Löschen';
-      btn.addEventListener('click', () => handleDeleteContentBlock(block.id));
-
-      actions.append(btn);
-      li.append(info, actions);
-      textBlockListEl.append(li);
-    });
-  };
-
   const loadMaterialsForTopic = async (topicId) => {
     if (!topicId) {
       resetManageTopics();
@@ -273,16 +225,11 @@
 
     currentManageTopicId = topicId;
     if (fileListEl) fileListEl.innerHTML = '<li class="nav-placeholder">Dateien werden geladen...</li>';
-    if (textBlockListEl) textBlockListEl.innerHTML = '<li class="nav-placeholder">Textblöcke werden geladen...</li>';
     setMsg(msgMaterial, '', '');
 
     try {
-      const [files, blocks] = await Promise.all([
-        api.getFiles(topicId),
-        api.getTopicContent(topicId)
-      ]);
+      const files = await api.getFiles(topicId);
       renderFileList(files);
-      renderTextBlocks(blocks);
     } catch (err) {
       setMsg(msgMaterial, 'Material konnte nicht geladen werden: ' + (err?.message || err), 'error');
     }
@@ -310,18 +257,6 @@
     }
   };
 
-  const handleDeleteContentBlock = async (blockId) => {
-    if (!currentManageTopicId) return;
-    if (!confirm('Diesen Textblock wirklich löschen?')) return;
-    try {
-      await api.deleteContentBlock(blockId);
-      setMsg(msgMaterial, 'Textblock gelöscht.', 'success');
-      await loadMaterialsForTopic(currentManageTopicId);
-    } catch (err) {
-      setMsg(msgMaterial, 'Textblock konnte nicht gelöscht werden: ' + (err?.message || err), 'error');
-    }
-  };
-
   document.addEventListener('DOMContentLoaded', () => {
     if (!ensureTeacher()) return;
     hideAdminLinkForTeachers();
@@ -329,7 +264,6 @@
 
     document.getElementById('form-subject')?.addEventListener('submit', handleSubject);
     document.getElementById('form-topic')?.addEventListener('submit', handleTopic);
-    document.getElementById('form-content')?.addEventListener('submit', handleContent);
     manageSubjectSelect?.addEventListener('change', handleManageSubjectChange);
     manageTopicSelect?.addEventListener('change', handleManageTopicChange);
   });
