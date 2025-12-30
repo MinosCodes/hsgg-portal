@@ -216,7 +216,7 @@ downloadButton.addEventListener('click', downloadFile);
 const renderList = (filterText = '') => {
     contentList.innerHTML = '';
     const query = filterText.trim().toLowerCase();
-    const filtered = selectedSubjectTopics.map(t => t.files).flat().filter(item => query ? item.name.toLowerCase().includes(query) : true);
+    const filtered = selectedSubjectTopics?.map(t => t.files).flat().filter(item => query ? item.name.toLowerCase().includes(query) : true) ?? [];
 
     if (!filtered.length) {
         const empty = document.createElement('li');
@@ -484,7 +484,7 @@ const init = () => {
     if (!isLoggedIn) {
         showLoginGate();
     } else if (currentFile) {
-        const current = selectedSubjectTopics.flatMap(t => t.files).find(f => f.id === currentFile);
+        const current = selectedSubjectTopics?.flatMap(t => t.files).find(f => f.id === currentFile);
         showFile(current || null);
     } else {
         showFile(null);
