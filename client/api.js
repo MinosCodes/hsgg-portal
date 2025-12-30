@@ -413,6 +413,8 @@ Object.defineProperty(window, 'api', {
     /**
      * Creates a new Content Block with Text content.
      * 
+     * Internal only, NOT to be exposed to the User!
+     * 
      * Teacher and Admin only!
      * 
      * @param {number} topicId The Topic id of the Topic the Content Block should be on. Must be a non negative safe integer number.
@@ -447,6 +449,8 @@ Object.defineProperty(window, 'api', {
     },
     /**
      * Changes the Title, Position and/or Text Content of the specified Content Block.
+     * 
+     * Internal only, NOT to be exposed to the User!
      * 
      * Teacher and Admin only!
      * 
@@ -486,6 +490,8 @@ Object.defineProperty(window, 'api', {
     },
     /**
      * Deletes the specified Content Block.
+     * 
+     * Internal only, NOT to be exposed to the User!
      * 
      * Teacher and Admin only!
      * 

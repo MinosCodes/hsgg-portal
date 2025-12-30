@@ -37,20 +37,11 @@ const selectedSubjectTopics = selectedSubject === undefined ? undefined : await 
 
 const uploadPanel = document.getElementById('upload-panel');
 const fileUploadForm = document.getElementById('file-upload-form');
-const textBlockForm = document.getElementById('text-block-form');
-const fileSubjectSelect = document.getElementById('file-subject-select');
 const fileTopicSelect = document.getElementById('file-topic-select');
-const textSubjectSelect = document.getElementById('text-subject-select');
-const textTopicSelect = document.getElementById('text-topic-select');
 const materialFileInput = document.getElementById('material-file');
-const textBlockTitle = document.getElementById('text-block-title');
-const textBlockPosition = document.getElementById('text-block-position');
-const textBlockContent = document.getElementById('text-block-content');
 const fileUploadMessage = document.getElementById('file-upload-message');
-const textBlockMessage = document.getElementById('text-block-message');
 const subjectSelects = document.querySelectorAll('[data-subject-select]');
 const fileUploadButton = fileUploadForm?.querySelector('button[type="submit"]');
-const textBlockButton = textBlockForm?.querySelector('button[type="submit"]');
 
 const subjectHeadingLabel = () => {
     if (selectedSubject) return selectedSubject.name;
@@ -415,38 +406,6 @@ const handleFileUpload = async (event) => {
     }
 };
 
-const handleTextBlockSubmit = async (event) => {
-    event.preventDefault();
-    const topicId = Number(textTopicSelect?.value);
-    const title = textBlockTitle?.value?.trim();
-    const text = textBlockContent?.value?.trim();
-    const position = Number(textBlockPosition?.value) || 1;
-
-    setStatusMessage(textBlockMessage);
-
-    if (!topicId) {
-        setStatusMessage(textBlockMessage, 'Bitte zuerst ein Thema auswählen.', 'error');
-        return;
-    }
-    if (!title || !text) {
-        setStatusMessage(textBlockMessage, 'Titel und Text dürfen nicht leer sein.', 'error');
-        return;
-    }
-
-    setButtonLoading(textBlockButton, true);
-    try {
-        await api.createTextBlock(topicId, title, position, text);
-        setStatusMessage(textBlockMessage, 'Textblock gespeichert.', 'success');
-        textBlockForm?.reset();
-        resetTopicSelect(textTopicSelect);
-    } catch (error) {
-        console.error('Textblock konnte nicht erstellt werden:', error);
-        setStatusMessage(textBlockMessage, 'Fehler: ' + (error?.message || error), 'error');
-    } finally {
-        setButtonLoading(textBlockButton, false);
-    }
-};
-
 const initUploadPanel = async () => {
     if (!uploadPanel) return;
     uploadPanel.classList.remove('hidden-block');
@@ -460,7 +419,6 @@ const initUploadPanel = async () => {
         });
 
         fileUploadForm?.addEventListener('submit', handleFileUpload);
-        textBlockForm?.addEventListener('submit', handleTextBlockSubmit);
     } catch (error) {
         uploadPanel.classList.add('hidden-block');
         console.error('Upload-Bereich konnte nicht initialisiert werden:', error);

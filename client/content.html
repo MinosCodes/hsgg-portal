@@ -51,7 +51,7 @@
                 <div>
                     <p class="eyebrow">Lernmaterialien</p>
                     <h1 id="context-heading">Materialübersicht</h1>
-                    <p class="lead">Wählen Sie Jahrgang und Fach aus der Navigation oder filtern Sie direkt in der Liste. Dokumente können Sie inline ansehen oder herunterladen.</p>
+                    <p class="lead">Wählen Sie Jahrgang und Fach aus der Navigation oder filtern Sie direkt in der Liste. Dokumente können Sie ansehen oder herunterladen.</p>
                     <div class="chip-row" aria-label="Auswahl">
                         <span class="pill" id="chip-year">Jahrgang</span>
                         <span class="pill" id="chip-subject">Fach</span>
@@ -103,7 +103,7 @@
                         <h2 id="upload-panel-heading">Material hinzufügen</h2>
                     </div>
                 </div>
-                <p class="lead">Laden Sie neue Dateien hoch oder ergänzen Sie Themen direkt mit Textbausteinen. Die Auswahl erfolgt pro Fach und Thema.</p>
+                <p class="lead">Laden Sie neue Dateien hoch. Die Auswahl erfolgt pro Fach und Thema.</p>
 
                 <div class="upload-grid">
                     <form id="file-upload-form" class="upload-card" enctype="multipart/form-data">
@@ -126,36 +126,6 @@
                         </label>
                         <button type="submit" class="btn primary btn-small">Datei hochladen</button>
                         <p id="file-upload-message" class="form-message" aria-live="polite"></p>
-                    </form>
-
-                    <form id="text-block-form" class="upload-card">
-                        <h3>Textblock anlegen</h3>
-                        <label>
-                            <span>Fach</span>
-                            <select id="text-subject-select" data-subject-select data-topic-target="text-topic-select" required>
-                                <option value="">Fach auswählen</option>
-                            </select>
-                        </label>
-                        <label>
-                            <span>Thema</span>
-                            <select id="text-topic-select" required disabled>
-                                <option value="">Bitte zuerst ein Fach wählen</option>
-                            </select>
-                        </label>
-                        <label>
-                            <span>Titel</span>
-                            <input type="text" id="text-block-title" maxlength="255" required>
-                        </label>
-                        <label>
-                            <span>Position</span>
-                            <input type="number" id="text-block-position" min="1" value="1" required>
-                        </label>
-                        <label>
-                            <span>Text</span>
-                            <textarea id="text-block-content" rows="4" required></textarea>
-                        </label>
-                        <button type="submit" class="btn primary btn-small">Text speichern</button>
-                        <p id="text-block-message" class="form-message" aria-live="polite"></p>
                     </form>
                 </div>
             </section>
