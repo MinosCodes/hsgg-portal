@@ -266,5 +266,37 @@
     document.getElementById('form-topic')?.addEventListener('submit', handleTopic);
     manageSubjectSelect?.addEventListener('change', handleManageSubjectChange);
     manageTopicSelect?.addEventListener('change', handleManageTopicChange);
+
+    // --- Sidebar Toggle Logic (copied/adapted from homepage.js) ---
+    const toggleButton = document.getElementById('sidebar-toggle-button');
+    const sidebar = document.getElementById('sidebar');
+
+    const setInitialSidebarState = () => {
+      if (!sidebar) return;
+      if (window.innerWidth <= 768) {
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('show');
+      } else {
+        sidebar.classList.add('show');
+        sidebar.classList.remove('hidden');
+      }
+    };
+
+    if (toggleButton && sidebar) {
+      setInitialSidebarState();
+      window.addEventListener('resize', setInitialSidebarState);
+
+      toggleButton.addEventListener('click', () => {
+        if (sidebar.classList.contains('show')) {
+          toggleButton.classList.toggle('active');
+          sidebar.classList.add('hidden');
+          sidebar.classList.remove('show');
+        } else {
+          toggleButton.classList.toggle('active');
+          sidebar.classList.add('show');
+          sidebar.classList.remove('hidden');
+        }
+      });
+    }
   });
 })();
