@@ -1,5 +1,6 @@
 #login-form {
     color: var(--weiss);
+
     a {
         font-size: var(--Überschrift-01);
         font-weight: bold;
@@ -20,24 +21,25 @@
 }
 
 /* Modernisierte Box */
+/* Modernisierte Box mit Glassmorphism */
 .login-box {
-    background: var(--mainshatt);
-    /* Bestehender Hintergrund */
-    padding: 2.5em;
-    /* Mehr Padding */
-    max-width: 380px;
-    /* Etwas breiter */
+    background: rgba(35, 108, 147, 0.65);
+    /* var(--mainshatt) base but transparent */
+    box-sizing: border-box;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 3em;
+    max-width: 400px;
     width: 100%;
-    border-radius: 12px;
-    /* Rundere Ecken */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    /* Tieferer Schatten */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-box:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
 }
 
 .login-box h1 {
@@ -70,33 +72,37 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.25);
     /* Leicht transparent */
-    border-radius: 6px;
+    border-radius: 8px;
     color: #fff;
     font-size: 1rem;
     transition: border-color 0.2s, background 0.2s;
+    box-sizing: border-box;
 }
 
 .login-box input:focus {
     outline: none;
     border-color: #fff;
     /* Weißer Fokus-Rahmen */
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .login-box .main-btn {
     width: 100%;
     margin-top: 1rem;
-    background: linear-gradient(135deg, var(--shat_01), var(--shat_04));
+    background: linear-gradient(135deg, var(--shat_01), #307599);
+    /* slightly darker end */
     /* Verlauf */
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 0.9em;
     font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.1s, box-shadow 0.1s;
+    box-sizing: border-box;
 }
 
 .login-box .main-btn:active {
