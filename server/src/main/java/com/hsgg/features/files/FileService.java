@@ -88,6 +88,10 @@ public class FileService {
 			throw new IllegalArgumentException("File must not be empty");
 		}
 
+		if (!"application/pdf".equals(file.getContentType())) {
+			throw new IllegalArgumentException("Only PDF files are allowed");
+		}
+
 		Topic topic = topicRepository.findById(topicId)
 				.orElseThrow(() -> new NotFoundException("Topic not found: " + topicId));
 

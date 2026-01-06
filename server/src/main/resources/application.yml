@@ -10,6 +10,9 @@ spring:
   web:
     resources:
       static-locations: file:../client/
+  
+  error:
+    include-message: always
 
   jpa:
     hibernate:

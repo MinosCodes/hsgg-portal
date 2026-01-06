@@ -16,8 +16,8 @@ public class GlobalExceptionHandler {
 			IllegalArgumentException.class,
 			MethodArgumentNotValidException.class
 	})
-	public ResponseEntity<Void> handleBadRequest(Exception e) {
-		return ResponseEntity.badRequest().build();
+	public ResponseEntity<Object> handleBadRequest(Exception e) {
+		return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
 	}
 
 	@ExceptionHandler({
