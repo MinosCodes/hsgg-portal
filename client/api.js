@@ -28,8 +28,19 @@ Object.defineProperty(window, 'api', {
           lastname
         })
       });
-      if (!response.ok) throw new Error(`Request for registration failed with status code ${response.status}.`);
-      
+      if (!response.ok) {
+        let errorMessage = `Request for registration failed with status code ${response.status}.`;
+        try {
+          const errorBody = await response.json();
+          if (errorBody && errorBody.message) {
+            errorMessage = errorBody.message;
+          }
+        } catch (e) {
+          // ignore parsing error
+        }
+        throw new Error(errorMessage);
+      }
+
       return await response.text();
     },
     /**
@@ -53,7 +64,7 @@ Object.defineProperty(window, 'api', {
         })
       });
       if (!response.ok) throw new Error(`Request for login failed with status code ${response.status}.`);
-      
+
       const { token, role, firstname, lastname } = await response.json();
 
       sessionStorage.setItem('token', token);
@@ -94,7 +105,7 @@ Object.defineProperty(window, 'api', {
       return {
         firstname,
         lastname,
-        toString: function() { return this.firstname + ' ' + this.lastname; }
+        toString: function () { return this.firstname + ' ' + this.lastname; }
       }
     },
     /**
@@ -105,12 +116,12 @@ Object.defineProperty(window, 'api', {
     getAllSubjects: async () => {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      
+
       const response = await fetch('/api/subjects', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!response.ok) throw new Error(`Request for subjects failed with status code ${response.status}.`);
-      
+
       return await response.json();
     },
     /**
@@ -124,12 +135,12 @@ Object.defineProperty(window, 'api', {
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      
+
       const response = await fetch(`/api/subjects/${subjectId}/topics`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!response.ok) throw new Error(`Request for subject (${subjectId}) topics failed with status code ${response.status}.`);
-      
+
       return await response.json();
     },
     /**
@@ -143,12 +154,12 @@ Object.defineProperty(window, 'api', {
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      
+
       const response = await fetch(`/api/topics/${topicId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!response.ok) throw new Error(`Request for topic (${topicId}) failed with status code ${response.status}.`);
-      
+
       return await response.json();
     },
     /**
@@ -162,7 +173,7 @@ Object.defineProperty(window, 'api', {
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      
+
       const response = await fetch(`/api/topics/${topicId}/content`, {
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -213,7 +224,7 @@ Object.defineProperty(window, 'api', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!response.ok) throw new Error(`Request for file (${fileId}) failed with status code ${response.status}.`);
-      
+
       return URL.createObjectURL(await response.blob());
     },
     /**
@@ -227,7 +238,7 @@ Object.defineProperty(window, 'api', {
 
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      
+
       const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -274,7 +285,7 @@ Object.defineProperty(window, 'api', {
      */
     updateSubject: async (subjectId, { name, description }) => {
       if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
-      
+
       const newSubjectInfo = {};
       if (name != null) {
         if (typeof name !== 'string') throw new Error("If specified, the name must be a string.");
@@ -362,7 +373,7 @@ Object.defineProperty(window, 'api', {
      */
     updateTopic: async (topicId, { name: title, description }) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The subject id must be a non negative safe integer number.");
-      
+
       const newTopicInfo = {};
       if (title != null) {
         if (typeof title !== 'string') throw new Error("If specified, the name must be a string.");
@@ -539,7 +550,18 @@ Object.defineProperty(window, 'api', {
         body
       });
 
-      if (!response.ok) throw new Error(`File upload failed with status code ${response.status}.`);
+      if (!response.ok) {
+        let errorMessage = `File upload failed with status code ${response.status}.`;
+        try {
+          const errorBody = await response.json();
+          if (errorBody && errorBody.message) {
+            errorMessage = errorBody.message;
+          }
+        } catch (e) {
+          // ignore parsing error
+        }
+        throw new Error(errorMessage);
+      }
 
       return await response.json();
     },
@@ -572,7 +594,7 @@ Object.defineProperty(window, 'api', {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-      
+
       const response = await fetch(`/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -595,7 +617,7 @@ Object.defineProperty(window, 'api', {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-      
+
       const response = await fetch(`/api/admin/users`, {
         method: 'POST',
         headers: {
@@ -627,7 +649,7 @@ Object.defineProperty(window, 'api', {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-      
+
       const response = await fetch(`/api/admin/users/${userId}/role`, {
         method: 'PUT',
         headers: {
@@ -651,7 +673,7 @@ Object.defineProperty(window, 'api', {
       const token = sessionStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-      
+
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
