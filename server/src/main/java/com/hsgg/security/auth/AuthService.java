@@ -45,7 +45,7 @@ public class AuthService {
 
 	public ResponseEntity<?> register(@RequestBody RegisterRequestDto request) {
 		if (userRepository.existsByUsername(request.username())) {
-			return ResponseEntity.badRequest().body("Username already taken.");
+			return ResponseEntity.badRequest().body(java.util.Map.of("message", "Username already taken."));
 		}
 
 		User user = toStudent(request);

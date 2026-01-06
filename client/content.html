@@ -16,7 +16,6 @@
 
         <!-- Sidebar mit Close-Button wie auf der Homepage -->
         <aside id="sidebar" class="show">
-
             <nav id="sidebar-menu">
                 <ul class="sidebar top">
                     <li class="year-item home-item">
@@ -85,6 +84,8 @@
                                 <p class="eyebrow">Ausgewähltes Material</p>
                                 <h3 id="datei-name">Bitte wählen Sie eine Datei</h3>
                             </div>
+                            <button id="solution-button" class="btn primary btn-small hidden-block">Lösung
+                                anzeigen</button>
                             <button id="download-button" class="btn primary btn-small">Download</button>
                         </div>
                         <div class="detail-body">
@@ -125,8 +126,7 @@
                             </label>
                             <label>
                                 <span>Datei</span>
-                                <input type="file" id="material-file"
-                                    accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg" required>
+                                <input type="file" id="material-file" accept=".pdf" required>
                             </label>
                             <button type="submit" class="btn primary btn-small">Datei hochladen</button>
                             <p id="file-upload-message" class="form-message" aria-live="polite"></p>
