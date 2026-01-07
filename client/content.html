@@ -8,6 +8,7 @@
     <link href="content.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="api.js"></script>
+    <script src="contentManagement.js"></script>
     <script src="auth.js"></script>
 </head>
 
@@ -20,9 +21,6 @@
                 <ul class="sidebar top">
                     <li class="year-item home-item">
                         <a href="homepage.html" class="year-link">Home</a>
-                    </li>
-                    <li class="year-item home-item">
-                        <a href="suche.html" class="year-link">Suche</a>
                     </li>
                 </ul>
 
@@ -84,8 +82,7 @@
                                 <p class="eyebrow">Ausgewähltes Material</p>
                                 <h3 id="datei-name">Bitte wählen Sie eine Datei</h3>
                             </div>
-                            <button id="solution-button" class="btn primary btn-small hidden-block">Lösung
-                                anzeigen</button>
+                            <button id="solution-button" class="btn primary btn-small hidden-block">Lösung anzeigen</button>
                             <button id="download-button" class="btn primary btn-small">Download</button>
                         </div>
                         <div class="detail-body">
@@ -98,41 +95,6 @@
                     </div>
                 </section>
 
-                <section class="panel upload-panel hidden-block" id="upload-panel"
-                    aria-labelledby="upload-panel-heading">
-                    <div class="panel-head">
-                        <div>
-                            <p class="eyebrow">Lehrkräfte &amp; Admins</p>
-                            <h2 id="upload-panel-heading">Material hinzufügen</h2>
-                        </div>
-                    </div>
-                    <p class="lead">Laden Sie neue Dateien hoch. Die Auswahl erfolgt pro Fach und Thema.</p>
-
-                    <div class="upload-grid">
-                        <form id="file-upload-form" class="upload-card" enctype="multipart/form-data">
-                            <h3>Datei hochladen</h3>
-                            <label>
-                                <span>Fach</span>
-                                <select id="file-subject-select" data-subject-select
-                                    data-topic-target="file-topic-select" required>
-                                    <option value="">Fach auswählen</option>
-                                </select>
-                            </label>
-                            <label>
-                                <span>Thema</span>
-                                <select id="file-topic-select" required disabled>
-                                    <option value="">Bitte zuerst ein Fach wählen</option>
-                                </select>
-                            </label>
-                            <label>
-                                <span>Datei</span>
-                                <input type="file" id="material-file" accept=".pdf" required>
-                            </label>
-                            <button type="submit" class="btn primary btn-small">Datei hochladen</button>
-                            <p id="file-upload-message" class="form-message" aria-live="polite"></p>
-                        </form>
-                    </div>
-                </section>
             </main>
         </div>
         <div id="button-overlay">

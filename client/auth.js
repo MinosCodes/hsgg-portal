@@ -19,9 +19,9 @@
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        const token = sessionStorage.getItem('token');
-        const firstname = sessionStorage.getItem('firstname');
-        const lastname = sessionStorage.getItem('lastname');
+        const token = localStorage.getItem('token');
+        const firstname = localStorage.getItem('firstname');
+        const lastname = localStorage.getItem('lastname');
         const hasName = firstname || lastname;
 
         container.innerHTML = '';

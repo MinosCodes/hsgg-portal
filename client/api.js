@@ -67,19 +67,19 @@ Object.defineProperty(window, 'api', {
 
       const { token, role, firstname, lastname } = await response.json();
 
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('role', role);
-      sessionStorage.setItem('firstname', firstname);
-      sessionStorage.setItem('lastname', lastname);
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      localStorage.setItem('firstname', firstname);
+      localStorage.setItem('lastname', lastname);
     },
     /**
      * Logs the currently logged in user out by removing the authentication details from the session store.
      */
     logout: () => {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('role');
-      sessionStorage.removeItem('firstname');
-      sessionStorage.removeItem('lastname');
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('firstname');
+      localStorage.removeItem('lastname');
     },
     /**
      * Gets the role of the currently logged in user from the session store.
@@ -88,7 +88,7 @@ Object.defineProperty(window, 'api', {
      * 
      * @returns The role of the currently logged in user or `null` if no one's logged in.
      */
-    getRole: () => sessionStorage.getItem('role'),
+    getRole: () => localStorage.getItem('role'),
     /**
      * Gets the name of the currently logged in user from the session store.
      * 
@@ -97,9 +97,9 @@ Object.defineProperty(window, 'api', {
      * @returns An Object containing firstname and lastname of the currently logged in user or `null`.
      */
     getName: () => {
-      const firstname = sessionStorage.getItem('firstname');
+      const firstname = localStorage.getItem('firstname');
       if (firstname == null) return null;
-      const lastname = sessionStorage.getItem('lastname');
+      const lastname = localStorage.getItem('lastname');
       if (lastname == null) return null;
 
       return {
@@ -114,7 +114,7 @@ Object.defineProperty(window, 'api', {
      * @returns A List of all subjects
      */
     getAllSubjects: async () => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch('/api/subjects', {
@@ -133,7 +133,7 @@ Object.defineProperty(window, 'api', {
     getTopicsForSubject: async (subjectId) => {
       if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch(`/api/subjects/${subjectId}/topics`, {
@@ -152,7 +152,7 @@ Object.defineProperty(window, 'api', {
     getTopic: async (topicId) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch(`/api/topics/${topicId}`, {
@@ -171,7 +171,7 @@ Object.defineProperty(window, 'api', {
     getTopicContent: async (topicId) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch(`/api/topics/${topicId}/content`, {
@@ -189,7 +189,7 @@ Object.defineProperty(window, 'api', {
      * @returns List of files.
      */
     getFiles: async (topicId) => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
 
       let params = new URLSearchParams();
@@ -217,7 +217,7 @@ Object.defineProperty(window, 'api', {
     getObjectUrlForFile: async (fileId) => {
       if (!Number.isSafeInteger(fileId) || fileId < 0) throw new Error("The file id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch(`/api/files/${fileId}/download`, {
@@ -236,7 +236,7 @@ Object.defineProperty(window, 'api', {
     search: async (searchQuery) => {
       if (typeof searchQuery !== 'string') throw new Error("The search query must be a string.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
 
       const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
@@ -258,11 +258,11 @@ Object.defineProperty(window, 'api', {
       if (typeof name !== 'string') throw new Error("The name must be a string.");
       if (typeof description !== 'string') throw new Error("The description must be a string.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch('/api/subjects', {
@@ -296,11 +296,11 @@ Object.defineProperty(window, 'api', {
         newSubjectInfo.description = description;
       }
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/subjects/${subjectId}`, {
@@ -318,11 +318,11 @@ Object.defineProperty(window, 'api', {
     deleteSubject: async (subjectId) => {
       if (!Number.isSafeInteger(subjectId) || subjectId < 0) throw new Error("The subject id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/subjects/${subjectId}`, {
@@ -345,11 +345,11 @@ Object.defineProperty(window, 'api', {
       if (typeof title !== 'string') throw new Error("The title must be a string.");
       if (typeof description !== 'string') throw new Error("The description must be a string.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch('/api/topics', {
@@ -384,11 +384,11 @@ Object.defineProperty(window, 'api', {
         newTopicInfo.description = description;
       }
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/topics/${topicId}`, {
@@ -408,11 +408,11 @@ Object.defineProperty(window, 'api', {
     deleteTopic: async (topicId) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The topic id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/topics/${topicId}`, {
@@ -439,11 +439,11 @@ Object.defineProperty(window, 'api', {
       if (!Number.isSafeInteger(position) || position < 0) throw new Error("The position must be a non negative safe integer number.");
       if (typeof text !== 'string') throw new Error("The text must be a string.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch('/api/content/text', {
@@ -481,15 +481,15 @@ Object.defineProperty(window, 'api', {
         newBlockData.position = position;
       }
       if (text != null) {
-        if (typeof text !== 'string') throw new Error("If specified, the description must be a string.");
-        newBlockData.description = text;
+        if (typeof text !== 'string') throw new Error("If specified, the text must be a string.");
+        newBlockData.text = text;
       }
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/content/${blockId}`, {
@@ -511,11 +511,11 @@ Object.defineProperty(window, 'api', {
     deleteContentBlock: async (blockId) => {
       if (!Number.isSafeInteger(blockId) || blockId < 0) throw new Error("The block id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
       if (
-        sessionStorage.getItem('role') !== 'TEACHER' &&
-        sessionStorage.getItem('role') !== 'ADMIN'
+        localStorage.getItem('role') !== 'TEACHER' &&
+        localStorage.getItem('role') !== 'ADMIN'
       ) throw new Error("Not a teacher or admin.");
 
       const response = await fetch(`/api/content/${blockId}`, {
@@ -531,13 +531,13 @@ Object.defineProperty(window, 'api', {
      * 
      * @param {number} topicId The Topic id of the Topic the File should be on. Must be a non negative safe integer number.
      * @param {File} file The file to upload.
-     * @returns TODO
+     * @returns Info about the file. (id, originalName, mimeType, size, topicId)
      */
     uploadFile: async (topicId, file) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The Topic id must be a non negative safe integer number.");
       if (!(file instanceof File)) throw new Error("The File must be an instance of the File class.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
 
       const body = new FormData();
@@ -574,7 +574,7 @@ Object.defineProperty(window, 'api', {
      */
     deleteFile: async (fileId) => {
       if (!Number.isSafeInteger(fileId) || fileId < 0) throw new Error("The File id must be a non negative safe integer number.");
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error('Not Logged In');
 
       const response = await fetch(`/api/files/${fileId}`, {
@@ -591,10 +591,10 @@ Object.defineProperty(window, 'api', {
      * @returns A list of all users and their info.
      */
     getAllUsers: async () => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-
+      if (localStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
+      
       const response = await fetch(`/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -614,10 +614,10 @@ Object.defineProperty(window, 'api', {
      * @param {string} role The role of the user.
      */
     createUser: async (username, password, firstname, lastname, role) => {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-
+      if (localStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
+      
       const response = await fetch(`/api/admin/users`, {
         method: 'POST',
         headers: {
@@ -646,10 +646,10 @@ Object.defineProperty(window, 'api', {
       if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a non negative safe integer number.");
       if (typeof role !== 'string') throw new Error("The role must be a string.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-
+      if (localStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
+      
       const response = await fetch(`/api/admin/users/${userId}/role`, {
         method: 'PUT',
         headers: {
@@ -670,10 +670,10 @@ Object.defineProperty(window, 'api', {
     deleteUser: async (userId) => {
       if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("The user id must be a non negative safe integer number.");
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
       if (!token) throw new Error("Not Logged In");
-      if (sessionStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
-
+      if (localStorage.getItem('role') !== 'ADMIN') throw new Error("Not an admin.");
+      
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }

@@ -7,14 +7,19 @@
     <link rel="stylesheet" href="teacher.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="api.js"></script>
+    <script src="contentManagement.js"></script>
 </head>
 <body>
+<div id="button-overlay">
+    <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
+        <span></span><span></span><span></span>
+    </button>
+</div>
 <div id="page">
     <div id="sidebar" class="show">
         <nav id="sidebar-menu">
             <ul class="sidebar top">
                 <li><a href="homepage.html">Home</a></li>
-                <li><a href="suche.html">Suche</a></li>
                 <li><a href="admin.html">Admin</a></li>
                 <li><a href="teacher.html">Lehrer</a></li>
             </ul>
@@ -23,11 +28,6 @@
 
     <div id="content">
         <header id="header-content">
-            <div id="button-overlay">
-                <button id="sidebar-toggle-button" aria-label="Navigation umschalten">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
             Lehrkraft – Materialpflege
         </header>
 
@@ -61,10 +61,56 @@
                     <p id="msg-topic" class="msg"></p>
                 </form>
             </section>
+            
+            <section class="panel upload-panel hidden-block" id="upload-panel" aria-labelledby="upload-panel-heading">
+                <div class="panel-head">
+                    <div>
+                        <p class="eyebrow">Lehrkräfte &amp; Admins</p>
+                        <h2 id="upload-panel-heading">Material hinzufügen</h2>
+                    </div>
+                </div>
+                <p class="lead">Laden Sie neue Dateien hoch. Die Auswahl erfolgt pro Fach und Thema.</p>
+
+                <div class="upload-grid">
+                    <form id="file-upload-form" class="upload-card" enctype="multipart/form-data">
+                        <h3>Datei hochladen</h3>
+                        <label>
+                            <span>Fach</span>
+                            <select id="file-subject-select" data-subject-select data-topic-target="file-topic-select" required>
+                                <option value="">Fach auswählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Thema</span>
+                            <select id="file-topic-select" required disabled>
+                                <option value="">Bitte zuerst ein Fach wählen</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Titel</span>
+                            <input type="text" id="material-title" required>
+                        </label>
+                        <label>
+                            <span>Position</span>
+                            <input type="number" id="material-position" min="0" step="1" required value="1">
+                        </label>
+                        <label>
+                            <span>Datei</span>
+                            <input type="file" id="material-file" accept=".pdf,.txt,.png,.jpg,.jpeg,.webp" required>
+                        </label>
+                        <label>
+                            <span>Lösung</span>
+                            <input type="file" id="solution-file" accept=".pdf,.txt,.png,.jpg,.jpeg,.webp" required>
+                        </label>
+                        <button type="submit" class="btn primary btn-small">Material hochladen</button>
+                        <p id="file-upload-message" class="form-message" aria-live="polite"></p>
+                    </form>
+                </div>
+            </section>
 
             <section class="panel" aria-labelledby="material-management-heading">
                 <h2 id="material-management-heading">Material entfernen</h2>
-                <p class="hint">Wähle Fach und Thema, um hochgeladene Dateien oder Textblöcke zu löschen.</p>
+                <p class="hint">Wähle Fach und Thema, um hochgeladene Posts zu löschen.</p>
 
                 <div class="manage-filter-grid">
                     <label>
@@ -84,7 +130,7 @@
 
                 <div class="manage-columns">
                     <div class="manage-column">
-                        <h3>Dateien</h3>
+                        <h3>Posts</h3>
                         <ul id="file-management-list" class="manage-items" aria-live="polite">
                             <li class="nav-placeholder">Bitte ein Thema wählen.</li>
                         </ul>

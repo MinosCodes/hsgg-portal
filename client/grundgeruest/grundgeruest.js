@@ -87,7 +87,7 @@ const renderSidebarSubjects = (subjects) => {
 
 const initSubjects = async () => {
     if (!subjectList) return;
-    if (!sessionStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
         setSidebarMessage('Bitte zuerst anmelden.');
         return;
     }
