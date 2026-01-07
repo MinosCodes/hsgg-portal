@@ -470,8 +470,8 @@ Object.defineProperty(window, 'api', {
         newBlockData.position = position;
       }
       if (text != null) {
-        if (typeof text !== 'string') throw new Error("If specified, the description must be a string.");
-        newBlockData.description = text;
+        if (typeof text !== 'string') throw new Error("If specified, the text must be a string.");
+        newBlockData.text = text;
       }
 
       const token = localStorage.getItem('token');
