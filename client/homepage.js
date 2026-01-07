@@ -135,7 +135,7 @@ const renderQuickLinks = (subjects) => {
 
 const initSubjects = async () => {
     if (!subjectList && !quickLinks) return;
-    if (!sessionStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
         setSidebarMessage('Bitte zuerst anmelden.');
         setQuickLinksMessage('Bitte zuerst anmelden.');
         return;
@@ -154,7 +154,7 @@ const initSubjects = async () => {
 
 // --- Role-based quick links ---
 const showRolePanels = () => {
-    const role = sessionStorage.getItem('role');
+    const role = localStorage.getItem('role');
     let anyVisible = false;
     if (role === 'ADMIN') {
         adminCard?.removeAttribute('hidden');
