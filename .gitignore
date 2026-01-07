@@ -38,3 +38,6 @@ out/
 
 # Nix Flake + Direnv Stuff
 .direnv/
+
+# Docker services data
+data
