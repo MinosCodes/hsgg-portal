@@ -13,8 +13,8 @@ const filterInput = document.querySelector('#material-filter');
 const url = new URL(location.href);
 const selectedSubjectId = Number(url.searchParams.get('subjectId'));
 const currentFile = Number(url.searchParams.get('file'));
-const isLoggedIn = !!sessionStorage.getItem('token');
-const userRole = sessionStorage.getItem('role');
+const isLoggedIn = !!localStorage.getItem('token');
+const userRole = localStorage.getItem('role');
 const canManageContent = isLoggedIn && (userRole === 'ADMIN' || userRole === 'TEACHER');
 const subjectListContainer = document.querySelector('[data-subject-list]');
 

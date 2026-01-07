@@ -1,6 +1,6 @@
 (() => {
   const ensureTeacher = () => {
-    const role = sessionStorage.getItem('role');
+    const role = localStorage.getItem('role');
     if (role !== 'TEACHER' && role !== 'ADMIN') {
       alert('Nur für Lehrkräfte/Admins. Bitte einloggen.');
       window.location.href = 'login.html';
@@ -10,7 +10,7 @@
   };
 
   const hideAdminLinkForTeachers = () => {
-    const role = sessionStorage.getItem('role');
+    const role = localStorage.getItem('role');
     const adminLink = document.querySelector('a[href="admin.html"]');
     if (role !== 'ADMIN' && adminLink) {
       adminLink.closest('li')?.remove();

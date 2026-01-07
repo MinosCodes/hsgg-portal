@@ -8,7 +8,7 @@
   const roleOptions = ['ADMIN', 'TEACHER', 'STUDENT'];
 
   const ensureAdmin = () => {
-    const role = sessionStorage.getItem('role');
+    const role = localStorage.getItem('role');
     if (role !== 'ADMIN') {
       alert('Nur für Administratoren. Bitte als Admin einloggen.');
       window.location.href = 'login.html';
