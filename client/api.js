@@ -520,7 +520,7 @@ Object.defineProperty(window, 'api', {
      * 
      * @param {number} topicId The Topic id of the Topic the File should be on. Must be a non negative safe integer number.
      * @param {File} file The file to upload.
-     * @returns TODO
+     * @returns Info about the file. (id, originalName, mimeType, size, topicId)
      */
     uploadFile: async (topicId, file) => {
       if (!Number.isSafeInteger(topicId) || topicId < 0) throw new Error("The Topic id must be a non negative safe integer number.");
