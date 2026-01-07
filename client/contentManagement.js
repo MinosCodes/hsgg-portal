@@ -76,8 +76,9 @@ const createPost = async (topicId, position, title, contentFile, solutionFile) =
   if (!validBackendId(position)) throw new Error("Position has an invalid value.");
   
   const postContent = {};
+
+  if (typeof title !== 'string' || title.includes('\n')) throw new Error("The Title is not a single line string.");
   postContent[POST_TITLE_KEY] = title;
-  validatePostContent(postContent);
 
   if (!(contentFile instanceof File)) throw new Error("Content file is not an instance of File.");
   if (solutionFile != null && !(solutionFile instanceof File)) throw new Error("Solution file is set and not an instance of File.");
@@ -151,7 +152,7 @@ const getAllPostsForTopic = async (topicId) => {
       validatePostContent(content);
       posts.push({
         id: `${topicId}_${block.id}`,
-        position: block.position,
+        position: Number(block.position),
         content
       });
     } catch (_) { }
@@ -167,29 +168,38 @@ const getAllPostsForTopic = async (topicId) => {
  * File deletions are handled if neccessary.
  * 
  * @param {string} id The Post ID.
- * @param {{ position: number, content: object }} obj An Object optionally containing the new position and/or content.
+ * @param {object} obj An Object optionally containing the new position and/or content attributes.
  */
-const updatePost = async (id, { position, content }) => {
+const updatePost = async (id, newPostData) => {
   if (!api.getRole()) throw new Error("Not logged in.");
   
   const { blockId } = splitPostId(id);
 
-  if (position == null && content == null) return;
+  if (newPostData == null) return;
+
+  const contentAttributeSet = POST_ATTRIBUTE_NAMES.some(key => newPostData[key] != null);
+  if (newPostData.position == null && !contentAttributeSet) return;
 
   const newBlock = {};
 
-  if (position != null) {
-    newBlock.position = position;
-  }
-  if (content != null) {
-    validatePostContent(content);
-    newBlock.text = JSON.stringify(content);
+  if (newPostData.position != null) {
+    newBlock.position = newPostData.position;
   }
   
   const oldPost = await getPost(id);
+  if (contentAttributeSet) {
+    const content = JSON.parse(JSON.stringify(oldPost));
+    POST_ATTRIBUTE_NAMES.forEach(key => {
+      if (newPostData[key] == null) return;
+      content[key] = newPostData[key];
+    });
+    validatePostContent(content);
+    newBlock.text = JSON.stringify(content);
+  }
 
   await api.updateTextBlock(blockId, newBlock);
 
+  const content = newBlock.text == null ? undefined : JSON.parse(newBlock.text);
   if (content == null) return;
 
   if (oldPost[POST_CONTENT_FILE_ID_KEY] !== content[POST_CONTENT_FILE_ID_KEY]) await api.deleteFile(oldPost[POST_CONTENT_FILE_ID_KEY]);

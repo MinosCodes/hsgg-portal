@@ -133,18 +133,40 @@
     gap: 0.75rem;
 }
 
-.manage-item strong {
-    display: block;
+.manage-content {
+    display: flex;
+    flex-direction: column;
+    gap: .1rem;
+    
+    .item-title {
+        width: 15rem;
+    }
+    
+    .item-position {
+        width: 5rem;
+    }
+    
+    .item-file, .item-solution {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding-top: .5rem;
+        
+        label {
+            span {
+                font-family: var(--font-verdana);
+  				font-size: var(--Text-groß);
+  				line-height: 1.6;
+  				color: var(--schwarz);
+  				margin-bottom: 1em;
+            }
+        }
+    }
 }
 
 .manage-actions {
     display: flex;
     gap: 0.5rem;
-}
-
-.manage-meta {
-    font-size: var(--Text-klein);
-    color: var(--color_06);
 }
 
 .manage-empty {

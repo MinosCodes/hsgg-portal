@@ -12,7 +12,7 @@ const filterInput = document.querySelector('#material-filter');
 
 const url = new URL(location.href);
 const selectedSubjectId = Number(url.searchParams.get('subjectId'));
-const currentFile = Number(url.searchParams.get('file'));
+const currentFile = !url.searchParams.get('file') ? undefined : splitPostId(url.searchParams.get('file'));
 const isLoggedIn = !!localStorage.getItem('token');
 const userRole = localStorage.getItem('role');
 const canManageContent = isLoggedIn && (userRole === 'ADMIN' || userRole === 'TEACHER');
@@ -22,18 +22,26 @@ const selectedSubject = await (async () => {
     const subjects = await api.getAllSubjects();
     return subjects.filter(s=>s.id === selectedSubjectId)[0];
 })();
-const selectedSubjectTopics = selectedSubject === undefined ? undefined : await Promise.all((await api.getTopicsForSubject(selectedSubject.id)).map(async topic => {
-    const content = await api.getTopicContent(topic.id);
-    topic.content = content;
-
-    const files = await api.getFiles(topic.id);
-    topic.files = files.map(f => {
+const selectedSubjectTopics = selectedSubject === undefined ? undefined : await Promise.all(
+    (await api.getTopicsForSubject(selectedSubject.id))
+    .sort((a,b) => a.title > b.title)
+    .map(async topic => {
+        const posts = await getAllPostsForTopic(topic.id);
+        topic.posts = posts;
+        return topic;
+    })
+);
+const selectedSubjectFiles = selectedSubject === undefined ? undefined : (
+    (await Promise.all(selectedSubjectTopics.map(t => api.getFiles(t.id))))
+    .flat()
+    .map(f => {
         f.name = f.originalName;
         return f;
-    });
-
-    return topic;
-}));
+    }).reduce((a, c) => {
+        a[c.id] = c;
+        return a;
+    }, {})
+);
 
 const subjectHeadingLabel = () => {
     if (selectedSubject) return selectedSubject.name;
@@ -166,7 +174,7 @@ const updateUrl = (fileId) => {
     history.replaceState({}, '', linkUrl);
 };
 
-const showFile = (material) => {
+const showFile = (material, solution = false) => {
     if (!isLoggedIn) {
         showLoginGate();
         return;
@@ -181,8 +189,13 @@ const showFile = (material) => {
     }
 
     emptyState.classList.add('hidden-block');
-    dateiName.textContent = material.name;
-    api.getObjectUrlForFile(material.id).then(url => fileViewer.src = url);
+    dateiName.textContent = material.content[POST_TITLE_KEY];
+
+    const fileId = material.content[solution ? POST_SOLUTION_FILE_ID_KEY : POST_CONTENT_FILE_ID_KEY];
+    api.getObjectUrlForFile(fileId).then(url => {
+        fileViewer.dataset.filename = selectedSubjectFiles[fileId].name;
+        fileViewer.src = url
+    });
     contentContainer.classList.remove('hidden-block');
     updateUrl(material.id);
 };
@@ -191,7 +204,7 @@ const downloadFile = () => {
     if (!['http', 'https', 'blob'].includes(fileViewer.src.split(':')[0])) return;
     const dlLink = document.createElement('a');
     dlLink.href = fileViewer.src;
-    dlLink.download = dateiName.textContent;
+    dlLink.download = fileViewer.dataset.filename;
     dlLink.click();
 }
 downloadButton.addEventListener('click', downloadFile);
@@ -199,7 +212,7 @@ downloadButton.addEventListener('click', downloadFile);
 const renderList = (filterText = '') => {
     contentList.innerHTML = '';
     const query = filterText.trim().toLowerCase();
-    const filtered = selectedSubjectTopics?.map(t => t.files).flat().filter(item => query ? item.name.toLowerCase().includes(query) : true) ?? [];
+    const filtered = selectedSubjectTopics?.flatMap(t => t.posts).filter(item => query ? item.content.title.toLowerCase().includes(query) : true) ?? [];
 
     if (!filtered.length) {
         const empty = document.createElement('li');
@@ -217,11 +230,11 @@ const renderList = (filterText = '') => {
 
         const linkTitle = document.createElement('div');
         linkTitle.classList.add('material-title');
-        linkTitle.innerText = item.name;
+        linkTitle.innerText = item.content.title;
 
         const linkMeta = document.createElement('div');
         linkMeta.classList.add('material-meta')
-        linkMeta.innerText = selectedSubjectTopics.find(t => t.id === item.topicId).title;
+        linkMeta.innerText = selectedSubjectTopics.find(t => t.id === splitPostId(item.id).topicId).title;
 
         const linkSubContainer = document.createElement('div');
         linkSubContainer.append(linkTitle, linkMeta);
@@ -308,7 +321,7 @@ const init = () => {
     if (!isLoggedIn) {
         showLoginGate();
     } else if (currentFile) {
-        const current = selectedSubjectTopics?.flatMap(t => t.files).find(f => f.id === currentFile);
+        const current = selectedSubjectTopics?.find(t => t.id === currentFile.topicId)?.posts.find(p => p.id === currentFile.blockId);
         showFile(current || null);
     } else {
         showFile(null);
