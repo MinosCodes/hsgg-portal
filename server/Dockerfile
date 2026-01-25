@@ -3,7 +3,7 @@ WORKDIR /workspace
 
 COPY . .
 RUN ./gradlew --no-daemon :server:dependencies || true
-RUN ./gradlew --no-daemon :server:bootJar
+RUN ./gradlew --no-daemon :server:bootJar -x test
 
 FROM eclipse-temurin:25-jre
 WORKDIR /app
